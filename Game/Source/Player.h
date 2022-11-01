@@ -23,9 +23,15 @@ public:
 
 	bool CleanUp();
 
+	void OnCollision(PhysBody* physA, PhysBody* physB);
+
+	int Jump();
+
 public:
 
 private:
+
+
 
 	//L02: DONE 1: Declare player parameters
 	SDL_Texture* texture;
@@ -33,6 +39,11 @@ private:
 
 	// L07 DONE 5: Add physics to the player - declare a Physics body
 	PhysBody* pbody;
+
+	int pickCoinFxId;
+	bool isJumping;
+	int speedy = 0;
+
 
 };
 

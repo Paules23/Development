@@ -21,6 +21,7 @@ Physics::Physics() : Module()
 {
 	world = NULL;
 	mouse_joint = NULL;
+	debug = true;
 
 }
 
@@ -35,7 +36,7 @@ bool Physics::Start()
 
 	world = new b2World(b2Vec2(GRAVITY_X, -GRAVITY_Y));
 	
-
+	world->SetContactListener(this);
 	return true;
 }
 
@@ -43,14 +44,22 @@ bool Physics::Start()
 bool Physics::PreUpdate()
 {
 	bool ret = true;
+
+	// Step (update) the World
+	// WARNING: WE ARE STEPPING BY CONSTANT 1/60 SECONDS!
 	world->Step(1.0f / 60.0f, 6, 2);
 
+	// Because Box2D does not automatically broadcast collisions/contacts with sensors, 
+	// we have to manually search for collisions and "call" the equivalent to the ModulePhysics::BeginContact() ourselves...
 	for (b2Contact* c = world->GetContactList(); c; c = c->GetNext())
 	{
+		// For each contact detected by Box2D, see if the first one colliding is a sensor
 		if (c->IsTouching() && c->GetFixtureA()->IsSensor())
 		{
+			// If so, we call the OnCollision listener function (only of the sensor), passing as inputs our custom PhysBody classes
 			PhysBody* pb1 = (PhysBody*)c->GetFixtureA()->GetBody()->GetUserData();
 			PhysBody* pb2 = (PhysBody*)c->GetFixtureB()->GetBody()->GetUserData();
+
 			if (pb1 && pb2 && pb1->listener)
 				pb1->listener->OnCollision(pb1, pb2);
 		}
@@ -291,7 +300,18 @@ bool Physics::CleanUp()
 
 	return true;
 }
+void Physics::BeginContact(b2Contact* contact)
+{
+	// Call the OnCollision listener function to bodies A and B, passing as inputs our custom PhysBody classes
+	PhysBody* physA = (PhysBody*)contact->GetFixtureA()->GetBody()->GetUserData();
+	PhysBody* physB = (PhysBody*)contact->GetFixtureB()->GetBody()->GetUserData();
 
+	if (physA && physA->listener != NULL)
+		physA->listener->OnCollision(physA, physB);
+
+	if (physB && physB->listener != NULL)
+		physB->listener->OnCollision(physB, physA);
+}
 void PhysBody::GetPosition(int& x, int& y) const
 {
 	b2Vec2 pos = body->GetPosition();
@@ -352,18 +372,6 @@ int PhysBody::RayCast(int x1, int y1, int x2, int y2, float& normal_x, float& no
 	}
 
 	return ret;
-}
-
-void Physics::BeginContact(b2Contact* contact)
-{
-	PhysBody* physA = (PhysBody*)contact->GetFixtureA()->GetBody()->GetUserData();
-	PhysBody* physB = (PhysBody*)contact->GetFixtureB()->GetBody()->GetUserData();
-
-	if (physA && physA->listener != NULL)
-		physA->listener->OnCollision(physA, physB);
-
-	if (physB && physB->listener != NULL)
-		physB->listener->OnCollision(physB, physA);
 }
 
 b2RevoluteJoint* Physics::CreateRevoluteJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, b2Vec2 anchorB, float angle, bool collideConnected, bool enableLimit)

@@ -385,18 +385,26 @@ void Map::LoadCollisionsFromTileId() {
 
         //L06: DONE 7: use GetProperty method to ask each layer if your “Draw” property is true.
         if (mapLayerItem->data->properties.GetProperty("Collision") != NULL && mapLayerItem->data->properties.GetProperty("Collision")->value == true) {
-
             for (int x = 0; x < mapLayerItem->data->width; x++)
             {
                 for (int y = 0; y < mapLayerItem->data->height; y++)
                 {
                     //Complete the draw function
-                    int gid = mapLayerItem->data->Get(x, y);
 
                     //Obtain the tile set using GetTilesetFromTileId
+
+                    int gid = mapLayerItem->data->Get(x, y);
+
+                    //L06: DONE 3: Obtain the tile set using GetTilesetFromTileId
                     TileSet* tileset = GetTilesetFromTileId(gid);
 
-                    app->physics->CreateRectangle(tileset->GetTileRect(gid).x, tileset->GetTileRect(gid).y, tileset->GetTileRect(gid).w, tileset->GetTileRect(gid).h, STATIC);
+                    SDL_Rect r = tileset->GetTileRect(gid);
+                    iPoint pos = MapToWorld(x, y);
+
+                    if (gid != NULL) {
+                        PhysBody* c1 = app->physics->CreateRectangle(pos.x +16, pos.y+16, 32, 32, STATIC);
+                        c1->ctype = ColliderType::PLATFORM;
+                    }
                 }
             }
         }
