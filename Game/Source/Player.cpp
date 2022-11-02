@@ -41,8 +41,7 @@ bool Player::Start() {
 	pbody = app->physics->CreateCircle(position.x+16, position.y+16, 16, bodyType::DYNAMIC);
 
 	// L07 DONE 6: Assign player class (using "this") to the listener of the pbody. This makes the Physics module to call the OnCollision method
-	//pbody->listener = this;
-
+	pbody->listener = this;
 
 	// L07 DONE 7: Assign collider type
 	pbody->ctype = ColliderType::PLAYER;
@@ -64,34 +63,42 @@ bool Player::Update()
 
 	//L02: DONE 4: modify the position of the player using arrow keys and render the texture
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
-		speedy = -100;
-		isJumping = true;
+		float impulse = pbody->body->GetMass() * -8;
+		pbody->body->ApplyLinearImpulse(b2Vec2(0, impulse), pbody->body->GetWorldCenter(), false);
 	}
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 		//
 	}
 		
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		speed = -10;
+		moveState = MS_LEFT;
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_UP) {
-		speed = 0;
+		moveState = MS_STOP;
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		speed = 10;
+		moveState = MS_RIGHT;
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_UP) {
-		speed = 0;
+		moveState = MS_STOP;
 	}
-	b2Vec2 vel = b2Vec2(speed, Jump());
-	//Set the velocity of the pbody of the player
-	pbody->body->SetLinearVelocity(vel);
 
+
+	b2Vec2 vel = pbody->body->GetLinearVelocity();
+	float desiredVel = 0;
+	switch (moveState)
+	{
+	case MS_LEFT:  desiredVel = -7; break;
+	case MS_STOP:  desiredVel = 0; break;
+	case MS_RIGHT: desiredVel = 7; break;
+	}
+	float velChange = desiredVel - vel.x;
+	float impulse = pbody->body->GetMass() * velChange; //disregard time factor
+	pbody->body->ApplyLinearImpulse(b2Vec2(impulse, 0), pbody->body->GetWorldCenter(),true);
 	
-
 	//Update player position in pixels
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
@@ -124,17 +131,4 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision UNKNOWN");
 		break;
 	}
-}
-
-int Player::Jump() {
-	if (speedy > 100) {
-		isJumping = false;
-	}
-	if (isJumping == true) {
-		speedy -= GRAVITY_Y;
-	}
-	else {
-		speedy = 0;
-	}
-	return speedy;
 }

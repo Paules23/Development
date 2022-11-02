@@ -7,6 +7,12 @@
 
 struct SDL_Texture;
 
+enum _moveState {
+	MS_STOP,
+	MS_LEFT,
+	MS_RIGHT,
+};
+
 class Player : public Entity
 {
 public:
@@ -25,8 +31,6 @@ public:
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
 
-	int Jump();
-
 public:
 
 private:
@@ -40,10 +44,10 @@ private:
 	// L07 DONE 5: Add physics to the player - declare a Physics body
 	PhysBody* pbody;
 
-	int pickCoinFxId;
-	bool isJumping;
-	int speedy = 0;
+	_moveState moveState;
 
+
+	int pickCoinFxId;
 
 };
 
