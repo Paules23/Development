@@ -69,14 +69,8 @@ bool Player::Update()
 			--remainingJumps;
 		}
 	}
-	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-		//
-	}
 		
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		if (app->scene->iscameramoving == true) {
-			app->render->camera.x += speed;
-		}
 		moveState = MS_LEFT;
 	}
 
@@ -85,9 +79,6 @@ bool Player::Update()
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		if (app->scene->iscameramoving == true) {
-			app->render->camera.x -= speed;
-		}
 		moveState = MS_RIGHT;
 	}
 

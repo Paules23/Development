@@ -12,6 +12,7 @@
 #include "Defs.h"
 #include "Log.h"
 
+
 Scene::Scene() : Module()
 {
 	name.Create("scene");
@@ -100,20 +101,17 @@ bool Scene::Update(float dt)
 	if (app->render->camera.x < -1020) {
 		app->render->camera.x = -1020;
 	}
+
 	//camera update with the player
 	if (player->position.x > 510) {
-		//SDL_Rect rect = { 50,0,app->render->camera.w,app->render->camera.h };
-		//app->render->SetViewPort(rect);
-		iscameramoving = true;
+		app->render->camera.x = -510;
+		//iscameramoving = true;
 	}
 	else {
-		app->render->ResetViewPort();
+		app->render->camera.x = 0;
 	}
 
-	if (app->render->camera.x > player->position.x - 132) {
-		iscameramoving = false;
-		
-	}
+	
 
 	// Draw map
 	app->map->Draw();
