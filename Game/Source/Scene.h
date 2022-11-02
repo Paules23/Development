@@ -41,6 +41,7 @@ public:
 
 private:
 	SDL_Texture* img;
+	bool stopcamera;
 
 };
 

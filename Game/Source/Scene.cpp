@@ -62,6 +62,8 @@ bool Scene::Start()
 
 	app->win->SetTitle(title.GetString());
 
+	stopcamera = false;
+
 	return true;
 }
 
@@ -103,13 +105,17 @@ bool Scene::Update(float dt)
 	}
 
 	//camera update with the player
-	if (player->position.x > 510) {
-		app->render->camera.x = -510;
-		//iscameramoving = true;
+	if (player->position.x >= 954 && player->position.x < 964) {
+		app->render->camera.x = -954;
+
 	}
-	else {
+	if (player->position.x <= 953 && player->position.x >= 943) {
 		app->render->camera.x = 0;
 	}
+	
+		
+	
+	
 
 	
 
