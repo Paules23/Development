@@ -46,6 +46,8 @@ private:
 
 	_moveState moveState;
 
+	int remainingJumps;
+	bool isdead, win;
 
 	int pickCoinFxId;
 

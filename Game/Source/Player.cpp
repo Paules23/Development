@@ -28,6 +28,8 @@ bool Player::Awake() {
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
+	isdead = false;
+	win = false;
 
 	return true;
 }
@@ -38,7 +40,7 @@ bool Player::Start() {
 	texture = app->tex->Load(texturePath);
 
 	// L07 DONE 5: Add physics to the player - initialize physics body
-	pbody = app->physics->CreateCircle(position.x+16, position.y+16, 16, bodyType::DYNAMIC);
+	pbody = app->physics->CreateCircle(position.x+16, position.y+16, 15, bodyType::DYNAMIC);
 
 	// L07 DONE 6: Assign player class (using "this") to the listener of the pbody. This makes the Physics module to call the OnCollision method
 	pbody->listener = this;
@@ -48,7 +50,6 @@ bool Player::Start() {
 
 	//initialize audio effect - !! Path is hardcoded, should be loaded from config.xml
 	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
-
 
 	return true;
 }
@@ -63,8 +64,11 @@ bool Player::Update()
 
 	//L02: DONE 4: modify the position of the player using arrow keys and render the texture
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
-		float impulse = pbody->body->GetMass() * -8;
-		pbody->body->ApplyLinearImpulse(b2Vec2(0, impulse), pbody->body->GetWorldCenter(), false);
+		if (remainingJumps > 0) {
+			float impulse = pbody->body->GetMass() * -8;
+			pbody->body->ApplyLinearImpulse(b2Vec2(0, impulse), pbody->body->GetWorldCenter(), false);
+			--remainingJumps;
+		}
 	}
 	if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 		//
@@ -105,6 +109,14 @@ bool Player::Update()
 
 	app->render->DrawTexture(texture, position.x , position.y);
 
+	if (isdead == true) {
+		return false;
+	}
+	if (win == true) {
+		return false;
+	}
+
+
 	return true;
 }
 
@@ -126,9 +138,18 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");
+		remainingJumps = 2;
 		break;
 	case ColliderType::UNKNOWN:
 		LOG("Collision UNKNOWN");
+		break;
+	case ColliderType::DEATH:
+		LOG("Collision DEATH");
+		isdead = true;
+		break;
+	case ColliderType::WIN:
+		LOG("Collision DEATH");
+		win = true;
 		break;
 	}
 }

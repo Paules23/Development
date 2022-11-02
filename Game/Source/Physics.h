@@ -29,7 +29,10 @@ enum bodyType {
 enum class ColliderType {
 	PLAYER,
 	ITEM,
+	DEATH,
+	WIN,
 	PLATFORM,
+	GROUND,
 	UNKNOWN
 	// ..
 };
@@ -80,7 +83,7 @@ public:
 	void BeginContact(b2Contact* contact);
 
 	b2World* world;
-	bool debug = true;
+	bool debug;
 
 private:
 

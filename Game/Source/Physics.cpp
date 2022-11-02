@@ -33,9 +33,9 @@ Physics::~Physics()
 bool Physics::Start()
 {
 	LOG("Creating Physics 2D environment");
-
+	debug = false;
 	world = new b2World(b2Vec2(GRAVITY_X, -GRAVITY_Y));
-	
+
 	world->SetContactListener(this);
 	return true;
 }
@@ -44,6 +44,7 @@ bool Physics::Start()
 bool Physics::PreUpdate()
 {
 	bool ret = true;
+
 
 	// Step (update) the World
 	// WARNING: WE ARE STEPPING BY CONSTANT 1/60 SECONDS!
@@ -203,10 +204,17 @@ PhysBody* Physics::CreateChain(int x, int y, int* points, int size, bodyType typ
 bool Physics::PostUpdate()
 {
 	bool ret = true;
-	
+	if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {
+		if (debug == true) {
+			debug = false;
+		}
+		else {
+			debug = true;
+		}
+	}
 	// Bonus code: this will iterate all objects in the world and draw the circles
 	// You need to provide your own macro to translate meters to pixels
-	if (debug)
+	if (debug == true)
 	{
 		for (b2Body* b = world->GetBodyList(); b; b = b->GetNext())
 		{
