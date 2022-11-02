@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "EntityManager.h"
 #include "Map.h"
+#include "Physics.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -90,6 +91,29 @@ bool Scene::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		app->render->camera.x -= 10;
+
+	//camera limits
+	app->render->camera.y = 0;
+	if (app->render->camera.x > 0) {
+		app->render->camera.x = 0;
+	}
+	if (app->render->camera.x < -1020) {
+		app->render->camera.x = -1020;
+	}
+	//camera update with the player
+	if (player->position.x > 510) {
+		//SDL_Rect rect = { 50,0,app->render->camera.w,app->render->camera.h };
+		//app->render->SetViewPort(rect);
+		iscameramoving = true;
+	}
+	else {
+		app->render->ResetViewPort();
+	}
+
+	if (app->render->camera.x > player->position.x - 132) {
+		iscameramoving = false;
+		
+	}
 
 	// Draw map
 	app->map->Draw();

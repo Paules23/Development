@@ -389,13 +389,12 @@ void Map::LoadCollisionsFromTileId() {
                     SDL_Rect r = tileset->GetTileRect(gid);
                     iPoint pos = MapToWorld(x, y);
                     if (gid != NULL) {
-                        PhysBody* c1 = app->physics->CreateRectangle(pos.x +16, pos.y+16, 32, 32, STATIC);
+                        PhysBody* c1 = app->physics->CreateRectangle(pos.x +16, pos.y+18, 32, 30, STATIC);
                         c1->ctype = ColliderType::PLATFORM;
                     }
                 }
             }
         }
-
         if (mapLayerItem->data->properties.GetProperty("Death") != NULL && mapLayerItem->data->properties.GetProperty("Death")->value == true) {
             for (int x = 0; x < mapLayerItem->data->width; x++)
             {
@@ -412,7 +411,6 @@ void Map::LoadCollisionsFromTileId() {
                 }
             }
         }
-
         if (mapLayerItem->data->properties.GetProperty("Win") != NULL && mapLayerItem->data->properties.GetProperty("Win")->value == true) {
             for (int x = 0; x < mapLayerItem->data->width; x++)
             {
@@ -424,14 +422,27 @@ void Map::LoadCollisionsFromTileId() {
                     iPoint pos = MapToWorld(x, y);
                     if (gid != NULL) {
                         PhysBody* c1 = app->physics->CreateRectangleSensor(pos.x + 16, pos.y + 16, 32, 32, STATIC);
-                        c1->ctype = ColliderType::DEATH;
+                        c1->ctype = ColliderType::WIN;
+                    }
+                }
+            }
+        }
+        if (mapLayerItem->data->properties.GetProperty("Platform") != NULL && mapLayerItem->data->properties.GetProperty("Platform")->value == true) {
+            for (int x = 0; x < mapLayerItem->data->width; x++)
+            {
+                for (int y = 0; y < mapLayerItem->data->height; y++)
+                {
+                    int gid = mapLayerItem->data->Get(x, y);
+                    TileSet* tileset = GetTilesetFromTileId(gid);
+                    SDL_Rect r = tileset->GetTileRect(gid);
+                    iPoint pos = MapToWorld(x, y);
+                    if (gid != NULL) {
+                        PhysBody* c1 = app->physics->CreateRectangle(pos.x + 16, pos.y +8, 32, 8, STATIC);
+                        c1->ctype = ColliderType::PLATFORM;
                     }
                 }
             }
         }
         mapLayerItem = mapLayerItem->next;
     }
-
 }
-
-

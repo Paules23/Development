@@ -38,6 +38,7 @@ public:
 
 	//L02: DONE 3: Declare a Player attribute 
 	Player* player;
+	bool iscameramoving;
 
 private:
 	SDL_Texture* img;

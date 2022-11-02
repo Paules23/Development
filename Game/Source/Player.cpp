@@ -59,8 +59,7 @@ bool Player::Update()
 
 	// L07 DONE 5: Add physics to the player - updated player position using physics
 
-	int speed = 0; 
-	
+	int speed = 4;
 
 	//L02: DONE 4: modify the position of the player using arrow keys and render the texture
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
@@ -75,6 +74,9 @@ bool Player::Update()
 	}
 		
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+		if (app->scene->iscameramoving == true) {
+			app->render->camera.x += speed;
+		}
 		moveState = MS_LEFT;
 	}
 
@@ -83,6 +85,9 @@ bool Player::Update()
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+		if (app->scene->iscameramoving == true) {
+			app->render->camera.x -= speed;
+		}
 		moveState = MS_RIGHT;
 	}
 
