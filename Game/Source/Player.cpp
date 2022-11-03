@@ -12,6 +12,21 @@
 Player::Player() : Entity(EntityType::PLAYER)
 {
 	name.Create("Player");
+
+	iddle.PushBack({120,115,57,103});
+	iddle.PushBack({ 446,115,57,103 });
+	iddle.PushBack({ 774,115,57,103 });
+	iddle.PushBack({ 1099,115,57,103 });
+	iddle.PushBack({ 1426,115,57,103 });
+	iddle.PushBack({ 1752,115,57,103 });
+	iddle.PushBack({ 2079,115,57,103 });
+	iddle.PushBack({ 2405,115,57,103 });
+	iddle.PushBack({ 2732,115,57,103 });
+	iddle.PushBack({ 3058,115,57,103 });
+	iddle.speed = 0.1f;
+
+
+	
 }
 
 Player::~Player() {
@@ -19,10 +34,6 @@ Player::~Player() {
 }
 
 bool Player::Awake() {
-
-	//L02: DONE 1: Initialize Player parameters
-	//pos = position;
-	//texturePath = "Assets/Textures/player/idle1.png";
 
 	//L02: DONE 5: Get Player parameters from XML
 	position.x = parameters.attribute("x").as_int();
@@ -60,7 +71,7 @@ bool Player::Update()
 	// L07 DONE 5: Add physics to the player - updated player position using physics
 
 	int speed = 4;
-
+	currentPlayerAnimation = &iddle;
 	//L02: DONE 4: modify the position of the player using arrow keys and render the texture
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
 		if (remainingJumps > 0) {
@@ -69,7 +80,7 @@ bool Player::Update()
 			--remainingJumps;
 		}
 	}
-		
+
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 		moveState = MS_LEFT;
 	}
@@ -79,6 +90,7 @@ bool Player::Update()
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+		currentPlayerAnimation = &movement;
 		moveState = MS_RIGHT;
 	}
 
@@ -103,7 +115,7 @@ bool Player::Update()
 	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 
-	app->render->DrawTexture(texture, position.x , position.y);
+	currentPlayerAnimation->Update();
 
 	if (isdead == true) {
 		return false;
@@ -113,6 +125,10 @@ bool Player::Update()
 	}
 
 
+
+
+	SDL_Rect rect = currentPlayerAnimation->GetCurrentFrame();
+	app->render->DrawTexture(texture, position.x, position.y, &rect);
 	return true;
 }
 
