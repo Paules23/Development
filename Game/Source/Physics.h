@@ -7,6 +7,8 @@
 #define GRAVITY_X 0.0f
 #define GRAVITY_Y -20.0f
 
+#define INIT_POSITION b2Vec2(parameters.attribute("x").as_int(),parameters.attribute("y").as_int())
+
 #define PIXELS_PER_METER 32.0f // if touched change METER_PER_PIXEL too
 #define METER_PER_PIXEL 0.03125f // this is 1 / PIXELS_PER_METER !
 #define RAD_PER_DEG ((float)180/b2_pi)
@@ -62,7 +64,7 @@ public:
 class Physics : public Module, public b2ContactListener // TODO
 {
 public:
-	Physics();
+	Physics(bool startEnabled);
 	~Physics();
 
 	bool Start();

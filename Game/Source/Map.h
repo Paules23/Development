@@ -111,7 +111,7 @@ class Map : public Module
 {
 public:
 
-    Map();
+    Map(bool startEnabled);
 
     // Destructor
     virtual ~Map();
@@ -149,6 +149,8 @@ private:
 	bool LoadProperties(pugi::xml_node& node, Properties& properties);
 
 	void LoadCollisionsFromTileId();
+
+
 
 public: 
 

@@ -9,6 +9,7 @@
 #include "Map.h"
 #include "Physics.h"
 #include "Animation.h"
+#include "FadeToBlack.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -21,17 +22,18 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 {
 	frames = 0;
 
-	input = new Input();
-	win = new Window();
-	render = new Render();
-	tex = new Textures();
-	audio = new Audio();
+	input = new Input(true);
+	win = new Window(true);
+	render = new Render(true);
+	tex = new Textures(true);
+	audio = new Audio(true);
 	//L07 DONE 2: Add Physics module
-	physics = new Physics();
-	scene = new Scene();
-	entityManager = new EntityManager();
-	map = new Map();
-	animation = new Animation();
+	physics = new Physics(true);
+	scene = new Scene(true);
+	entityManager = new EntityManager(true);
+	map = new Map(true);
+	//fade = new FadeToBlack(true);
+
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -44,7 +46,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(scene);
 	AddModule(entityManager);
 	AddModule(map);
-	AddModule(animation);
+	//AddModule(fade);
+
 
 
 	// Render last to swap buffer
@@ -68,8 +71,8 @@ App::~App()
 
 void App::AddModule(Module* module)
 {
-	module->Init();
 	modules.Add(module);
+	
 }
 
 // Called before render is available
@@ -111,7 +114,9 @@ bool App::Start()
 
 	while (item != NULL && ret == true)
 	{
-		ret = item->data->Start();
+		if (item->data->isEnabled == true) {
+			ret = item->data->Start();
+		}
 		item = item->next;
 	}
 
@@ -163,6 +168,9 @@ bool App::LoadConfig()
 // ---------------------------------------------
 void App::PrepareUpdate()
 {
+
+
+
 }
 
 // ---------------------------------------------
@@ -185,10 +193,6 @@ bool App::PreUpdate()
 	{
 		pModule = item->data;
 
-		if (pModule->active == false) {
-			continue;
-		}
-
 		ret = item->data->PreUpdate();
 	}
 
@@ -207,10 +211,6 @@ bool App::DoUpdate()
 	{
 		pModule = item->data;
 
-		if (pModule->active == false) {
-			continue;
-		}
-
 		ret = item->data->Update(dt);
 	}
 
@@ -227,10 +227,6 @@ bool App::PostUpdate()
 	for (item = modules.start; item != NULL && ret == true; item = item->next)
 	{
 		pModule = item->data;
-
-		if (pModule->active == false) {
-			continue;
-		}
 
 		ret = item->data->PostUpdate();
 	}

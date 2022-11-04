@@ -10,17 +10,12 @@
 class App;
 class PhysBody;
 
-class Module
+class Module 
 {
 public:
 
-	Module() : active(false)
+	Module(bool startEnabled) : isEnabled(startEnabled)
 	{}
-
-	void Init()
-	{
-		active = true;
-	}
 
 	// Called before render is available
 	virtual bool Awake(pugi::xml_node&)
@@ -74,10 +69,32 @@ public:
 
 	}
 
+	void Enable()
+	{
+		if (!isEnabled)
+		{
+			isEnabled = true;
+			Start();
+		}
+	}
+
+	void Disable()
+	{
+		if (isEnabled)
+		{
+			isEnabled = false;
+			CleanUp();
+		}
+	}
+
+	inline bool IsEnabled() const { return isEnabled; }
+
+	
+
 public:
 
 	SString name;
-	bool active;
+	bool isEnabled = true; 
 
 };
 

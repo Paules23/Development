@@ -35,6 +35,9 @@ public:
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
 
+	bool LoadState(pugi::xml_node&);
+	bool SaveState(pugi::xml_node&);
+
 public:
 
 private:
@@ -52,6 +55,7 @@ private:
 	_moveState moveState;
 
 	int remainingJumps;
+	int timerbetweenjumps;
 	bool isdead, win;
 
 	int dieFxId;

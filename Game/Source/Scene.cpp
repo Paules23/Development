@@ -13,7 +13,7 @@
 #include "Log.h"
 
 
-Scene::Scene() : Module()
+Scene::Scene(bool startEnabled) : Module(startEnabled)
 {
 	name.Create("scene");
 }
@@ -94,6 +94,7 @@ bool Scene::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		app->render->camera.x -= 10;
+	
 
 	//camera limits
 	app->render->camera.y = 0;
@@ -113,12 +114,6 @@ bool Scene::Update(float dt)
 		app->render->camera.x = 0;
 	}
 	
-		
-	
-	
-
-	
-
 	// Draw map
 	app->map->Draw();
 
