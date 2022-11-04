@@ -27,7 +27,7 @@ bool FadeToBlack::Start()
 	return true;
 }
 
- bool FadeToBlack::Update()
+ bool FadeToBlack::Update(float dt)
 {
 	// Exit this function if we are not performing a fade
 	if (currentStep == Fade_Step::NONE) return true;

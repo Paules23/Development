@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "List.h"
 
+
 #include "PugiXml/src/pugixml.hpp"
 
 #define CONFIG_FILENAME		"config.xml"
@@ -21,6 +22,8 @@ class Map;
 //L07 DONE 2: Add Physics module
 class Physics;
 class Animation;
+class FadeToBlack;
+class SceneIntro;
 
 class App
 {
@@ -58,11 +61,13 @@ public:
 	void SaveGameRequest() ;
 	bool LoadFromFile();
 	bool SaveToFile() ;
+	pugi::xml_node LoadConfig2();
 
 private:
 
 	// Load config file
 	bool LoadConfig();
+	
 
 	// Call modules before each loop iteration
 	void PrepareUpdate();
@@ -90,9 +95,10 @@ public:
 	Scene* scene;
 	EntityManager* entityManager;
 	Map* map;
-	FadeToBlack* fadeee;
+	FadeToBlack* fade;
 	//L07 DONE 2: Add Physics module
 	Physics* physics;
+	SceneIntro* intro;
 
 
 	Animation* animation;

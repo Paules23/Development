@@ -22,7 +22,7 @@ public:
 	// Called each loop iteration
 	bool PostUpdate();
 
-	bool Update();
+	bool Update(float dt);
 
 
 	// Called from another module

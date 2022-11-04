@@ -18,7 +18,7 @@ public:
 
 	bool Start() override;
 
-	bool Update();
+	bool Update(float dt);
 
 
 	bool PostUpdate();

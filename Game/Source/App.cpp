@@ -10,6 +10,7 @@
 #include "Physics.h"
 #include "Animation.h"
 #include "FadeToBlack.h"
+#include "SceneIntro.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -32,7 +33,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new Scene(true);
 	entityManager = new EntityManager(true);
 	map = new Map(true);
-	//fade = new FadeToBlack(true);
+	fade = new FadeToBlack(true);
+	intro = new SceneIntro(true);
 
 
 	// Ordered for awake / Start / Update
@@ -46,10 +48,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(scene);
 	AddModule(entityManager);
 	AddModule(map);
-	//AddModule(fade);
-
-
-
+	AddModule(fade);
+	AddModule(intro);
 	// Render last to swap buffer
 	AddModule(render);
 }
@@ -164,6 +164,23 @@ bool App::LoadConfig()
 
 	return ret;
 }
+
+pugi::xml_node App::LoadConfig2() {
+
+	// L01: DONE 3: Load config.xml file using load_file() method from the xml_document class
+	pugi::xml_parse_result parseResult = configFile.load_file("config.xml");
+
+	// L01: DONE 3: Check result for loading errors
+	if (parseResult) {
+		configNode = configFile.child("config");
+	}
+	else {
+		LOG("Error in App::LoadConfig(): %s", parseResult.description());
+	}
+
+	return configNode;
+}
+
 
 // ---------------------------------------------
 void App::PrepareUpdate()

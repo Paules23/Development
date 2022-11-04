@@ -30,14 +30,14 @@ bool SceneIntro::Start()
 	
 	//App->audio->PlayMusic("Assets/Music/introTitle.ogg", 1.0f);
 
-	app->render->camera.x = 0;
-	app->render->camera.y = 0;
+	//app->render->camera.x = 0;
+	//app->render->camera.y = 0;
 
 	
 	return ret;
 }
 
-bool SceneIntro::Update()
+bool SceneIntro::Update(float dt)
 {
 	//if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN) {
 	//	credits = 1;
@@ -52,8 +52,9 @@ bool SceneIntro::Update()
 
 	//	credits--;
 	//}
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-		app->SaveGameRequest();
+	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+		app->fade->FadeToBlack1(this, (Module*)app->scene, 20);
+	}
 
 	return true;
 }
