@@ -7,7 +7,7 @@
 
 #define VSYNC true
 
-Render::Render() : Module()
+Render::Render(bool startEnabled) : Module(startEnabled)
 {
 	name.Create("renderer");
 	background.r = 0;
@@ -245,6 +245,7 @@ bool Render::SaveState(pugi::xml_node& data)
 
 	cam.append_attribute("x") = camera.x;
 	cam.append_attribute("y") = camera.y;
+
 
 	return true;
 }

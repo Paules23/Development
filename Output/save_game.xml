@@ -4,11 +4,12 @@
 	<window />
 	<textures />
 	<audio />
-	<:anonymous />
 	<scene />
-	<entitymanager />
+	<entitymanager>
+		<player x="277" y="227" />
+	</entitymanager>
 	<map />
 	<renderer>
-		<camera x="0" y="0" />
+		<camera x="-160" y="0" />
 	</renderer>
 </save_state>

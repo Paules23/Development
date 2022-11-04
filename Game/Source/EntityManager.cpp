@@ -8,7 +8,7 @@
 #include "Defs.h"
 #include "Log.h"
 
-EntityManager::EntityManager() : Module()
+EntityManager::EntityManager(bool startEnabled) : Module(startEnabled)
 {
 	name.Create("entitymanager");
 }
@@ -131,5 +131,42 @@ bool EntityManager::Update(float dt)
 		ret = item->data->Update();
 	}
 
+	return ret;
+}
+
+bool EntityManager::LoadState(pugi::xml_node& data)
+{
+	bool ret = true;
+
+	ListItem<Entity*>* item;
+	Entity* pEntity = NULL;
+
+	for (item = entities.start; item != NULL && ret == true; item = item->next)
+	{
+		pEntity = item->data;
+
+		if (pEntity->active == false) continue;
+		ret = item->data->LoadState(data);
+	}
+	
+	return true;
+}
+
+// L03: DONE 8: Create a method to save the state of the renderer
+// using append_child and append_attribute
+bool EntityManager::SaveState(pugi::xml_node& data)
+{
+	bool ret = true;
+
+	ListItem<Entity*>* item;
+	Entity* pEntity = NULL;
+
+	for (item = entities.start; item != NULL && ret == true; item = item->next)
+	{
+		pEntity = item->data;
+
+		if (pEntity->active == false) continue;
+		ret = item->data->SaveState(data);
+	}
 	return ret;
 }

@@ -71,10 +71,16 @@ bool Player::Update()
 	// L07 DONE 5: Add physics to the player - updated player position using physics
 
 	int speed = 4;
+	timerbetweenjumps--;
 	currentPlayerAnimation = &iddle;
 	//L02: DONE 4: modify the position of the player using arrow keys and render the texture
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
-		if (remainingJumps > 0) {
+		if (remainingJumps == 2) {
+			float impulse = pbody->body->GetMass() * -8;
+			pbody->body->ApplyLinearImpulse(b2Vec2(0, impulse), pbody->body->GetWorldCenter(), false);
+			--remainingJumps;
+		}
+		else if (remainingJumps == 1 && timerbetweenjumps < 0) {
 			float impulse = pbody->body->GetMass() * -8;
 			pbody->body->ApplyLinearImpulse(b2Vec2(0, impulse), pbody->body->GetWorldCenter(), false);
 			--remainingJumps;
@@ -98,6 +104,10 @@ bool Player::Update()
 		moveState = MS_STOP;
 	}
 
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
+		pbody->body->SetTransform(PIXEL_TO_METERS(INIT_POSITION), 0);
+	}
+
 
 	b2Vec2 vel = pbody->body->GetLinearVelocity();
 	float desiredVel = 0;
@@ -118,14 +128,11 @@ bool Player::Update()
 	currentPlayerAnimation->Update();
 
 	if (isdead == true) {
-		return false;
+		isdead = false;
 	}
 	if (win == true) {
 		return false;
 	}
-
-
-
 
 	SDL_Rect rect = currentPlayerAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y, &rect);
@@ -164,4 +171,28 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		win = true;
 		break;
 	}
+}
+
+
+bool Player::LoadState(pugi::xml_node& data)
+{
+	position.x = data.child("player").attribute("x").as_int();
+	position.y = data.child("player").attribute("y").as_int();
+
+	b2Vec2 pos (position.x, position.y);
+	pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
+
+	return true;
+}
+
+// L03: DONE 8: Create a method to save the state of the renderer
+// using append_child and append_attribute
+bool Player::SaveState(pugi::xml_node& data)
+{
+	pugi::xml_node play = data.append_child("player");
+
+	play.append_attribute("x") = position.x;
+	play.append_attribute("y") = position.y;
+
+	return true;
 }

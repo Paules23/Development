@@ -90,8 +90,10 @@ public:
 	Scene* scene;
 	EntityManager* entityManager;
 	Map* map;
+	FadeToBlack* fadeee;
 	//L07 DONE 2: Add Physics module
 	Physics* physics;
+
 
 	Animation* animation;
 
