@@ -43,6 +43,7 @@ private:
 
 	//L02: DONE 1: Declare player parameters
 	SDL_Texture* texture;
+	SDL_Texture* run;
 	const char* texturePath;
 
 	// L07 DONE 5: Add physics to the player - declare a Physics body
@@ -53,9 +54,10 @@ private:
 	int remainingJumps;
 	bool isdead, win;
 
-	int pickCoinFxId;
+	int dieFxId;
+	int jumpFxId;
 	Animation* currentPlayerAnimation;
-	Animation movement, jump, die, iddle;
+	Animation movement, jump, die, iddle, movementLeft;
 
 };
 

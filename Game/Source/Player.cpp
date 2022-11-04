@@ -13,20 +13,52 @@ Player::Player() : Entity(EntityType::PLAYER)
 {
 	name.Create("Player");
 
-	iddle.PushBack({120,115,57,103});
-	iddle.PushBack({ 446,115,57,103 });
-	iddle.PushBack({ 774,115,57,103 });
-	iddle.PushBack({ 1099,115,57,103 });
-	iddle.PushBack({ 1426,115,57,103 });
-	iddle.PushBack({ 1752,115,57,103 });
-	iddle.PushBack({ 2079,115,57,103 });
-	iddle.PushBack({ 2405,115,57,103 });
-	iddle.PushBack({ 2732,115,57,103 });
-	iddle.PushBack({ 3058,115,57,103 });
+	iddle.PushBack({ 32, 0, 32, 32 });
+	iddle.PushBack({ 32, 55, 32, 32 });
+	iddle.PushBack({ 32, 107, 32, 32 });
+	iddle.PushBack({ 32, 159, 32, 35 });
+	iddle.PushBack({ 32, 216, 32, 32 });
+	iddle.PushBack({ 32, 267, 32, 32 });
 	iddle.speed = 0.1f;
 
+	movement.PushBack({ 64, 0, 32, 32 });
+	movement.PushBack({ 64, 52, 32, 33 });
+	movement.PushBack({ 64, 137, 32, 32 });
+	movement.PushBack({ 64, 194, 32, 32 });
+	movement.PushBack({ 64, 250, 32, 32 });
+	movement.PushBack({ 64, 384, 32, 32 });
+	movement.PushBack({ 64, 438, 32, 32 });
+	movement.speed = 0.1f;
 
+	jump.PushBack({ 0, 0, 32, 32 });
+	jump.PushBack({ 0, 53, 32, 35 });
+	jump.PushBack({ 0, 111, 32, 32 });
+	jump.PushBack({ 0, 159, 32, 39 });
+	jump.PushBack({ 0, 333, 32, 36 });
+	jump.PushBack({ 0, 420, 32, 34 });
+	jump.PushBack({ 0, 505, 32, 32 });
+	jump.PushBack({ 0, 557, 32, 34 });
+	jump.PushBack({ 0, 614, 32, 32 });
+	jump.PushBack({ 0, 668, 32, 32 });
+	jump.PushBack({ 0, 719, 32, 32 });
+	jump.speed = 0.2f;
 	
+
+
+	movementLeft.PushBack({ 128, 0, 32, 32 });
+	movementLeft.PushBack({ 128, 52, 32, 33 });
+	movementLeft.PushBack({ 128, 137, 32, 32 });
+	movementLeft.PushBack({ 128, 194, 32, 32 });
+	movementLeft.PushBack({ 128, 250, 32, 32 });
+	movementLeft.PushBack({ 128, 384, 32, 32 });
+	movementLeft.PushBack({ 128, 438, 32, 32 });
+	movementLeft.speed = 0.1f;
+
+	die.PushBack({ 96, 0, 32, 32 });
+	die.PushBack({ 96, 55, 32, 32 });
+	die.PushBack({ 96, 107, 32, 32 });
+	die.speed = 0.3f;
+
 }
 
 Player::~Player() {
@@ -60,7 +92,9 @@ bool Player::Start() {
 	pbody->ctype = ColliderType::PLAYER;
 
 	//initialize audio effect - !! Path is hardcoded, should be loaded from config.xml
-	pickCoinFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
+	dieFxId = app->audio->LoadFx("Assets/Audio/Fx/die.ogg");
+
+	jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/Jump-1.ogg");
 
 	return true;
 }
@@ -71,10 +105,20 @@ bool Player::Update()
 	// L07 DONE 5: Add physics to the player - updated player position using physics
 
 	int speed = 4;
-	currentPlayerAnimation = &iddle;
+	if (remainingJumps < 1) {
+		currentPlayerAnimation = &jump;
+	}
+	else {
+		currentPlayerAnimation = &iddle;
+	}
+	
 	//L02: DONE 4: modify the position of the player using arrow keys and render the texture
+
+	
 	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
 		if (remainingJumps > 0) {
+			currentPlayerAnimation = &jump;
+			app->audio->PlayFx(jumpFxId);
 			float impulse = pbody->body->GetMass() * -8;
 			pbody->body->ApplyLinearImpulse(b2Vec2(0, impulse), pbody->body->GetWorldCenter(), false);
 			--remainingJumps;
@@ -82,6 +126,7 @@ bool Player::Update()
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+		currentPlayerAnimation = &movementLeft;
 		moveState = MS_LEFT;
 	}
 
@@ -118,6 +163,7 @@ bool Player::Update()
 	currentPlayerAnimation->Update();
 
 	if (isdead == true) {
+
 		return false;
 	}
 	if (win == true) {
@@ -146,7 +192,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::ITEM:
 		LOG("Collision ITEM");
-		app->audio->PlayFx(pickCoinFxId);
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");
@@ -156,6 +201,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision UNKNOWN");
 		break;
 	case ColliderType::DEATH:
+		app->audio->PlayFx(dieFxId);
 		LOG("Collision DEATH");
 		isdead = true;
 		break;
