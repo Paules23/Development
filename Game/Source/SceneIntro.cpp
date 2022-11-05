@@ -8,6 +8,7 @@
 #include "FadeToBlack.h"
 #include "Player.h"
 #include "Log.h"
+#include "EntityManager.h"
 #include <stdio.h>
 
 SceneIntro::SceneIntro(bool startEnabled) : Module(startEnabled)

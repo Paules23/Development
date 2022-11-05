@@ -30,8 +30,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	audio = new Audio(true);
 	//L07 DONE 2: Add Physics module
 	physics = new Physics(true);
-	scene = new Scene(true);
-	entityManager = new EntityManager(true);
+	scene = new Scene(false);
+	entityManager = new EntityManager(false);
 	map = new Map(true);
 	fade = new FadeToBlack(true);
 	intro = new SceneIntro(true);
@@ -208,9 +208,11 @@ bool App::PreUpdate()
 
 	for (item = modules.start; item != NULL && ret == true; item = item->next)
 	{
-		pModule = item->data;
-
-		ret = item->data->PreUpdate();
+		if (item->data->isEnabled == true) {
+			pModule = item->data;
+			ret = item->data->PreUpdate();
+		}
+		
 	}
 
 	return ret;
@@ -226,9 +228,12 @@ bool App::DoUpdate()
 
 	for (item = modules.start; item != NULL && ret == true; item = item->next)
 	{
-		pModule = item->data;
+		if (item->data->isEnabled == true) {
+			pModule = item->data;
 
-		ret = item->data->Update(dt);
+			ret = item->data->Update(dt);
+		}
+		
 	}
 
 	return ret;
@@ -243,9 +248,13 @@ bool App::PostUpdate()
 
 	for (item = modules.start; item != NULL && ret == true; item = item->next)
 	{
-		pModule = item->data;
 
-		ret = item->data->PostUpdate();
+		if (item->data->isEnabled == true) {
+			pModule = item->data;
+
+			ret = item->data->PostUpdate();
+		}
+		
 	}
 
 	return ret;

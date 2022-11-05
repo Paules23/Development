@@ -26,36 +26,12 @@ Scene::~Scene()
 // Called before render is available
 bool Scene::Awake(pugi::xml_node& config)
 {
-	LOG("Loading Scene");
-	bool ret = true;
-
-	// iterate all objects in the scene
-	// Check https://pugixml.org/docs/quickstart.html#access
-	for (pugi::xml_node itemNode = config.child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
-	{
-		Item* item = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
-		item->parameters = itemNode;
-	}
-
-	//L02: DONE 3: Instantiate the player using the entity manager
-	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
-	player->parameters = config.child("player");
-
-	app->entityManager->Enable();
-	app->map->Enable();
-
-	return ret;
-}
-
-// Called before the first frame
-bool Scene::Start()
-{
 	//LOG("Loading Scene");
 	//bool ret = true;
 
 	//// iterate all objects in the scene
 	//// Check https://pugixml.org/docs/quickstart.html#access
-	//for (pugi::xml_node itemNode = app->LoadConfig2().child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
+	//for (pugi::xml_node itemNode = config.child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
 	//{
 	//	Item* item = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
 	//	item->parameters = itemNode;
@@ -63,12 +39,34 @@ bool Scene::Start()
 
 	////L02: DONE 3: Instantiate the player using the entity manager
 	//player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
-	//player->parameters = app->LoadConfig2().child("player");
+	//player->parameters = config.child("player");
 
 	//app->entityManager->Enable();
 	//app->map->Enable();
+	
 
+	return true;
+}
 
+// Called before the first frame
+bool Scene::Start()
+{	
+	
+	LOG("Loading Scene");
+
+	// iterate all objects in the scene
+	// Check https://pugixml.org/docs/quickstart.html#access
+	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
+	{
+		Item* item = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
+		item->parameters = itemNode;
+	}
+
+	//L02: DONE 3: Instantiate the player using the entity manager
+	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
+	player->parameters = app->LoadConfig2().child("scene").child("player");
+	app->entityManager->Enable();
+	
 
 	//img = app->tex->Load("Assets/Textures/test.png");
 	app->audio->PlayMusic("Assets/Audio/Music/song.ogg");

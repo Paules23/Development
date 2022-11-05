@@ -68,17 +68,17 @@ Player::~Player() {
 bool Player::Awake() {
 
 	//L02: DONE 5: Get Player parameters from XML
-	position.x = parameters.attribute("x").as_int();
-	position.y = parameters.attribute("y").as_int();
-	texturePath = parameters.attribute("texturepath").as_string();
-	isdead = false;
-	win = false;
+	
 
 	return true;
 }
 
 bool Player::Start() {
-
+	position.x = app->scene->player->parameters.attribute("x").as_int();
+	position.y = parameters.attribute("y").as_int();
+	texturePath = parameters.attribute("texturepath").as_string();
+	isdead = false;
+	win = false;
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 
@@ -167,7 +167,6 @@ bool Player::Update()
 	currentPlayerAnimation->Update();
 
 	if (isdead == true) {
-
 		return false;
 	}
 	if (win == true) {
