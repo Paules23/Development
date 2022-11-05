@@ -1,19 +1,19 @@
-#ifndef __SCENE_INTRO_H__
-#define __SCENE_INTRO_H__
+#ifndef __SCENE_Win_H__
+#define __SCENE_Win_H__
 
 #include "Module.h"
 #include "Animation.h"
 
 struct SDL_Texture;
 
-class SceneIntro : public Module
+class SceneWin : public Module
 {
 public:
 
-	SceneIntro(bool startEnabled);
+	SceneWin(bool startEnabled);
 
 
-	~SceneIntro();
+	~SceneWin();
 
 
 	bool Start() override;
@@ -28,13 +28,14 @@ public:
 
 public:
 
-	SDL_Texture* bgTexture = nullptr;
+	SDL_Texture* winTexture = nullptr;
 	const char* texturepath;
 
-	int entersound;
+	int winsound;
 
 private:
 };
 
 #endif
+
 

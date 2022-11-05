@@ -68,9 +68,10 @@ bool Scene::Start()
 	app->entityManager->Enable();
 	
 
-	//img = app->tex->Load("Assets/Textures/test.png");
-	app->audio->PlayMusic("Assets/Audio/Music/song.ogg");
 	
+
+	app->audio->PlayMusic("Assets/Audio/Music/song.ogg");
+		
 	// L03: DONE: Load map
 	app->map->Load();
 
@@ -116,7 +117,6 @@ bool Scene::Update(float dt)
 
 	if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		app->render->camera.x -= 10;
-	
 
 	//camera limits
 	app->render->camera.y = 0;
@@ -133,6 +133,9 @@ bool Scene::Update(float dt)
 
 	}
 	if (player->position.x <= 953 && player->position.x >= 943) {
+		app->render->camera.x = 0;
+	}
+	if (player->GetDeadState() == true) {
 		app->render->camera.x = 0;
 	}
 	

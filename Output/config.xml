@@ -26,6 +26,10 @@
     <player x="70" y="520" texturepath="Assets/Textures/player1.png"/>
   </scene>
 
+  <sceneIntro texturepath="Assets/Textures/introscene.jpg"/>
+	
+  <sceneWin texturepath="Assets/Textures/win.jpg"/>
+
   <map>
     <mapfolder path="Assets/Maps/"/>
     <mapfile path="Assets/Maps/MapTemplate.tmx"/>

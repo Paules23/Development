@@ -1,5 +1,4 @@
 #include "SceneIntro.h"
-
 #include "App.h"
 #include "Textures.h"
 #include "Render.h"
@@ -24,58 +23,41 @@ SceneIntro::~SceneIntro()
 // Load assets
 bool SceneIntro::Start()
 {
-	LOG("Loading background assets");
-
 	bool ret = true;
 
-	
-	//App->audio->PlayMusic("Assets/Music/introTitle.ogg", 1.0f);
+	entersound = app->audio->LoadFx("Assets/Audio/Fx/Entergame.ogg");
+	texturepath = app->LoadConfig2().child("sceneIntro").attribute("texturepath").as_string();
+	bgTexture = app->tex->Load(texturepath);
 
-	//app->render->camera.x = 0;
-	//app->render->camera.y = 0;
-
-	
 	return ret;
 }
 
 bool SceneIntro::Update(float dt)
 {
-	//if (App->input->keys[SDL_SCANCODE_SPACE] == Key_State::KEY_DOWN) {
-	//	credits = 1;
-	//	int audioCredit = App->audio->LoadFx("Assets/gwar-191.wav");
-	//	App->audio->PlayFx(audioCredit);
-
-	//}
-
-	//if (App->input->keys[SDL_SCANCODE_RETURN] == Key_State::KEY_DOWN && credits > 0) {
-	//	App->fade->FadeToBlack(this, (Module*)App->scenePhoto, 20);
-
-
-	//	credits--;
-	//}
-	if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
+	bool ret = true;
+	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) {
+		app->audio->PlayFx(entersound);
 		app->fade->FadeToBlack1(this, (Module*)app->scene, 20);
 	}
 
-	return true;
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+		ret = false;
+	}
+		
+
+	return ret;
 }
 
 // Update: draw background
 bool SceneIntro::PostUpdate()
 {
-	//// Draw everything --------------------------------------
-	//sprintf_s(creditsText, 10, "%d", credits);
-
-	//App->render->Blit(bgTexture, 0, 30, NULL);
-	//App->fonts->BlitText(315, 475, introFont, "CREDIT ");
-	//App->fonts->BlitText(370, 475, introFont, creditsText);
+	app->render->DrawTexture(bgTexture,0,0);
 	return true;
 }
 
 bool SceneIntro::CleanUp()
 {
-	/*App->textures->Unload(bgTexture);
-	App->fonts->UnLoad(introFont);
-	bgTexture = nullptr;*/
+	app->tex->UnLoad(bgTexture);
+	bgTexture = nullptr;
 	return true;
 }

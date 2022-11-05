@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
+#include "FadeToBlack.h"
 
 Player::Player() : Entity(EntityType::PLAYER)
 {
@@ -74,11 +75,12 @@ bool Player::Awake() {
 }
 
 bool Player::Start() {
-	position.x = app->scene->player->parameters.attribute("x").as_int();
+	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 	isdead = false;
 	win = false;
+	godmode = false;
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 
@@ -93,18 +95,39 @@ bool Player::Start() {
 
 	//initialize audio effect - !! Path is hardcoded, should be loaded from config.xml
 	dieFxId = app->audio->LoadFx("Assets/Audio/Fx/die.ogg");
-
 	jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/Jump-1.ogg");
+	winFxId = app->audio->LoadFx("Assets/Audio/Fx/win.ogg");
 
 	return true;
 }
 
 bool Player::Update()
 {
+	if (isdead == true) {
+		app->audio->PlayFx(dieFxId);
+		position.x = parameters.attribute("x").as_int();
+		position.y = parameters.attribute("y").as_int();
 
-	// L07 DONE 5: Add physics to the player - updated player position using physics
+		b2Vec2 pos(position.x, position.y);
+		pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
+		isdead = false;
+	}
+	if (win == true) {
+		app->audio->PlayMusic("");
+		app->audio->PlayFx(winFxId);
+		app->scene->Disable();
+		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scenewin, 20);
+		app->render->camera.x = 0;
+	}
+	
+	if (godmode == true) {
+		pbody->body->SetActive(false);
+	}
+	else {
+		pbody->body->SetActive(true);
+	}
 
-	int speed = 4;
+
 	if (remainingJumps < 1) {
 		currentPlayerAnimation = &jump;
 	}
@@ -112,66 +135,86 @@ bool Player::Update()
 		currentPlayerAnimation = &iddle;
 	}
 	
-	//L02: DONE 4: modify the position of the player using arrow keys and render the texture
-
-	
-	if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
-		if (remainingJumps > 0) {
-			currentPlayerAnimation = &jump;
-			app->audio->PlayFx(jumpFxId);
-			float impulse = pbody->body->GetMass() * -8;
-			pbody->body->ApplyLinearImpulse(b2Vec2(0, impulse), pbody->body->GetWorldCenter(), false);
-			--remainingJumps;
+	//Movement of the player
+	if (godmode) {
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+			position.y -= 10;
+		}
+		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
+			position.y += 10;
+		}
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+			position.x -= 10;
+		}
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+			position.x += 10;
 		}
 	}
+	else {
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
+			if (remainingJumps > 0) {
+				currentPlayerAnimation = &jump;
+				app->audio->PlayFx(jumpFxId);
+				float impulse = pbody->body->GetMass() * -7;
+				pbody->body->ApplyLinearImpulse(b2Vec2(0, impulse), pbody->body->GetWorldCenter(), false);
+				--remainingJumps;
+			}
+		}
 
-	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		currentPlayerAnimation = &movementLeft;
-		moveState = MS_LEFT;
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+
+			currentPlayerAnimation = &movementLeft;
+			moveState = MS_LEFT;
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_UP) {
+			moveState = MS_STOP;
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+			currentPlayerAnimation = &movement;
+			moveState = MS_RIGHT;
+		}
+
+		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_UP) {
+			moveState = MS_STOP;
+		}
+		b2Vec2 vel = pbody->body->GetLinearVelocity();
+		float desiredVel = 0;
+		switch (moveState)
+		{
+		case MS_LEFT:  desiredVel = -7; break;
+		case MS_STOP:  desiredVel = 0; break;
+		case MS_RIGHT: desiredVel = 7; break;
+		}
+		float velChange = desiredVel - vel.x;
+		float impulse = pbody->body->GetMass() * velChange; //disregard time factor
+		pbody->body->ApplyLinearImpulse(b2Vec2(impulse, 0), pbody->body->GetWorldCenter(), true);
+		position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
+		position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 	}
+	//debug options
 
-	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_UP) {
-		moveState = MS_STOP;
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		currentPlayerAnimation = &movement;
-		moveState = MS_RIGHT;
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_UP) {
-		moveState = MS_STOP;
-	}
-
-	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN || app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
 		pbody->body->SetTransform(PIXEL_TO_METERS(INIT_POSITION), 0);
 	}
-
-
-	b2Vec2 vel = pbody->body->GetLinearVelocity();
-	float desiredVel = 0;
-	switch (moveState)
-	{
-	case MS_LEFT:  desiredVel = -7; break;
-	case MS_STOP:  desiredVel = 0; break;
-	case MS_RIGHT: desiredVel = 7; break;
+	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
+		godmode = !godmode;
 	}
-	float velChange = desiredVel - vel.x;
-	float impulse = pbody->body->GetMass() * velChange; //disregard time factor
-	pbody->body->ApplyLinearImpulse(b2Vec2(impulse, 0), pbody->body->GetWorldCenter(),true);
+	if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
+		win = true;
+	}
+	if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {
+		isdead = true;
+	}
+	
 	
 	//Update player position in pixels
-	position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
-	position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
+	
 
 	currentPlayerAnimation->Update();
 
-	if (isdead == true) {
-		return false;
-	}
-	if (win == true) {
-		return false;
-	}
+	
 
 	SDL_Rect rect = currentPlayerAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y, &rect);
@@ -201,7 +244,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision UNKNOWN");
 		break;
 	case ColliderType::DEATH:
-		app->audio->PlayFx(dieFxId);
 		LOG("Collision DEATH");
 		isdead = true;
 		break;
@@ -234,4 +276,11 @@ bool Player::SaveState(pugi::xml_node& data)
 	play.append_attribute("y") = position.y;
 
 	return true;
+}
+
+bool Player::GetWinState() {
+	return win;
+}
+bool Player::GetDeadState() {
+	return isdead;
 }

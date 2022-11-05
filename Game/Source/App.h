@@ -24,6 +24,7 @@ class Physics;
 class Animation;
 class FadeToBlack;
 class SceneIntro;
+class SceneWin;
 
 class App
 {
@@ -99,6 +100,7 @@ public:
 	//L07 DONE 2: Add Physics module
 	Physics* physics;
 	SceneIntro* intro;
+	SceneWin* scenewin;
 
 
 	Animation* animation;

@@ -11,6 +11,7 @@
 #include "Animation.h"
 #include "FadeToBlack.h"
 #include "SceneIntro.h"
+#include "SceneWin.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -35,6 +36,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	map = new Map(true);
 	fade = new FadeToBlack(true);
 	intro = new SceneIntro(true);
+	scenewin = new SceneWin(false);
 
 
 	// Ordered for awake / Start / Update
@@ -50,6 +52,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map);
 	AddModule(fade);
 	AddModule(intro);
+	AddModule(scenewin);
 	// Render last to swap buffer
 	AddModule(render);
 }

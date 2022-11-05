@@ -86,6 +86,7 @@ public:
 
 	b2World* world;
 	bool debug;
+	bool godmode;
 
 private:
 

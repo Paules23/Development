@@ -37,9 +37,11 @@ public:
 
 	bool LoadState(pugi::xml_node&);
 	bool SaveState(pugi::xml_node&);
+	bool GetWinState();
+	bool GetDeadState();
 
 public:
-
+	
 private:
 
 
@@ -56,10 +58,13 @@ private:
 
 	int remainingJumps;
 	int timerbetweenjumps;
-	bool isdead, win;
+	bool isdead;
+	bool win;
+	bool godmode;
 
 	int dieFxId;
 	int jumpFxId;
+	int winFxId;
 	Animation* currentPlayerAnimation;
 	Animation movement, jump, die, iddle, movementLeft;
 
