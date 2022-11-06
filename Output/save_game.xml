@@ -7,10 +7,11 @@
 	<:anonymous />
 	<scene />
 	<entitymanager>
-		<player x="160" y="452" />
+		<player x="63" y="515" />
 	</entitymanager>
 	<map />
 	<fade />
+	<:anonymous />
 	<:anonymous />
 	<renderer>
 		<camera x="0" y="0" />

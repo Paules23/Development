@@ -110,6 +110,7 @@ bool Player::Update()
 
 		b2Vec2 pos(position.x, position.y);
 		pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
+		app->render->camera.x = 0;
 		isdead = false;
 	}
 	if (win == true) {
@@ -151,7 +152,7 @@ bool Player::Update()
 		}
 	}
 	else {
-		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN) {
+		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 			if (remainingJumps > 0) {
 				currentPlayerAnimation = &jump;
 				app->audio->PlayFx(jumpFxId);
