@@ -1,29 +1,30 @@
-# {Project Name}
+# 2D Platformer - 1 d'Octubre Studios
 
 ## Description
 
-{project description}
+A simple platformer with levels created with Tiled. There is an animated characer moving 
+around while being able to save and load the game's state.
 
-## Key Features
-
- - {Feature01}
- - {Feature02}
- - {Feature03}
- - {Feature04}
- 
 ## Controls
 
- - {ControlsScheme}
+ - W - Left
+ - D - Right
+ - SPACE - Jump
+ - ESC - Quit
+ - F1/F2 - Start from the first/second level
+ - ESC - Quit
+ - F3 - Start from the beginning of the current level
+ - F5 - Save the current game state
+ - F6 - Load the previous state
+ - F9 - View colliders / logic
+ - F10 - God Mode
 
 ## Developers
 
- - {Dev01} - {Role(s)}
- - {Dev02} - {Role(s)}
- - {Dev03} - {Role(s)}
- - {Dev04} - {Role(s)}
+ - Pau Vivas Zamora
+ - Adrián Gonzalo Ponce Jara
 
 ## License
 
 This project is licensed under an unmodified MIT license, which is an OSI-certified license that allows static linking with closed source software. Check [LICENSE](LICENSE) for further details.
 
-{AdditionalLicenses}
