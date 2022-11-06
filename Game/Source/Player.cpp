@@ -119,7 +119,7 @@ bool Player::Update()
 		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scenewin, 20);
 		app->render->camera.x = 0;
 	}
-	
+
 	if (godmode == true) {
 		pbody->body->SetActive(false);
 	}
@@ -231,6 +231,9 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	// L07 DONE 7: Detect the type of collision
 
+	iPoint physbpos;
+	physB->GetPosition(physbpos.x, physbpos.y);
+
 	switch (physB->ctype)
 	{
 	case ColliderType::ITEM:
@@ -238,7 +241,9 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");
+		
 		remainingJumps = 2;
+		
 		break;
 	case ColliderType::UNKNOWN:
 		LOG("Collision UNKNOWN");

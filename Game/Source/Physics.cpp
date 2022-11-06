@@ -208,6 +208,8 @@ bool Physics::PostUpdate()
 		debug = !debug;
 	}
 
+	
+
 	// Bonus code: this will iterate all objects in the world and draw the circles
 	// You need to provide your own macro to translate meters to pixels
 	if (debug)
