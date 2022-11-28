@@ -127,8 +127,8 @@ bool Scene::Update(float dt)
 	if (app->render->camera.x > 0) {
 		app->render->camera.x = 0;
 	}
-	if (app->render->camera.x < -1020) {
-		app->render->camera.x = -1020;
+	if (app->render->camera.x < -2020) {
+		app->render->camera.x = -2020;
 	}
 
 	//camera update with the player

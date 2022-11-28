@@ -242,9 +242,6 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");
-		
-		remainingJumps = 2;
-		
 		break;
 	case ColliderType::UNKNOWN:
 		LOG("Collision UNKNOWN");
@@ -256,6 +253,10 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::WIN:
 		LOG("Collision DEATH");
 		win = true;
+		break;
+	case ColliderType::GROUND:
+		LOG("Collision DEATH");
+		remainingJumps = 2;
 		break;
 	}
 }
