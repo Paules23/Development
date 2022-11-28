@@ -123,23 +123,30 @@ bool Scene::Update(float dt)
 		app->render->camera.x -= 10;
 
 	//camera limits
-	app->render->camera.y = 0;
+	/*app->render->camera.y = 0;
 	if (app->render->camera.x > 0) {
 		app->render->camera.x = 0;
 	}
 	if (app->render->camera.x < -2020) {
 		app->render->camera.x = -2020;
-	}
+	}*/
 
 	//camera update with the player
-	if (player->position.x >= 954 && player->position.x < 964) {
+	/*if (player->position.x >= 954 && player->position.x < 964) {
 		app->render->camera.x = -954;
 
 	}
 	if (player->position.x <= 953 && player->position.x >= 943) {
 		app->render->camera.x = 0;
-	}
+	}*/
 	
+	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+		app->render->camera.x -= 3;
+	}
+	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+		app->render->camera.x += 3;
+	}
+
 	// Draw map
 	app->map->Draw();
 
