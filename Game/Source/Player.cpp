@@ -140,15 +140,19 @@ bool Player::Update()
 	if (godmode) {
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 			position.y -= 10;
+			app->scene->stopcamera = true;
 		}
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 			position.y += 10;
+			app->scene->stopcamera = true;
 		}
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 			position.x -= 10;
+			app->scene->stopcamera = true;
 		}
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 			position.x += 10;
+			app->scene->stopcamera = true;
 		}
 	}
 	else {
@@ -166,6 +170,7 @@ bool Player::Update()
 
 			currentPlayerAnimation = &movementLeft;
 			moveState = MS_LEFT;
+			app->scene->stopcamera = true;
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_UP) {
@@ -175,6 +180,7 @@ bool Player::Update()
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 			currentPlayerAnimation = &movement;
 			moveState = MS_RIGHT;
+			app->scene->stopcamera = true;
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_UP) {

@@ -85,7 +85,7 @@ bool Scene::Start()
 
 	app->win->SetTitle(title.GetString());
 
-	stopcamera = false;
+	stopcamera = true;
 
 	return true;
 }
@@ -110,26 +110,33 @@ bool Scene::Update(float dt)
 			app->render->camera.x = 0;
 		}
 	}
-	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
-		app->render->camera.y += 10;
+	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) {
+		app->render->camera.y += CAMERASPEED;
+		stopcamera = false;
+	}
+		
+	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) {
+		app->render->camera.y -= CAMERASPEED;
+		stopcamera = false;
+	}
+	if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
+		app->render->camera.x += CAMERASPEED;
+		stopcamera = false;
+	}
+	if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
+		app->render->camera.x -= CAMERASPEED;
+		stopcamera = false;
+	}
 
-	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		app->render->camera.y -= 10;
-
-	if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		app->render->camera.x += 10;
-
-	if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		app->render->camera.x -= 10;
 
 	//camera limits
-	/*app->render->camera.y = 0;
+	app->render->camera.y = 0;
 	if (app->render->camera.x > 0) {
 		app->render->camera.x = 0;
 	}
 	if (app->render->camera.x < -2020) {
 		app->render->camera.x = -2020;
-	}*/
+	}
 
 	//camera update with the player
 	/*if (player->position.x >= 954 && player->position.x < 964) {
@@ -140,12 +147,22 @@ bool Scene::Update(float dt)
 		app->render->camera.x = 0;
 	}*/
 	
-	if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		app->render->camera.x -= 3;
+	/*if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
+		app->render->camera.x -= CAMERASPEED;
 	}
 	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		app->render->camera.x += 3;
+		app->render->camera.x += CAMERASPEED;
+	}*/
+
+	if (player->position.x >= 2470 && stopcamera == true) {
+		app->render->camera.x = -2170;
 	}
+
+	if (player->position.x >= 300 && player->position.x < 2470 && stopcamera == true) {
+		app->render->camera.x = -player->position.x +300;
+	}
+
+	
 
 	// Draw map
 	app->map->Draw();
