@@ -390,7 +390,7 @@ void Map::LoadCollisionsFromTileId() {
                     iPoint pos = MapToWorld(x, y);
                     if (mapLayerItem->data->properties.GetProperty("Collision") != NULL && mapLayerItem->data->properties.GetProperty("Collision")->value == true) {
                         if (gid != NULL) {
-                            PhysBody* c1 = app->physics->CreateRectangle(pos.x + 16, pos.y + 18, 32, 30, STATIC);
+                            PhysBody* c1 = app->physics->CreateRectangle(pos.x + 16, pos.y + 16, 32, 32, STATIC);
                             mapColliders.Add(c1);
                             c1->ctype = ColliderType::PLATFORM;
                         }
@@ -411,7 +411,7 @@ void Map::LoadCollisionsFromTileId() {
                     }
                     if (mapLayerItem->data->properties.GetProperty("Platform") != NULL && mapLayerItem->data->properties.GetProperty("Platform")->value == true) {
                         if (gid != NULL) {
-                            PhysBody* c1 = app->physics->CreateRectangle(pos.x + 16, pos.y + 8, 32, 8, STATIC);
+                            PhysBody* c1 = app->physics->CreateRectangle(pos.x + 16, pos.y + 4, 32, 8, STATIC);
                             mapColliders.Add(c1);
                             c1->ctype = ColliderType::PLATFORM;
                         }
