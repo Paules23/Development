@@ -7,6 +7,9 @@
 
 struct SDL_Texture;
 
+
+#define CAMERASPEED 15
+
 class Scene : public Module
 {
 public:
@@ -38,10 +41,11 @@ public:
 
 	//L02: DONE 3: Declare a Player attribute 
 	Player* player;
+	bool stopcamera;
 
 private:
 	SDL_Texture* img;
-	bool stopcamera;
+	
 
 };
 
