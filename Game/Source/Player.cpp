@@ -9,6 +9,7 @@
 #include "Point.h"
 #include "Physics.h"
 #include "FadeToBlack.h"
+#include "Scene.h"
 
 Player::Player() : Entity(EntityType::PLAYER)
 {
@@ -80,7 +81,6 @@ bool Player::Start() {
 	texturePath = parameters.attribute("texturepath").as_string();
 	isdead = false;
 	win = false;
-	godmode = false;
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 
@@ -103,6 +103,8 @@ bool Player::Start() {
 
 bool Player::Update()
 {
+
+	//win and death conditions
 	if (isdead == true) {
 		app->audio->PlayFx(dieFxId);
 		position.x = parameters.attribute("x").as_int();
@@ -120,47 +122,50 @@ bool Player::Update()
 		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scenewin, 20);
 		app->render->camera.x = 0;
 	}
-
-	if (godmode == true) {
-		pbody->body->SetActive(false);
-	}
-	else {
-		pbody->body->SetActive(true);
-	}
-
-
+	//Movement and jump of the player
 	if (remainingJumps < 1) {
 		currentPlayerAnimation = &jump;
 	}
 	else {
 		currentPlayerAnimation = &iddle;
 	}
-	
-	//Movement of the player
-	if (godmode) {
-		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
-			position.y -= 10;
-			app->scene->stopcamera = true;
-		}
+	if (app->scene->godmode) {
+		b2Vec2 vel(0, 0);
+		pbody->body->SetGravityScale(0);
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
-			position.y += 10;
+			currentPlayerAnimation = &iddle;
+			vel.y = GODMODESPEED;
 			app->scene->stopcamera = true;
 		}
-		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-			position.x -= 10;
+		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
+			currentPlayerAnimation = &iddle;
+			vel.y = -GODMODESPEED;
 			app->scene->stopcamera = true;
 		}
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-			position.x += 10;
+
+			currentPlayerAnimation = &movement;
+			vel.x = GODMODESPEED;
 			app->scene->stopcamera = true;
 		}
+		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
+			currentPlayerAnimation = &movementLeft;
+			vel.x = -GODMODESPEED;
+			app->scene->stopcamera = true;
+		}
+		pbody->body->SetLinearVelocity(vel);
+		position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
+		position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 	}
 	else {
+		pbody->body->SetGravityScale(1);
 		if (app->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) {
 			if (remainingJumps > 0) {
+				b2Vec2 xd(pbody->body->GetLinearVelocity().x, 0);
+				pbody->body->SetLinearVelocity(xd);
 				currentPlayerAnimation = &jump;
 				app->audio->PlayFx(jumpFxId);
-				float impulse = pbody->body->GetMass() * -7;
+				float impulse = pbody->body->GetMass() * JUMPIMPULSE;
 				pbody->body->ApplyLinearImpulse(b2Vec2(0, impulse), pbody->body->GetWorldCenter(), false);
 				--remainingJumps;
 			}
@@ -187,26 +192,27 @@ bool Player::Update()
 			moveState = MS_STOP;
 		}
 		b2Vec2 vel = pbody->body->GetLinearVelocity();
-		float desiredVel = 0;
+		float desiredVelx = 0;
+		float desiredVely = 0;
 		switch (moveState)
 		{
-		case MS_LEFT:  desiredVel = -7; break;
-		case MS_STOP:  desiredVel = 0; break;
-		case MS_RIGHT: desiredVel = 7; break;
+		case MS_LEFT:  desiredVelx = -7; break;
+		case MS_STOP:  desiredVelx = 0; desiredVely = 0; break;
+		case MS_RIGHT: desiredVelx = 7; break;
 		}
-		float velChange = desiredVel - vel.x;
-		float impulse = pbody->body->GetMass() * velChange; //disregard time factor
-		pbody->body->ApplyLinearImpulse(b2Vec2(impulse, 0), pbody->body->GetWorldCenter(), true);
+		float velChangex = desiredVelx - vel.x;
+		float impulsex = pbody->body->GetMass() * velChangex; //disregard time factor
+		pbody->body->ApplyLinearImpulse(b2Vec2(impulsex, 0), pbody->body->GetWorldCenter(), true);
 		position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 		position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 	}
-	//debug options
 
+	//debug options
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN || app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
 		pbody->body->SetTransform(PIXEL_TO_METERS(INIT_POSITION), 0);
 	}
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
-		godmode = !godmode;
+		app->scene->godmode = !app->scene->godmode;
 	}
 	if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
 		win = true;
@@ -217,8 +223,6 @@ bool Player::Update()
 	
 	
 	//Update player position in pixels
-	
-
 	currentPlayerAnimation->Update();
 
 	
@@ -257,11 +261,11 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		isdead = true;
 		break;
 	case ColliderType::WIN:
-		LOG("Collision DEATH");
+		LOG("Collision WIN");
 		win = true;
 		break;
 	case ColliderType::GROUND:
-		LOG("Collision DEATH");
+		LOG("Collision JUMPS RESTORED");
 		remainingJumps = 2;
 		break;
 	}

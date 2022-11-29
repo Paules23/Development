@@ -6,7 +6,8 @@
 #include "SDL/include/SDL.h"
 #include "Animation.h"
 
-
+#define JUMPIMPULSE -9
+#define GODMODESPEED 10
 
 
 struct SDL_Texture;
@@ -60,7 +61,7 @@ private:
 	int timerbetweenjumps;
 	bool isdead;
 	bool win;
-	bool godmode;
+
 
 	int dieFxId;
 	int jumpFxId;

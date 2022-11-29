@@ -66,9 +66,7 @@ bool Scene::Start()
 	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 	player->parameters = app->LoadConfig2().child("scene").child("player");
 	app->entityManager->Enable();
-	
-
-	
+	godmode = false;	
 
 	app->audio->PlayMusic("Assets/Audio/Music/song.ogg");
 		
@@ -160,6 +158,22 @@ bool Scene::Update(float dt)
 
 	if (player->position.x >= 300 && player->position.x < 2470 && stopcamera == true) {
 		app->render->camera.x = -player->position.x +300;
+	}
+
+
+	//godmode
+	ListItem<PhysBody*>* colliderItem;
+	colliderItem = app->map->mapColliders.start;
+	while (colliderItem != NULL)
+	{
+		if (godmode) {
+			colliderItem->data->body->SetActive(false);
+
+		}
+		else {
+			colliderItem->data->body->SetActive(true);
+		}
+		colliderItem = colliderItem->next;
 	}
 
 	
