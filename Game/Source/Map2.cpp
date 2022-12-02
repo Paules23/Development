@@ -28,6 +28,7 @@ bool Map2::Awake(pugi::xml_node& config)
     map2FileName = config.child("mapfile").attribute("path").as_string();
     map2Folder = config.child("mapfolder").attribute("path").as_string();
 
+
     return ret;
 }
 
