@@ -34,5 +34,10 @@
     <mapfolder path="Assets/Maps/"/>
     <mapfile path="Assets/Maps/MapTemplate.tmx"/>
   </map>
+
+  <map2>
+	<mapfolder path="Assets/Maps/"/>
+	<mapfile path="Assets/Maps/MapTemplate2.tmx"/>
+  </map2>
   
 </config>

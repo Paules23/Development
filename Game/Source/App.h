@@ -17,8 +17,10 @@ class Render;
 class Textures;
 class Audio;
 class Scene;
+class Scene2;
 class EntityManager;
 class Map;
+class Map2;
 //L07 DONE 2: Add Physics module
 class Physics;
 class Animation;
@@ -94,8 +96,10 @@ public:
 	Textures* tex;
 	Audio* audio;
 	Scene* scene;
+	Scene2* scene2;
 	EntityManager* entityManager;
 	Map* map;
+	Map2* map2;
 	FadeToBlack* fade;
 	//L07 DONE 2: Add Physics module
 	Physics* physics;

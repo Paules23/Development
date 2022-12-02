@@ -1,7 +1,7 @@
 #include "App.h"
 #include "Render.h"
 #include "Textures.h"
-#include "Map.h"
+#include "Map2.h"
 #include "Physics.h"
 
 #include "Defs.h"
@@ -10,34 +10,34 @@
 #include <math.h>
 #include "SDL_image/include/SDL_image.h"
 
-Map::Map(bool startEnabled) : Module(startEnabled), mapLoaded(false)
+Map2::Map2(bool startEnabled) : Module(startEnabled), mapLoaded(false)
 {
-    name.Create("map");
+    name.Create("map2");
 }
 
 // Destructor
-Map::~Map()
+Map2::~Map2()
 {}
 
 // Called before render is available
-bool Map::Awake(pugi::xml_node& config)
+bool Map2::Awake(pugi::xml_node& config)
 {
-    LOG("Loading Map Parser");
+    LOG("Loading Map2 Parser");
     bool ret = true;
 
-    mapFileName = config.child("mapfile").attribute("path").as_string();
-    mapFolder = config.child("mapfolder").attribute("path").as_string();
+    map2FileName = config.child("mapfile").attribute("path").as_string();
+    map2Folder = config.child("mapfolder").attribute("path").as_string();
 
     return ret;
 }
 
-void Map::Draw()
+void Map2::Draw()
 {
-    if(mapLoaded == false)
+    if (mapLoaded == false)
         return;
 
     /*
-    // L04: DONE 6: Iterate all tilesets and draw all their 
+    // L04: DONE 6: Iterate all tilesets and draw all their
     // images in 0,0 (you should have only one tileset for now)
 
     ListItem<TileSet*>* tileset;
@@ -85,7 +85,7 @@ void Map::Draw()
 }
 
 // L05: DONE 8: Create a method that translates x,y coordinates from map positions to world positions
-iPoint Map::MapToWorld(int x, int y) const
+iPoint Map2::MapToWorld(int x, int y) const
 {
     iPoint ret;
 
@@ -95,24 +95,8 @@ iPoint Map::MapToWorld(int x, int y) const
     return ret;
 }
 
-// Get relative Tile rectangle
-SDL_Rect TileSet::GetTileRect(int gid) const
-{
-    SDL_Rect rect = { 0 };
-    int relativeIndex = gid - firstgid;
-
-    // L05: DONE 7: Get relative Tile rectangle
-    rect.w = tileWidth;
-    rect.h = tileHeight;
-    rect.x = margin + (tileWidth + spacing) * (relativeIndex % columns);
-    rect.y = margin + (tileWidth + spacing) * (relativeIndex / columns);
-
-    return rect;
-}
-
-
 // L06: DONE 2: Pick the right Tileset based on a tile id
-TileSet* Map::GetTilesetFromTileId(int gid) const
+TileSet* Map2::GetTilesetFromTileId(int gid) const
 {
     ListItem<TileSet*>* item = mapData.tilesets.start;
     TileSet* set = NULL;
@@ -131,20 +115,20 @@ TileSet* Map::GetTilesetFromTileId(int gid) const
 }
 
 // Called before quitting
-bool Map::CleanUp()
+bool Map2::CleanUp()
 {
     LOG("Unloading map");
 
     // L04: DONE 2: Make sure you clean up any memory allocated from tilesets/map
-	ListItem<TileSet*>* item;
-	item = mapData.tilesets.start;
+    ListItem<TileSet*>* item;
+    item = mapData.tilesets.start;
 
-	while (item != NULL)
-	{
-		RELEASE(item->data);
-		item = item->next;
-	}
-	mapData.tilesets.Clear();
+    while (item != NULL)
+    {
+        RELEASE(item->data);
+        item = item->next;
+    }
+    mapData.tilesets.Clear();
 
     // L05: DONE 2: clean up all layer data
     // Remove all layers
@@ -161,20 +145,20 @@ bool Map::CleanUp()
 }
 
 // Load new map
-bool Map::Load()
+bool Map2::Load()
 {
     bool ret = true;
 
     pugi::xml_document mapFileXML;
-    pugi::xml_parse_result result = mapFileXML.load_file(mapFileName.GetString());
+    pugi::xml_parse_result result = mapFileXML.load_file(map2FileName.GetString());
 
-    if(result == NULL)
+    if (result == NULL)
     {
-        LOG("Could not load map xml file %s. pugi error: %s", mapFileName, result.description());
+        LOG("Could not load map xml file %s. pugi error: %s", map2FileName, result.description());
         ret = false;
     }
 
-    if(ret == true)
+    if (ret == true)
     {
         ret = LoadMap(mapFileXML);
     }
@@ -189,30 +173,30 @@ bool Map::Load()
     {
         ret = LoadAllLayers(mapFileXML.child("map"));
     }
-    
+
     // L07 DONE 3: Create colliders
     // Later you can create a function here to load and create the colliders from the map
     if (ret == true) {
         LoadCollisionsFromTileId();
     }
-   
+    
 
 
-    if(ret == true)
+    if (ret == true)
     {
         // L04: DONE 5: LOG all the data loaded iterate all tilesets and LOG everything
-       
-        LOG("Successfully parsed map XML file :%s", mapFileName.GetString());
-        LOG("width : %d height : %d",mapData.width,mapData.height);
-        LOG("tile_width : %d tile_height : %d",mapData.tileWidth, mapData.tileHeight);
-        
+
+        LOG("Successfully parsed map XML file :%s", map2FileName.GetString());
+        LOG("width : %d height : %d", mapData.width, mapData.height);
+        LOG("tile_width : %d tile_height : %d", mapData.tileWidth, mapData.tileHeight);
+
         LOG("Tilesets----");
 
         ListItem<TileSet*>* tileset;
         tileset = mapData.tilesets.start;
 
         while (tileset != NULL) {
-            LOG("name : %s firstgid : %d",tileset->data->name.GetString(), tileset->data->firstgid);
+            LOG("name : %s firstgid : %d", tileset->data->name.GetString(), tileset->data->firstgid);
             LOG("tile width : %d tile height : %d", tileset->data->tileWidth, tileset->data->tileHeight);
             LOG("spacing : %d margin : %d", tileset->data->spacing, tileset->data->margin);
             tileset = tileset->next;
@@ -229,7 +213,7 @@ bool Map::Load()
         }
     }
 
-    if(mapFileXML) mapFileXML.reset();
+    if (mapFileXML) mapFileXML.reset();
 
     mapLoaded = ret;
 
@@ -237,7 +221,7 @@ bool Map::Load()
 }
 
 // L04: DONE 3: Implement LoadMap to load the map properties
-bool Map::LoadMap(pugi::xml_node mapFile)
+bool Map2::LoadMap(pugi::xml_node mapFile)
 {
     bool ret = true;
     pugi::xml_node map = mapFile.child("map");
@@ -260,9 +244,9 @@ bool Map::LoadMap(pugi::xml_node mapFile)
 }
 
 // L04: DONE 4: Implement the LoadTileSet function to load the tileset properties
-bool Map::LoadTileSet(pugi::xml_node mapFile){
+bool Map2::LoadTileSet(pugi::xml_node mapFile) {
 
-    bool ret = true; 
+    bool ret = true;
 
     pugi::xml_node tileset;
     for (tileset = mapFile.child("map").child("tileset"); tileset && ret; tileset = tileset.next_sibling("tileset"))
@@ -280,7 +264,7 @@ bool Map::LoadTileSet(pugi::xml_node mapFile){
         set->tilecount = tileset.attribute("tilecount").as_int();
 
         // L04: DONE 4: Load Tileset image
-        SString tmp("%s%s", mapFolder.GetString(), tileset.child("image").attribute("source").as_string());
+        SString tmp("%s%s", map2Folder.GetString(), tileset.child("image").attribute("source").as_string());
         set->texture = app->tex->Load(tmp.GetString());
 
         mapData.tilesets.Add(set);
@@ -290,7 +274,7 @@ bool Map::LoadTileSet(pugi::xml_node mapFile){
 }
 
 // L05: DONE 3: Implement a function that loads a single layer layer
-bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
+bool Map2::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 {
     bool ret = true;
 
@@ -320,7 +304,7 @@ bool Map::LoadLayer(pugi::xml_node& node, MapLayer* layer)
 }
 
 // L05: DONE 4: Iterate all layers and load each of them
-bool Map::LoadAllLayers(pugi::xml_node mapNode) {
+bool Map2::LoadAllLayers(pugi::xml_node mapNode) {
     bool ret = true;
 
     for (pugi::xml_node layerNode = mapNode.child("layer"); layerNode && ret; layerNode = layerNode.next_sibling("layer"))
@@ -337,7 +321,7 @@ bool Map::LoadAllLayers(pugi::xml_node mapNode) {
 }
 
 // L06: DONE 6: Load a group of properties from a node and fill a list with it
-bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
+bool Map2::LoadProperties(pugi::xml_node& node, Properties& properties)
 {
     bool ret = false;
 
@@ -353,26 +337,7 @@ bool Map::LoadProperties(pugi::xml_node& node, Properties& properties)
     return ret;
 }
 
-
-// L06: DONE 7: Ask for the value of a custom property
-Properties::Property* Properties::GetProperty(const char* name)
-{
-    ListItem<Property*>* item = list.start;
-    Property* p = NULL;
-
-    while (item)
-    {
-        if (item->data->name == name) {
-            p = item->data;
-            break;
-        }
-        item = item->next;
-    }
-
-    return p;
-}
-
-void Map::LoadCollisionsFromTileId() {
+void Map2::LoadCollisionsFromTileId() {
 
     ListItem<MapLayer*>* mapLayerItem;
     mapLayerItem = mapData.maplayers.start;
@@ -380,52 +345,52 @@ void Map::LoadCollisionsFromTileId() {
     ListItem<TileSet*>* mapTiles;
 
     while (mapLayerItem != NULL) {
-       
-            for (int x = 0; x < mapLayerItem->data->width; x++)
+
+        for (int x = 0; x < mapLayerItem->data->width; x++)
+        {
+            for (int y = 0; y < mapLayerItem->data->height; y++)
             {
-                for (int y = 0; y < mapLayerItem->data->height; y++)
-                {
-                    int gid = mapLayerItem->data->Get(x, y);
-                    TileSet* tileset = GetTilesetFromTileId(gid);
-                    SDL_Rect r = tileset->GetTileRect(gid);
-                    iPoint pos = MapToWorld(x, y);
-                    if (mapLayerItem->data->properties.GetProperty("Collision") != NULL && mapLayerItem->data->properties.GetProperty("Collision")->value == true) {
-                        if (gid != NULL) {
-                            PhysBody* c1 = app->physics->CreateRectangle(pos.x + 16, pos.y + 16, 32, 32, STATIC);
-                            mapColliders.Add(c1);
-                            c1->ctype = ColliderType::PLATFORM;
-                        }
+                int gid = mapLayerItem->data->Get(x, y);
+                TileSet* tileset = GetTilesetFromTileId(gid);
+                SDL_Rect r = tileset->GetTileRect(gid);
+                iPoint pos = MapToWorld(x, y);
+                if (mapLayerItem->data->properties.GetProperty("Collision") != NULL && mapLayerItem->data->properties.GetProperty("Collision")->value == true) {
+                    if (gid != NULL) {
+                        PhysBody* c1 = app->physics->CreateRectangle(pos.x + 16, pos.y + 16, 32, 32, STATIC);
+                        mapColliders.Add(c1);
+                        c1->ctype = ColliderType::PLATFORM;
                     }
-                    if (mapLayerItem->data->properties.GetProperty("Death") != NULL && mapLayerItem->data->properties.GetProperty("Death")->value == true) { 
-                        if (gid != NULL) {
-                            PhysBody* c1 = app->physics->CreateRectangleSensor(pos.x + 16, pos.y + 16, 32, 32, STATIC);
-                            mapColliders.Add(c1);
-                            c1->ctype = ColliderType::DEATH;
-                        }
+                }
+                if (mapLayerItem->data->properties.GetProperty("Death") != NULL && mapLayerItem->data->properties.GetProperty("Death")->value == true) {
+                    if (gid != NULL) {
+                        PhysBody* c1 = app->physics->CreateRectangleSensor(pos.x + 16, pos.y + 16, 32, 32, STATIC);
+                        mapColliders.Add(c1);
+                        c1->ctype = ColliderType::DEATH;
                     }
-                    if (mapLayerItem->data->properties.GetProperty("Win") != NULL && mapLayerItem->data->properties.GetProperty("Win")->value == true) {  
-                        if (gid != NULL) {
-                            PhysBody* c1 = app->physics->CreateRectangleSensor(pos.x + 16, pos.y + 16, 32, 32, STATIC);
-                            mapColliders.Add(c1);
-                            c1->ctype = ColliderType::WIN;
-                        }
+                }
+                if (mapLayerItem->data->properties.GetProperty("Win") != NULL && mapLayerItem->data->properties.GetProperty("Win")->value == true) {
+                    if (gid != NULL) {
+                        PhysBody* c1 = app->physics->CreateRectangleSensor(pos.x + 16, pos.y + 16, 32, 32, STATIC);
+                        mapColliders.Add(c1);
+                        c1->ctype = ColliderType::WIN;
                     }
-                    if (mapLayerItem->data->properties.GetProperty("Platform") != NULL && mapLayerItem->data->properties.GetProperty("Platform")->value == true) {
-                        if (gid != NULL) {
-                            PhysBody* c1 = app->physics->CreateRectangle(pos.x + 16, pos.y + 4, 32, 8, STATIC);
-                            mapColliders.Add(c1);
-                            c1->ctype = ColliderType::PLATFORM;
-                        }
+                }
+                if (mapLayerItem->data->properties.GetProperty("Platform") != NULL && mapLayerItem->data->properties.GetProperty("Platform")->value == true) {
+                    if (gid != NULL) {
+                        PhysBody* c1 = app->physics->CreateRectangle(pos.x + 16, pos.y + 4, 32, 8, STATIC);
+                        mapColliders.Add(c1);
+                        c1->ctype = ColliderType::PLATFORM;
                     }
-                    if (mapLayerItem->data->properties.GetProperty("Jump") != NULL && mapLayerItem->data->properties.GetProperty("Jump")->value == true) {
-                        if (gid != NULL) {
-                            PhysBody* c1 = app->physics->CreateRectangleSensor(pos.x + 16, pos.y, 32, 1, STATIC);
-                            mapColliders.Add(c1);
-                            c1->ctype = ColliderType::GROUND;
-                        }
+                }
+                if (mapLayerItem->data->properties.GetProperty("Jump") != NULL && mapLayerItem->data->properties.GetProperty("Jump")->value == true) {
+                    if (gid != NULL) {
+                        PhysBody* c1 = app->physics->CreateRectangleSensor(pos.x + 16, pos.y, 32, 1, STATIC);
+                        mapColliders.Add(c1);
+                        c1->ctype = ColliderType::GROUND;
                     }
                 }
             }
+        }
         mapLayerItem = mapLayerItem->next;
     }
 }

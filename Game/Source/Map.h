@@ -5,6 +5,7 @@
 #include "List.h"
 #include "Point.h"
 
+
 #include "PugiXml\src\pugixml.hpp"
 
 // L04: DONE 2: Create a struct to hold information for a TileSet
@@ -162,6 +163,8 @@ private:
 
     SString mapFileName;
 	SString mapFolder;
+
+
     bool mapLoaded;
 };
 

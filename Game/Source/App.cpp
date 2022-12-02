@@ -5,8 +5,10 @@
 #include "Textures.h"
 #include "Audio.h"
 #include "Scene.h"
+#include "Scene2.h"
 #include "EntityManager.h"
 #include "Map.h"
+#include "Map2.h"
 #include "Physics.h"
 #include "Animation.h"
 #include "FadeToBlack.h"
@@ -32,8 +34,10 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	//L07 DONE 2: Add Physics module
 	physics = new Physics(true);
 	scene = new Scene(false);
+	scene2 = new Scene2(false);
 	entityManager = new EntityManager(false);
-	map = new Map(true);
+	map = new Map(false);
+	map2 = new Map2(true);
 	fade = new FadeToBlack(true);
 	intro = new SceneIntro(true);
 	scenewin = new SceneWin(false);
@@ -48,8 +52,10 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	//L07 DONE 2: Add Physics module
 	AddModule(physics);
 	AddModule(scene);
+	AddModule(scene2);
 	AddModule(entityManager);
 	AddModule(map);
+	AddModule(map2);
 	AddModule(fade);
 	AddModule(intro);
 	AddModule(scenewin);
