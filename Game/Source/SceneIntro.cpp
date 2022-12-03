@@ -37,7 +37,7 @@ bool SceneIntro::Update(float dt)
 	bool ret = true;
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) {
 		app->audio->PlayFx(entersound);
-		app->fade->FadeToBlack1(this, (Module*)app->scene2, 20);
+		app->fade->FadeToBlack1(this, (Module*)app->scene, 20);
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {

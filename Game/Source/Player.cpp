@@ -10,6 +10,8 @@
 #include "Physics.h"
 #include "FadeToBlack.h"
 #include "Scene.h"
+#include "Map.h"
+#include "Map2.h"
 
 Player::Player() : Entity(EntityType::PLAYER)
 {
@@ -119,7 +121,9 @@ bool Player::Update()
 		app->audio->PlayMusic("");
 		app->audio->PlayFx(winFxId);
 		app->scene->Disable();
-		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scenewin, 20);
+		app->map->Disable();
+		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scene2, 20);
+		app->map2->Enable();
 		app->render->camera.x = 0;
 	}
 	//Movement and jump of the player
