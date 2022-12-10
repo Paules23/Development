@@ -36,8 +36,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new Scene(false);
 	scene2 = new Scene2(false);
 	entityManager = new EntityManager(false);
-	map = new Map(false);
-	map2 = new Map2(true);
+	map = new Map(true);
+	map2 = new Map2(false);
 	fade = new FadeToBlack(true);
 	intro = new SceneIntro(true);
 	scenewin = new SceneWin(false);
