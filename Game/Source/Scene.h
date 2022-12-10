@@ -43,6 +43,7 @@ public:
 	Player* player;
 	bool stopcamera;
 	bool godmode;
+	bool level1;
 
 private:
 	SDL_Texture* img;

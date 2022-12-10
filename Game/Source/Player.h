@@ -10,6 +10,7 @@
 #define GODMODESPEED 10
 
 
+
 struct SDL_Texture;
 
 enum _moveState {

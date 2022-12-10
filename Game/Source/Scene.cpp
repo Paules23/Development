@@ -9,6 +9,9 @@
 #include "Entity.h"
 #include "Map.h"
 #include "Physics.h"
+#include "FadeToBlack.h"
+#include "Map2.h"
+#include "Scene2.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -43,6 +46,7 @@ bool Scene::Awake(pugi::xml_node& config)
 
 	//app->entityManager->Enable();
 	//app->map->Enable();
+	level1 = true;
 	
 
 	return true;
@@ -84,6 +88,7 @@ bool Scene::Start()
 	app->win->SetTitle(title.GetString());
 
 	stopcamera = true;
+	level1 = true;
 
 	return true;
 }
@@ -97,6 +102,17 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
+
+	if (player->GetWinState() == true) {
+		app->map->Disable();
+		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scene2, 20);
+		app->map2->Enable();
+		app->scene->Disable();
+		app->render->camera.x = 0;
+		level1 = false;
+		app->scene2->level2 = true;
+	}
+
 	// L03: DONE 3: Request App to Load / Save when pressing the keys F5 (save) / F6 (load)
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		app->SaveGameRequest();
@@ -179,8 +195,10 @@ bool Scene::Update(float dt)
 	
 
 	// Draw map
-	app->map->Draw();
-
+	if (level1) {
+		app->map->Draw();
+	}
+	
 	return true;
 }
 

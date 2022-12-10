@@ -157,6 +157,18 @@ bool Map::CleanUp()
         layerItem = layerItem->next;
     }
 
+    ListItem<PhysBody*>* collisions;
+    collisions = mapColliders.start;
+
+    while (collisions != NULL)
+    {
+        collisions->data->body->GetWorld()->DestroyBody(collisions->data->body);
+        RELEASE(collisions->data);
+        collisions = collisions->next;
+    }
+    mapColliders.Clear();
+  
+
     return true;
 }
 

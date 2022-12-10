@@ -8,10 +8,8 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
-#include "FadeToBlack.h"
-#include "Scene.h"
-#include "Map.h"
-#include "Map2.h"
+#include "Scene2.h"
+
 
 Player::Player() : Entity(EntityType::PLAYER)
 {
@@ -78,8 +76,14 @@ bool Player::Awake() {
 }
 
 bool Player::Start() {
-	position.x = parameters.attribute("x").as_int();
-	position.y = parameters.attribute("y").as_int();
+	if (app->scene->level1) {
+		position.x = parameters.attribute("x1").as_int();
+		position.y = parameters.attribute("y1").as_int();
+	}
+	if (app->scene2->level2) {
+		position.x = parameters.attribute("x2").as_int();
+		position.y = parameters.attribute("y2").as_int();
+	}
 	texturePath = parameters.attribute("texturepath").as_string();
 	isdead = false;
 	win = false;
@@ -120,11 +124,6 @@ bool Player::Update()
 	if (win == true) {
 		app->audio->PlayMusic("");
 		app->audio->PlayFx(winFxId);
-		app->scene->Disable();
-		app->map->Disable();
-		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scene2, 20);
-		app->map2->Enable();
-		app->render->camera.x = 0;
 	}
 	//Movement and jump of the player
 	if (remainingJumps < 1) {
@@ -238,7 +237,8 @@ bool Player::Update()
 
 bool Player::CleanUp()
 {
-
+	pbody->body->GetWorld()->DestroyBody(pbody->body);
+	pbody = NULL;
 	return true;
 }
 

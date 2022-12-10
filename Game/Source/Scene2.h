@@ -9,6 +9,8 @@ struct SDL_Texture;
 
 
 #define CAMERASPEED 15
+#define LEVEL2PLAYERX 70
+#define LEVEL2PLAYERY 200
 
 class Scene2 : public Module
 {
@@ -43,6 +45,7 @@ public:
 	Player* player;
 	bool stopcamera;
 	bool godmode;
+	bool level2;
 
 private:
 	SDL_Texture* img;
