@@ -27,6 +27,7 @@ bool SceneWin::Start()
 	bool ret = true;
 	texturepath = app->LoadConfig2().child("sceneWin").attribute("texturepath").as_string();
 	winTexture = app->tex->Load(texturepath);
+	app->render->camera.x = 0;
 
 	return ret;
 }

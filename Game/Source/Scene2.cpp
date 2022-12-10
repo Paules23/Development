@@ -86,6 +86,7 @@ bool Scene2::Start()
 
 	stopcamera = true;
 	level2 = true;
+	app->render->camera.x = 0;
 
 	return true;
 }
@@ -141,31 +142,17 @@ bool Scene2::Update(float dt)
 	if (app->render->camera.x > 0) {
 		app->render->camera.x = 0;
 	}
-	if (app->render->camera.x < -2020) {
-		app->render->camera.x = -2020;
+	if (app->render->camera.x < -3340) {
+		app->render->camera.x = -3340;
 	}
 
-	//camera update with the player
-	/*if (player->position.x >= 954 && player->position.x < 964) {
-		app->render->camera.x = -954;
 
-	}
-	if (player->position.x <= 953 && player->position.x >= 943) {
-		app->render->camera.x = 0;
-	}*/
 
-	/*if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
-		app->render->camera.x -= CAMERASPEED;
-	}
-	if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
-		app->render->camera.x += CAMERASPEED;
-	}*/
-
-	if (player->position.x >= 2470 && stopcamera == true) {
-		app->render->camera.x = -2170;
+	if (player->position.x >= 3340 && stopcamera == true) {
+		app->render->camera.x = -3040;
 	}
 
-	if (player->position.x >= 300 && player->position.x < 2470 && stopcamera == true) {
+	if (player->position.x >= 300 && player->position.x < 3340 && stopcamera == true) {
 		app->render->camera.x = -player->position.x + 300;
 	}
 

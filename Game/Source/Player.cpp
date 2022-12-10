@@ -113,8 +113,14 @@ bool Player::Update()
 	//win and death conditions
 	if (isdead == true) {
 		app->audio->PlayFx(dieFxId);
-		position.x = parameters.attribute("x").as_int();
-		position.y = parameters.attribute("y").as_int();
+		if (app->scene->level1) {
+			position.x = parameters.attribute("x1").as_int();
+			position.y = parameters.attribute("y1").as_int();
+		}
+		if (app->scene2->level2) {
+			position.x = parameters.attribute("x2").as_int();
+			position.y = parameters.attribute("y2").as_int();
+		}
 
 		b2Vec2 pos(position.x, position.y);
 		pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
@@ -278,8 +284,14 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 bool Player::LoadState(pugi::xml_node& data)
 {
-	position.x = data.child("player").attribute("x").as_int();
-	position.y = data.child("player").attribute("y").as_int();
+	if (app->scene->level1) {
+		position.x = parameters.attribute("x1").as_int();
+		position.y = parameters.attribute("y1").as_int();
+	}
+	if (app->scene2->level2) {
+		position.x = parameters.attribute("x2").as_int();
+		position.y = parameters.attribute("y2").as_int();
+	}
 
 	b2Vec2 pos (position.x, position.y);
 	pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
@@ -293,8 +305,14 @@ bool Player::SaveState(pugi::xml_node& data)
 {
 	pugi::xml_node play = data.append_child("player");
 
-	play.append_attribute("x") = position.x;
-	play.append_attribute("y") = position.y;
+	if (app->scene->level1) {
+		play.append_attribute("x1") = position.x;
+		play.append_attribute("y1") = position.y;
+	}
+	if (app->scene2->level2) {
+		play.append_attribute("x2") = position.x;
+		play.append_attribute("y2") = position.y;
+	}
 
 	return true;
 }
