@@ -23,6 +23,7 @@ class Map;
 class Map2;
 //L07 DONE 2: Add Physics module
 class Physics;
+class PathFinding;
 class Animation;
 class FadeToBlack;
 class SceneIntro;
@@ -103,6 +104,7 @@ public:
 	FadeToBlack* fade;
 	//L07 DONE 2: Add Physics module
 	Physics* physics;
+	PathFinding* pathfinding;
 	SceneIntro* intro;
 	SceneWin* scenewin;
 
