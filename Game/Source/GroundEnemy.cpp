@@ -13,12 +13,11 @@
 
 GroundEnemy::GroundEnemy() : Entity(EntityType::GROUND_ENEMY)
 {
-	iddle.PushBack({ 4,4,15,17 });
-	iddle.PushBack({ 28,4,15,17 });
-	iddle.PushBack({ 52,5,15,16 });
-	iddle.PushBack({ 76,4,15,17 });
+	iddle.PushBack({ 8,7,30,34 });
+	iddle.PushBack({ 55,8,30,34 });
+	iddle.PushBack({ 104,10,30,34 });
+	iddle.PushBack({ 152,8,30,34 });
 	iddle.speed = 0.1f;
-	iddle.loop = true;
 
 
 
@@ -70,6 +69,9 @@ bool GroundEnemy::Update()
 	//enemy movement no pathfinding
 	b2Vec2 vel(0, 0);
 	ebody->body->SetGravityScale(1);
+
+	
+
 	if (dead == false) {
 		if (left) {
 			vel.x = 2;
