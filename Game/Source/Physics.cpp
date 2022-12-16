@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "Render.h"
 #include "Player.h"
+#include "GroundEnemy.h"
 #include "Window.h"
 #include "Box2D/Box2D/Box2D.h"
 

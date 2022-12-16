@@ -36,12 +36,12 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	physics = new Physics(true);
 	pathfinding = new PathFinding(true);
 	scene = new Scene(false);
-	scene2 = new Scene2(false);
-	entityManager = new EntityManager(false);
-	map = new Map(true);
-	map2 = new Map2(false);
+	scene2 = new Scene2(true);
+	entityManager = new EntityManager(true);
+	map = new Map(false);
+	map2 = new Map2(true);
 	fade = new FadeToBlack(true);
-	intro = new SceneIntro(true);
+	intro = new SceneIntro(false);
 	scenewin = new SceneWin(false);
 
 

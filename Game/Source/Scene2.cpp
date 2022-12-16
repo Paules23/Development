@@ -63,17 +63,17 @@ bool Scene2::Start()
 		item->parameters = itemNode;
 	}*/
 
-	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("groundenemy"); itemNode; itemNode = itemNode.next_sibling("groundenemy"))
+	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene2").child("groundenemy"); itemNode; itemNode = itemNode.next_sibling("groundenemy"))
 	{
 		GroundEnemy* groundEnemy = (GroundEnemy*)app->entityManager->CreateEntity(EntityType::GROUND_ENEMY);
 		groundEnemy->parameters = itemNode;
 	}
 
-	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("flyingenemy"); itemNode; itemNode = itemNode.next_sibling("flyingenemy"))
+	/*for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("flyingenemy"); itemNode; itemNode = itemNode.next_sibling("flyingenemy"))
 	{
 		GroundEnemy* groundEnemy = (GroundEnemy*)app->entityManager->CreateEntity(EntityType::FLYING_ENEMY);
 		groundEnemy->parameters = itemNode;
-	}
+	}*/
 
 	//L02: DONE 3: Instantiate the player using the entity manager
 	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);

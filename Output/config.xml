@@ -33,7 +33,7 @@
 
 	<scene2>
 		<player x1="70" y1="520" x2="70" y2="400" texturepath="Assets/Textures/player1.png"/>
-		<groundenemy x="400" y="515" texturepath="Assets/Textures/ground enemy.png"/>
+		<groundenemy x="800" y="615" texturepath="Assets/Textures/ground enemy.png"/>
 	</scene2>
 
   <sceneIntro texturepath="Assets/Textures/introscene.jpg"/>

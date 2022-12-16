@@ -246,7 +246,6 @@ bool Player::CleanUp()
 	pbody->body->GetWorld()->DestroyBody(pbody->body);
 	pbody = NULL;
 	app->tex->UnLoad(texture);
-	app->tex->UnLoad(run);
 	return true;
 }
 

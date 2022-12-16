@@ -11,8 +11,17 @@
 #include "Scene2.h"
 
 
-GroundEnemy::GroundEnemy() : Entity(EntityType::PLAYER)
+GroundEnemy::GroundEnemy() : Entity(EntityType::GROUND_ENEMY)
 {
+	iddle.PushBack({ 4,4,15,17 });
+	iddle.PushBack({ 28,4,15,17 });
+	iddle.PushBack({ 52,5,15,16 });
+	iddle.PushBack({ 76,4,15,17 });
+	iddle.speed = 0.1f;
+	iddle.loop = true;
+
+
+
 	name.Create("GroundEnemy");
 }
 
@@ -29,11 +38,8 @@ bool GroundEnemy::Awake() {
 }
 
 bool GroundEnemy::Start() {
-	
-	
-		
-		position.x = parameters.attribute("x2").as_int();
-		position.y = parameters.attribute("y2").as_int();
+		position.x = parameters.attribute("x").as_int();
+		position.y = parameters.attribute("y").as_int();
 		
 		texturePath = parameters.attribute("texturepath").as_string();
 		dead = false;
@@ -49,10 +55,8 @@ bool GroundEnemy::Start() {
 
 		// L07 DONE 7: Assign collider type
 		ebody->ctype = ColliderType::GROUND_ENEMY;
+		left = true;
 
-
-
-		//initialize audio effect - !! Path is hardcoded, should be loaded from config.xml
 		/*dieFxId = app->audio->LoadFx("Assets/Audio/Fx/die.ogg");
 		jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/Jump-1.ogg");
 		winFxId = app->audio->LoadFx("Assets/Audio/Fx/win.ogg");*/
@@ -63,17 +67,50 @@ bool GroundEnemy::Start() {
 bool GroundEnemy::Update()
 {
 
-	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
+	//enemy movement no pathfinding
+	b2Vec2 vel(0, 0);
+	ebody->body->SetGravityScale(1);
+	if (dead == false) {
+		if (left) {
+			vel.x = 2;
+			ebody->body->SetLinearVelocity(vel);
+		}
+		else {
+			vel.x = -2;
+			ebody->body->SetLinearVelocity(vel);
+		}
+		currentEnemyAnimation = &iddle;
+
+		currentEnemyAnimation->Update();
+
+		position.x = METERS_TO_PIXELS(ebody->body->GetTransform().p.x) - 16;
+		position.y = METERS_TO_PIXELS(ebody->body->GetTransform().p.y) - 16;
+
+		SDL_Rect rect = currentEnemyAnimation->GetCurrentFrame();
+		app->render->DrawTexture(texture, position.x, position.y, &rect);
+	}
+	else {
+		ebody->body->GetWorld()->DestroyBody(ebody->body);
+		ebody = NULL;
+		this->Disable();
+	}
+	
 
 
-	app->render->DrawTexture(texture, position.x, position.y);
+
+
+
+
+
+
+
+	
 	return true;
 }
 
 bool GroundEnemy::CleanUp()
 {
-	ebody->body->GetWorld()->DestroyBody(ebody->body);
-	ebody = NULL;
+
 	return true;
 }
 
@@ -105,6 +142,23 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::GROUND:
 		LOG("Collision JUMPS RESTORED");
+		break;
+	case ColliderType::PLAYER:
+
+		int playerY, enemyY;
+
+		playerY = METERS_TO_PIXELS(physB->body->GetPosition().y);
+		enemyY = METERS_TO_PIXELS(physA->body->GetPosition().y);
+
+		if (enemyY > playerY + physB->height -2) {
+			dead = true;
+		}
+		else {
+			left = !left;
+		}
+
+		LOG("change direction");
+		
 		break;
 	}
 }

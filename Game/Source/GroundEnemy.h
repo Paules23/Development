@@ -41,6 +41,7 @@ public:
 public:
 
 	bool dead;
+	bool right, left;
 
 private:
 
@@ -48,11 +49,13 @@ private:
 
 	//L02: DONE 1: Declare player parameters
 	SDL_Texture* texture;
-	SDL_Texture* run;
 	const char* texturePath;
 
 	//DONE 4: Add a physics to an item
 	PhysBody* ebody;
+	Animation* currentEnemyAnimation;
+	Animation iddle, run_left, run_right, jump;
+
 
 };
 
