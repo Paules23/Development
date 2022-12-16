@@ -13,13 +13,32 @@
 
 GroundEnemy::GroundEnemy() : Entity(EntityType::GROUND_ENEMY)
 {
-	iddle.PushBack({ 8,7,30,34 });
-	iddle.PushBack({ 55,8,30,34 });
-	iddle.PushBack({ 104,10,30,34 });
-	iddle.PushBack({ 152,8,30,34 });
+	iddle.PushBack({ 192,48,48,48 });
+	iddle.PushBack({ 240,48,48,48 });
+	iddle.PushBack({ 288,48,48,48 });
+	iddle.PushBack({ 336,48,48,48 });
+	iddle.PushBack({ 384,48,48,48 });
+	iddle.PushBack({ 432,48,48,48 });
+	iddle.PushBack({ 480,48,48,48 });
 	iddle.speed = 0.1f;
 
+	run_right.PushBack({ 192,48,48,48 });
+	run_right.PushBack({ 240,48,48,48 });
+	run_right.PushBack({ 288,48,48,48 });
+	run_right.PushBack({ 336,48,48,48 });
+	run_right.PushBack({ 384,48,48,48 });
+	run_right.PushBack({ 432,48,48,48 });
+	run_right.PushBack({ 480,48,48,48 });
+	run_right.speed = 0.1f;
 
+	run_left.PushBack({ 912,0,48,48 });
+	run_left.PushBack({ 864,0,48,48 });
+	run_left.PushBack({ 816,0,48,48 });
+	run_left.PushBack({ 768,0,48,48 });
+	run_left.PushBack({ 720,0,48,48 });
+	run_left.PushBack({ 672,0,48,48 });
+	run_left.PushBack({ 624,0,48,48 });
+	run_left.speed = 0.1f;
 
 	name.Create("GroundEnemy");
 }
@@ -76,12 +95,15 @@ bool GroundEnemy::Update()
 		if (left) {
 			vel.x = 2;
 			ebody->body->SetLinearVelocity(vel);
+			currentEnemyAnimation = &run_right;
 		}
 		else {
 			vel.x = -2;
 			ebody->body->SetLinearVelocity(vel);
+			
+			currentEnemyAnimation = &run_left;
 		}
-		currentEnemyAnimation = &iddle;
+		
 
 		currentEnemyAnimation->Update();
 

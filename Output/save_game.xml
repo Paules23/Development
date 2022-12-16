@@ -5,10 +5,12 @@
 	<textures />
 	<audio />
 	<:anonymous />
+	<pathfinding />
 	<scene />
 	<scene2 />
 	<entitymanager>
-		<player x1="292" y1="672" />
+		<player x1="1302" y1="608" x2="1302" y2="608" />
+		<player x1="54" y1="1816" x2="54" y2="1816" />
 	</entitymanager>
 	<map />
 	<map2 />
@@ -16,6 +18,6 @@
 	<:anonymous />
 	<:anonymous />
 	<renderer>
-		<camera x="0" y="0" />
+		<camera x="-514" y="0" />
 	</renderer>
 </save_state>
