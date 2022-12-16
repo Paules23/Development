@@ -6,7 +6,7 @@
 #include "SDL/include/SDL.h"
 #include "Animation.h"
 
-#define NOTCHILLDISTANCE 7
+#define NOTCHILLDISTANCE 100
 
 
 
@@ -38,7 +38,6 @@ public:
 
 	bool LoadState(pugi::xml_node&);
 	bool SaveState(pugi::xml_node&);
-	bool GetWinState();
 	bool GetDeadState();
 
 public:

@@ -88,7 +88,13 @@ bool GroundEnemy::Update()
 	//takes player position
 	playerPos = app->scene2->player->position;
 
-	if (abs(playerPos.x - ebody->body->GetPosition().x) < NOTCHILLDISTANCE ) {
+	if (dead == true) {
+		ebody->body->GetWorld()->DestroyBody(ebody->body);
+		ebody = NULL;
+		this->Disable();
+	}
+
+	if (abs(playerPos.x - ebody->body->GetPosition().x) > NOTCHILLDISTANCE ) {
 		walkstate = WalkState::FOLLOWINGPLAYER;
 	}
 	else {
@@ -98,54 +104,31 @@ bool GroundEnemy::Update()
 	//enemy movement no pathfinding
 	b2Vec2 vel(0, 0);
 	ebody->body->SetGravityScale(1);
-
+	currentEnemyAnimation = &run_left;
 	if (walkstate == WalkState::CHILL) {
 		if (changedir == true) {
 			vel.x = -2;
 			ebody->body->SetLinearVelocity(vel);
+			currentEnemyAnimation = &run_left;
 		}
 		else {
-			vel.x = 2;
-			ebody->body->SetLinearVelocity(vel);
-		}
-	}
-
-	if (dead == false) {
-		if (left) {
 			vel.x = 2;
 			ebody->body->SetLinearVelocity(vel);
 			currentEnemyAnimation = &run_right;
 		}
-		else {
-			vel.x = -2;
-			ebody->body->SetLinearVelocity(vel);
-			
-			currentEnemyAnimation = &run_left;
-		}
-		
-
-		currentEnemyAnimation->Update();
-
-		position.x = METERS_TO_PIXELS(ebody->body->GetTransform().p.x) - 16;
-		position.y = METERS_TO_PIXELS(ebody->body->GetTransform().p.y) - 16;
-
-		SDL_Rect rect = currentEnemyAnimation->GetCurrentFrame();
-		app->render->DrawTexture(texture, position.x, position.y, &rect);
 	}
-	else {
-		ebody->body->GetWorld()->DestroyBody(ebody->body);
-		ebody = NULL;
-		this->Disable();
+	else if (walkstate == WalkState::FOLLOWINGPLAYER) {
+		vel.x = 0;
+		ebody->body->SetLinearVelocity(vel);
 	}
-	
 
+	currentEnemyAnimation->Update();
 
+	position.x = METERS_TO_PIXELS(ebody->body->GetTransform().p.x) - 16;
+	position.y = METERS_TO_PIXELS(ebody->body->GetTransform().p.y) - 16;
 
-
-
-
-
-
+	SDL_Rect rect = currentEnemyAnimation->GetCurrentFrame();
+	app->render->DrawTexture(texture, position.x, position.y, &rect);
 
 	
 	return true;
@@ -153,7 +136,7 @@ bool GroundEnemy::Update()
 
 bool GroundEnemy::CleanUp()
 {
-
+	app->tex->UnLoad(texture);
 	return true;
 }
 
@@ -247,10 +230,6 @@ bool GroundEnemy::SaveState(pugi::xml_node& data)
 
 	return true;
 }
-
-//bool GroundEnemy::GetWinState() {
-//	return win;
-//}
-//bool GroundEnemy::GetDeadState() {
-//	return isdead;
-//}
+bool GroundEnemy::GetDeadState() {
+	return dead;
+}
