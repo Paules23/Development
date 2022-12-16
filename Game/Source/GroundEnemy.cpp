@@ -1,4 +1,4 @@
-#include "Enemies.h"
+#include "GroundEnemy.h"
 #include "App.h"
 #include "Textures.h"
 #include "Audio.h"
@@ -11,16 +11,16 @@
 #include "Scene2.h"
 
 
-Enemies::Enemies() : Entity(EntityType::PLAYER)
+GroundEnemy::GroundEnemy() : Entity(EntityType::PLAYER)
 {
-	name.Create("Enemies");
+	name.Create("GroundEnemy");
 }
 
-Enemies::~Enemies() {
+GroundEnemy::~GroundEnemy() {
 
 }
 
-bool Enemies::Awake() {
+bool GroundEnemy::Awake() {
 
 	//L02: DONE 5: Get Player parameters from XML
 
@@ -28,13 +28,39 @@ bool Enemies::Awake() {
 	return true;
 }
 
-bool Enemies::Start() {
+bool GroundEnemy::Start() {
 	
+	
+		
+		position.x = parameters.attribute("x2").as_int();
+		position.y = parameters.attribute("y2").as_int();
+		
+		texturePath = parameters.attribute("texturepath").as_string();
+		dead = false;
+		
+		//initilize textures
+		texture = app->tex->Load(texturePath);
+
+		// L07 DONE 5: Add physics to the player - initialize physics body
+		ebody = app->physics->CreateCircle(position.x + 16, position.y + 16, 15, bodyType::DYNAMIC);
+
+		// L07 DONE 6: Assign player class (using "this") to the listener of the pbody. This makes the Physics module to call the OnCollision method
+		ebody->listener = this;
+
+		// L07 DONE 7: Assign collider type
+		ebody->ctype = ColliderType::GROUND_ENEMY;
+
+
+
+		//initialize audio effect - !! Path is hardcoded, should be loaded from config.xml
+		/*dieFxId = app->audio->LoadFx("Assets/Audio/Fx/die.ogg");
+		jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/Jump-1.ogg");
+		winFxId = app->audio->LoadFx("Assets/Audio/Fx/win.ogg");*/
 
 	return true;
 }
 
-bool Enemies::Update()
+bool GroundEnemy::Update()
 {
 
 	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
@@ -44,14 +70,14 @@ bool Enemies::Update()
 	return true;
 }
 
-bool Enemies::CleanUp()
+bool GroundEnemy::CleanUp()
 {
 	ebody->body->GetWorld()->DestroyBody(ebody->body);
 	ebody = NULL;
 	return true;
 }
 
-void Enemies::OnCollision(PhysBody* physA, PhysBody* physB) {
+void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	// L07 DONE 7: Detect the type of collision
 
@@ -84,7 +110,7 @@ void Enemies::OnCollision(PhysBody* physA, PhysBody* physB) {
 }
 
 
-bool Enemies::LoadState(pugi::xml_node& data)
+bool GroundEnemy::LoadState(pugi::xml_node& data)
 {
 	if (app->scene->level1) {
 		position.x = parameters.attribute("x1").as_int();
@@ -103,7 +129,7 @@ bool Enemies::LoadState(pugi::xml_node& data)
 
 // L03: DONE 8: Create a method to save the state of the renderer
 // using append_child and append_attribute
-bool Enemies::SaveState(pugi::xml_node& data)
+bool GroundEnemy::SaveState(pugi::xml_node& data)
 {
 	pugi::xml_node play = data.append_child("player");
 
@@ -119,9 +145,9 @@ bool Enemies::SaveState(pugi::xml_node& data)
 	return true;
 }
 
-//bool Enemies::GetWinState() {
+//bool GroundEnemy::GetWinState() {
 //	return win;
 //}
-//bool Enemies::GetDeadState() {
+//bool GroundEnemy::GetDeadState() {
 //	return isdead;
 //}

@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Player.h"
 #include "Item.h"
+#include "GroundEnemy.h"
 
 struct SDL_Texture;
 
@@ -43,6 +44,9 @@ public:
 
 	//L02: DONE 3: Declare a Player attribute 
 	Player* player;
+	GroundEnemy* groundEnemy;
+	GroundEnemy* flyingEnemy;
+
 	bool stopcamera;
 	bool godmode;
 	bool level2;

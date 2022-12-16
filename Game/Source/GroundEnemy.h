@@ -1,5 +1,5 @@
-#ifndef __ENEMIES_H__
-#define __ENEMIES_H__
+#ifndef __GROUNDENEMY_H__
+#define __GROUNDENEMY_H__
 
 #include "Entity.h"
 #include "Point.h"
@@ -15,13 +15,13 @@ struct SDL_Texture;
 
 
 
-class Enemies : public Entity
+class GroundEnemy : public Entity
 {
 public:
 
-	Enemies();
+	GroundEnemy();
 
-	virtual ~Enemies();
+	virtual ~GroundEnemy();
 
 	bool Awake();
 
@@ -40,6 +40,8 @@ public:
 
 public:
 
+	bool dead;
+
 private:
 
 
@@ -54,4 +56,4 @@ private:
 
 };
 
-#endif // __ENMIES_H__
+#endif // __GROUNDENEMY_H__

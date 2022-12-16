@@ -24,7 +24,17 @@
   <!-- L02: DONE: Add an element for the entity manager and add the player parameters -->
   <scene>
     <player x1="70" y1="520" x2="70" y2="400" texturepath="Assets/Textures/player1.png"/>
+	  <item x="256" y="515" texturepath="Assets/Textures/goldCoin.png"/>
+	  <item x="416" y="512" texturepath="Assets/Textures/goldCoin.png"/>
+	  <item x="384" y="352" texturepath="Assets/Textures/goldCoin.png"/>
+	  <item x="200" y="672" texturepath="Assets/Textures/goldCoin.png"/>
+	  <item x="500" y="672" texturepath="Assets/Textures/goldCoin.png"/>
   </scene>
+
+	<scene2>
+		<player x1="70" y1="520" x2="70" y2="400" texturepath="Assets/Textures/player1.png"/>
+		<groundenemy x="400" y="515" texturepath="Assets/Textures/ground enemy.png"/>
+	</scene2>
 
   <sceneIntro texturepath="Assets/Textures/introscene.jpg"/>
 	
