@@ -6,14 +6,17 @@
 #include "SDL/include/SDL.h"
 #include "Animation.h"
 
-#define JUMPIMPULSE -9
-#define GODMODESPEED 10
+#define NOTCHILLDISTANCE 7
 
 
 
 struct SDL_Texture;
 
-
+enum WalkState
+{
+	CHILL,
+	FOLLOWINGPLAYER
+};
 
 class GroundEnemy : public Entity
 {
@@ -42,17 +45,19 @@ public:
 
 	bool dead;
 	bool right, left;
+	bool changedir;
+	WalkState walkstate;
 
 private:
 
 
+	
 
-	//L02: DONE 1: Declare player parameters
 	SDL_Texture* texture;
 	const char* texturePath;
 
-	//DONE 4: Add a physics to an item
 	PhysBody* ebody;
+	iPoint playerPos;
 	Animation* currentEnemyAnimation;
 	Animation iddle, run_left, run_right, jump;
 

@@ -22,6 +22,7 @@ public:
 	// Destructor
 	virtual ~Scene2();
 
+	List<GroundEnemy*> groundEnemies;
 	// Called before render is available
 	bool Awake(pugi::xml_node& config);
 
@@ -44,8 +45,7 @@ public:
 
 	//L02: DONE 3: Declare a Player attribute 
 	Player* player;
-	GroundEnemy* groundEnemy;
-	GroundEnemy* flyingEnemy;
+
 
 	bool stopcamera;
 	bool godmode;
@@ -53,7 +53,11 @@ public:
 
 private:
 	SDL_Texture* img;
-
+	SDL_Texture* mouseTileTex = nullptr;
+	SDL_Texture* originTex = nullptr;
+	iPoint origin;
+	iPoint destination;
+	bool originSelected = false;
 
 };
 

@@ -10,6 +10,7 @@
 #include "Map2.h"
 #include "Physics.h"
 #include "FadeToBlack.h"
+#include "Pathfinding.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -55,6 +56,11 @@ bool Scene2::Start()
 
 	LOG("Loading Scene2");
 
+	
+
+	// L12 Create walkability map
+	
+
 	// iterate all objects in the scene
 	// Check https://pugixml.org/docs/quickstart.html#access
 	/*for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
@@ -67,6 +73,7 @@ bool Scene2::Start()
 	{
 		GroundEnemy* groundEnemy = (GroundEnemy*)app->entityManager->CreateEntity(EntityType::GROUND_ENEMY);
 		groundEnemy->parameters = itemNode;
+		groundEnemies.Add(groundEnemy);
 	}
 
 	/*for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("flyingenemy"); itemNode; itemNode = itemNode.next_sibling("flyingenemy"))
@@ -82,9 +89,21 @@ bool Scene2::Start()
 	godmode = false;
 
 	app->audio->PlayMusic("Assets/Audio/Music/song.ogg");
+	mouseTileTex = app->tex->Load("Assets/Textures/path_square.png");
+	originTex = app->tex->Load("Assets/Textures/x_square.png");
 
 	// L03: DONE: Load map
-	app->map2->Load();
+	bool retLoad = app->map2->Load();
+	if (retLoad) {
+		int w, h;
+		uchar* data = NULL;
+
+		bool retWalkMap = app->map2->CreateWalkabilityMap(w, h, &data);
+		if (retWalkMap) app->pathfinding->SetMap(w, h, data);
+
+		RELEASE_ARRAY(data);
+
+	}
 
 	// L04: DONE 7: Set the window title with map/tileset info
 	SString title("Map:%dx%d Tiles:%dx%d Tilesets:%d",
@@ -157,9 +176,6 @@ bool Scene2::Update(float dt)
 	if (app->render->camera.x < -3340) {
 		app->render->camera.x = -3340;
 	}
-
-
-
 	if (player->position.x >= 3340 && stopcamera == true) {
 		app->render->camera.x = -3040;
 	}
@@ -167,7 +183,6 @@ bool Scene2::Update(float dt)
 	if (player->position.x >= 300 && player->position.x < 3340 && stopcamera == true) {
 		app->render->camera.x = -player->position.x + 300;
 	}
-
 
 	//godmode
 	ListItem<PhysBody*>* colliderItem;
@@ -184,12 +199,38 @@ bool Scene2::Update(float dt)
 		colliderItem = colliderItem->next;
 	}
 
-
-
 	// Draw map
 	if (level2) {
 		app->map2->Draw();
 	}
+	//pathfinding
+	ListItem<GroundEnemy*>* groundEnemyItem = groundEnemies.start;
+
+	while (groundEnemyItem != NULL) {
+
+		if (groundEnemyItem->data->walkstate == WalkState::FOLLOWINGPLAYER)
+		{
+			app->pathfinding->ClearLastPath();
+			destination = player->position;
+			origin = groundEnemyItem->data->position;
+			
+			app->pathfinding->CreatePath(origin, destination);
+
+			const DynArray<iPoint>* path = app->pathfinding->GetLastPath();
+			for (uint i = 0; i < path->Count(); ++i)
+			{
+				iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
+				app->render->DrawTexture(mouseTileTex, pos.x, pos.y);
+			}
+
+			// L12: Debug pathfinding
+			iPoint originScreen = app->map->MapToWorld(origin.x, origin.y);
+			app->render->DrawTexture(originTex, originScreen.x, originScreen.y);
+
+		}
+		groundEnemyItem = groundEnemyItem->next;
+	}
+
 
 	return true;
 }

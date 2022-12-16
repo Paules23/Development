@@ -32,6 +32,57 @@ bool Map2::Awake(pugi::xml_node& config)
     return ret;
 }
 
+bool Map2::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
+{
+    bool ret = false;
+    ListItem<MapLayer*>* item;
+    item = mapData.maplayers.start;
+
+    for (item = mapData.maplayers.start; item != NULL; item = item->next)
+    {
+        MapLayer* layer = item->data;
+
+        if (layer->properties.GetProperty("Navigation") != NULL && !layer->properties.GetProperty("Navigation")->value)
+            continue;
+
+        uchar* map = new uchar[layer->width * layer->height];
+        memset(map, 1, layer->width * layer->height);
+
+        for (int y = 0; y < mapData.height; ++y)
+        {
+            for (int x = 0; x < mapData.width; ++x)
+            {
+                int i = (y * layer->width) + x;
+
+                int tileId = layer->Get(x, y);
+                TileSet* tileset = (tileId > 0) ? GetTilesetFromTileId(tileId) : NULL;
+
+                if (tileset != NULL)
+                {
+                    //According to the mapType use the ID of the tile to set the walkability value
+                    if (mapData.type == MapTypes::MAPTYPE_ISOMETRIC && tileId == 25) map[i] = 1;
+                    else if (mapData.type == MapTypes::MAPTYPE_ORTHOGONAL && tileId == 50) map[i] = 1;
+                    else map[i] = 0;
+                }
+                else {
+                    LOG("CreateWalkabilityMap: Invalid tileset found");
+                    map[i] = 0;
+                }
+            }
+        }
+
+        *buffer = map;
+        width = mapData.width;
+        height = mapData.height;
+        ret = true;
+
+        break;
+    }
+
+    return ret;
+}
+
+
 void Map2::Draw()
 {
     if (mapLoaded == false)
@@ -401,8 +452,16 @@ void Map2::LoadCollisionsFromTileId() {
                         c1->ctype = ColliderType::GROUND;
                     }
                 }
+                if (mapLayerItem->data->properties.GetProperty("ChangeDir") != NULL && mapLayerItem->data->properties.GetProperty("ChangeDir")->value == true) {
+                    if (gid != NULL) {
+                        PhysBody* c1 = app->physics->CreateRectangleSensor(pos.x + 16, pos.y + 16, 34, 34, STATIC);
+                        mapColliders.Add(c1);
+                        c1->ctype = ColliderType::CHANGE_DIR;
+                    }
+                }
             }
         }
         mapLayerItem = mapLayerItem->next;
     }
 }
+

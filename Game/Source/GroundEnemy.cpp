@@ -5,6 +5,7 @@
 #include "Input.h"
 #include "Render.h"
 #include "Scene.h"
+#include "Player.h"
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
@@ -13,10 +14,10 @@
 
 GroundEnemy::GroundEnemy() : Entity(EntityType::GROUND_ENEMY)
 {
-	iddle.PushBack({ 8,7,30,34 });
-	iddle.PushBack({ 55,8,30,34 });
-	iddle.PushBack({ 104,10,30,34 });
-	iddle.PushBack({ 152,8,30,34 });
+	iddle.PushBack({ 0,0,48,48 });
+	iddle.PushBack({ 48,0,48,48 });
+	iddle.PushBack({ 96,0,48,48 });
+	iddle.PushBack({ 142,0,48,48 });
 	iddle.speed = 0.1f;
 
 
@@ -65,12 +66,30 @@ bool GroundEnemy::Start() {
 
 bool GroundEnemy::Update()
 {
+	//takes player position
+	playerPos = app->scene2->player->position;
+
+	if (abs(playerPos.x - ebody->body->GetPosition().x) < NOTCHILLDISTANCE ) {
+		walkstate = WalkState::FOLLOWINGPLAYER;
+	}
+	else {
+		walkstate = WalkState::CHILL;
+	}
 
 	//enemy movement no pathfinding
 	b2Vec2 vel(0, 0);
 	ebody->body->SetGravityScale(1);
 
-	
+	if (walkstate == WalkState::CHILL) {
+		if (changedir == true) {
+			vel.x = -2;
+			ebody->body->SetLinearVelocity(vel);
+		}
+		else {
+			vel.x = 2;
+			ebody->body->SetLinearVelocity(vel);
+		}
+	}
 
 	if (dead == false) {
 		if (left) {
@@ -144,6 +163,12 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::GROUND:
 		LOG("Collision JUMPS RESTORED");
+		break;
+	case ColliderType::CHANGE_DIR:
+		LOG("Collision ENEMY CHANGE DIR");
+
+		changedir = !changedir;
+
 		break;
 	case ColliderType::PLAYER:
 

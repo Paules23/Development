@@ -32,6 +32,8 @@ public:
 	// L05: DONE 8: Create a method that translates x,y coordinates from map positions to world positions
 	iPoint MapToWorld(int x, int y) const;
 
+	bool CreateWalkabilityMap(int& width, int& height, uchar** buffer) const;
+
 private:
 
 	bool LoadMap(pugi::xml_node mapFile);
