@@ -76,11 +76,11 @@ bool Scene2::Start()
 		groundEnemies.Add(groundEnemy);
 	}
 
-	/*for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("flyingenemy"); itemNode; itemNode = itemNode.next_sibling("flyingenemy"))
+	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("flyingenemy"); itemNode; itemNode = itemNode.next_sibling("flyingenemy"))
 	{
-		GroundEnemy* groundEnemy = (GroundEnemy*)app->entityManager->CreateEntity(EntityType::FLYING_ENEMY);
-		groundEnemy->parameters = itemNode;
-	}*/
+		GroundEnemy* FlyingEnemy = (GroundEnemy*)app->entityManager->CreateEntity(EntityType::FLYING_ENEMY);
+		FlyingEnemy->parameters = itemNode;
+	}
 
 	//L02: DONE 3: Instantiate the player using the entity manager
 	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);

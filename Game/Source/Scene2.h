@@ -5,13 +5,12 @@
 #include "Player.h"
 #include "Item.h"
 #include "GroundEnemy.h"
+#include "FlyingEnemy.h"
 
 struct SDL_Texture;
 
 
 #define CAMERASPEED 15
-#define LEVEL2PLAYERX 70
-#define LEVEL2PLAYERY 200
 
 class Scene2 : public Module
 {
@@ -23,6 +22,7 @@ public:
 	virtual ~Scene2();
 
 	List<GroundEnemy*> groundEnemies;
+	List<FlyingEnemy*> flyingEnemies;
 	// Called before render is available
 	bool Awake(pugi::xml_node& config);
 
@@ -56,7 +56,6 @@ private:
 	SDL_Texture* mouseTileTex = nullptr;
 	SDL_Texture* originTex = nullptr;
 	iPoint origin;
-	bool originSelected = false;
 
 };
 

@@ -32,8 +32,8 @@ bool FlyingEnemy::Start() {
 
 
 
-	position.x = parameters.attribute("x2").as_int();
-	position.y = parameters.attribute("y2").as_int();
+	position.x = parameters.attribute("posx").as_int();
+	position.y = parameters.attribute("posy").as_int();
 
 	texturePath = parameters.attribute("texturepath").as_string();
 	dead = false;
@@ -48,7 +48,7 @@ bool FlyingEnemy::Start() {
 	ebody->listener = this;
 
 	// L07 DONE 7: Assign collider type
-	ebody->ctype = ColliderType::GROUND_ENEMY;
+	ebody->ctype = ColliderType::FLYING_ENEMY;
 
 
 
