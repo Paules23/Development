@@ -94,7 +94,6 @@ bool GroundEnemy::Start() {
 		ebody->ctype = ColliderType::GROUND_ENEMY;
 
 		app->map2->enemies.Add(ebody);
-		left = true;
 
 		/*dieFxId = app->audio->LoadFx("Assets/Audio/Fx/die.ogg");
 		jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/Jump-1.ogg");

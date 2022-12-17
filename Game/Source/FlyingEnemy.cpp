@@ -9,11 +9,31 @@
 #include "Point.h"
 #include "Physics.h"
 #include "Scene2.h"
+#include "Map2.h"
 
 
 FlyingEnemy::FlyingEnemy() : Entity(EntityType::PLAYER)
 {
 	name.Create("FlyingEnemy");
+
+	iddle.PushBack({0,0,32,32});
+	iddle.PushBack({ 32,0,32,32 });
+	iddle.PushBack({ 64,0,32,32 });
+	iddle.PushBack({ 96,0,32,32 });
+	iddle.speed = 0.1f;
+
+	fly_right.PushBack({ 0,32,32,32 });
+	fly_right.PushBack({ 32,32,32,32 });
+	fly_right.PushBack({ 64,32,32,32 });
+	fly_right.PushBack({ 96,32,32,32 });
+	fly_right.speed = 0.1f;
+
+	fly_left.PushBack({ 0,96,32,32 });
+	fly_left.PushBack({ 32,96,32,32 });
+	fly_left.PushBack({ 64,96,32,32 });
+	fly_left.PushBack({ 96,96,32,32 });
+	fly_left.speed = 0.1f;
+
 }
 
 FlyingEnemy::~FlyingEnemy() {
@@ -29,8 +49,6 @@ bool FlyingEnemy::Awake() {
 }
 
 bool FlyingEnemy::Start() {
-
-
 
 	position.x = parameters.attribute("posx").as_int();
 	position.y = parameters.attribute("posy").as_int();
@@ -49,24 +67,101 @@ bool FlyingEnemy::Start() {
 
 	// L07 DONE 7: Assign collider type
 	ebody->ctype = ColliderType::FLYING_ENEMY;
+	app->map2->enemies.Add(ebody);
 
+	typeOfMovement = false;
 
 
 	//initialize audio effect - !! Path is hardcoded, should be loaded from config.xml
 	/*dieFxId = app->audio->LoadFx("Assets/Audio/Fx/die.ogg");
 	jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/Jump-1.ogg");
 	winFxId = app->audio->LoadFx("Assets/Audio/Fx/win.ogg");*/
-
 	return true;
 }
 
 bool FlyingEnemy::Update()
 {
+	currentEnemyAnimation = &iddle;
+	playerPos = app->scene2->player->position;
 
-	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
+	if (playerPos.x - position.x > NOTCHILLDISTANCE || playerPos.x - position.x < -NOTCHILLDISTANCE) {
+		walkstate = WalkState::CHILL;
+	}
+	else {
+		walkstate = WalkState::FOLLOWINGPLAYER;
+	}
 
+	//enemy movement 
+	b2Vec2 vel(0, 0);
+	ebody->body->SetGravityScale(0);
+	if (walkstate == WalkState::CHILL) {
+		currentEnemyAnimation = &iddle;
+		ebody->body->SetLinearVelocity(vel);
+	}
+	else if (walkstate == WalkState::FOLLOWINGPLAYER) {
 
-	app->render->DrawTexture(texture, position.x, position.y);
+		if (target.x > (int)ebody->body->GetPosition().x) {
+			moveStateX = MS_RIGHT;
+			vel.x = 4;
+			currentEnemyAnimation = &fly_right;
+		}
+		else if (target.x < (int)ebody->body->GetPosition().x) {
+			moveStateX = MS_LEFT;
+			vel.x = -4;
+			currentEnemyAnimation = &fly_left;
+		}
+
+		if (target.y > (int)ebody->body->GetPosition().y) {
+			moveStateY = MS_DOWN;
+			vel.y = 4;
+		}
+		else if (target.y < (int)ebody->body->GetPosition().y) {
+			moveStateY = MS_UP;
+			vel.y = -4;
+		}
+		if (typeOfMovement) {
+			ebody->body->SetLinearVelocity(vel);
+		}
+		else {
+			b2Vec2 vel = ebody->body->GetLinearVelocity();
+			float desiredVelx = 0;
+			float desiredVely = 0;
+			switch (moveStateX)
+			{
+			case MS_LEFT:  desiredVelx = -4; break;
+			case MS_STOP:  desiredVelx = 0; break;
+			case MS_RIGHT: desiredVelx = 4; break;
+			}
+			float velChangex = desiredVelx - vel.x;
+			float impulsex = ebody->body->GetMass() * velChangex; //disregard time factor
+			switch (moveStateY)
+			{
+			case MS_DOWN: desiredVely = 4; break;
+			case MS_STOP: desiredVely = 0; break;
+			case MS_UP: desiredVely = -4; break;
+			}
+			float velChangey = desiredVely - vel.y;
+			float impulsey = ebody->body->GetMass() * velChangey;
+			ebody->body->ApplyLinearImpulse(b2Vec2(impulsex, impulsey), ebody->body->GetWorldCenter(), true);
+		}
+	}
+
+	currentEnemyAnimation->Update();
+
+	position.x = METERS_TO_PIXELS(ebody->body->GetTransform().p.x) - 16;
+	position.y = METERS_TO_PIXELS(ebody->body->GetTransform().p.y) - 16;
+
+	SDL_Rect rect = currentEnemyAnimation->GetCurrentFrame();
+	app->render->DrawTexture(texture, position.x, position.y, &rect);
+
+	if (app->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {
+		typeOfMovement = !typeOfMovement;
+	}
+
+	/*if (dead == true) {
+		ebody->body->SetActive(false);
+		this->Disable();
+	}*/
 	return true;
 }
 

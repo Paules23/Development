@@ -6,14 +6,7 @@
 #include "SDL/include/SDL.h"
 #include "Animation.h"
 
-#define JUMPIMPULSE -9
-#define GODMODESPEED 10
-
-
-
 struct SDL_Texture;
-
-
 
 class FlyingEnemy : public Entity
 {
@@ -35,24 +28,30 @@ public:
 
 	bool LoadState(pugi::xml_node&);
 	bool SaveState(pugi::xml_node&);
-	bool GetWinState();
 	bool GetDeadState();
 
 public:
 
 	bool dead;
+	WalkState walkstate;
+	iPoint target;
 
 private:
 
 
-
-	//L02: DONE 1: Declare player parameters
-	SDL_Texture* texture;
-	SDL_Texture* run;
-	const char* texturePath;
-
-	//DONE 4: Add a physics to an item
+	//body and movement parameters
 	PhysBody* ebody;
+	iPoint playerPos;
+	iPoint bodyPos;
+	_moveState moveStateX;
+	_moveState moveStateY;
+	bool typeOfMovement;
+
+	//animations and textures
+	Animation* currentEnemyAnimation;
+	Animation fly_left, fly_right, iddle;
+	SDL_Texture* texture;
+	const char* texturePath;
 
 };
 

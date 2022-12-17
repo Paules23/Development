@@ -13,11 +13,7 @@
 
 struct SDL_Texture;
 
-enum WalkState
-{
-	CHILL,
-	FOLLOWINGPLAYER
-};
+
 
 
 class GroundEnemy : public Entity
@@ -45,7 +41,6 @@ public:
 public:
 
 	bool dead;
-	bool right, left;
 	bool changedir;
 	WalkState walkstate;
 	iPoint target;
@@ -54,14 +49,17 @@ private:
 
 
 	
-
-	SDL_Texture* texture;
-	const char* texturePath;
+	//body and movement parameters
 	_moveState moveState;
 	PhysBody* ebody;
 	iPoint playerPos;
+
+	// animations and textures
 	Animation* currentEnemyAnimation;
 	Animation iddle, run_left, run_right, walk_right, walk_left;
+
+	SDL_Texture* texture;
+	const char* texturePath;
 
 
 };
