@@ -156,7 +156,7 @@ bool FlyingEnemy::Update()
 
 	if (app->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {
 		typeOfMovement = !typeOfMovement;
-	}
+	} 
 
 	if (dead == true) {
 		ebody->body->SetActive(false);
