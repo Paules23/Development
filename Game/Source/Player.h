@@ -13,11 +13,7 @@
 
 struct SDL_Texture;
 
-enum _moveState {
-	MS_STOP,
-	MS_LEFT,
-	MS_RIGHT,
-};
+
 
 class Player : public Entity
 {
@@ -41,9 +37,10 @@ public:
 	bool SaveState(pugi::xml_node&);
 	bool GetWinState();
 	bool GetDeadState();
+	PhysBody* GetBody();
 
 public:
-	
+	bool isdead;
 private:
 
 
@@ -59,7 +56,6 @@ private:
 
 	int remainingJumps;
 	int timerbetweenjumps;
-	bool isdead;
 	bool win;
 
 

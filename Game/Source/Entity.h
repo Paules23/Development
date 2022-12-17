@@ -17,6 +17,12 @@ enum class EntityType
 	UNKNOWN
 };
 
+enum _moveState {
+	MS_STOP,
+	MS_LEFT,
+	MS_RIGHT,
+};
+
 class Entity
 {
 public:

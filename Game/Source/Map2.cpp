@@ -42,8 +42,10 @@ bool Map2::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
     {
         MapLayer* layer = item->data;
 
-        if (layer->properties.GetProperty("Navigation") != NULL && !layer->properties.GetProperty("Navigation")->value)
+        if (layer->properties.GetProperty("Navigation") == NULL) {
             continue;
+        }
+           
 
         uchar* map = new uchar[layer->width * layer->height];
         memset(map, 1, layer->width * layer->height);
@@ -59,14 +61,7 @@ bool Map2::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
 
                 if (tileset != NULL)
                 {
-                    //According to the mapType use the ID of the tile to set the walkability value
-                    if (mapData.type == MapTypes::MAPTYPE_ISOMETRIC && tileId == 25) map[i] = 1;
-                    else if (mapData.type == MapTypes::MAPTYPE_ORTHOGONAL && tileId == 50) map[i] = 1;
-                    else map[i] = 0;
-                }
-                else {
-                    LOG("CreateWalkabilityMap: Invalid tileset found");
-                    map[i] = 0;
+                    map[i] = (tileId - tileset->firstgid) > 0 ? 0 : 1;
                 }
             }
         }
@@ -203,6 +198,18 @@ bool Map2::CleanUp()
         collisions = collisions->next;
     }
     mapColliders.Clear();
+
+    ListItem<PhysBody*>* enemyItem;
+    enemyItem = enemies.start;
+
+    while (enemyItem != NULL)
+    {
+        enemyItem->data->body->DestroyFixture(enemyItem->data->body->GetFixtureList());
+        enemyItem->data->body->GetWorld()->DestroyBody(enemyItem->data->body);
+        RELEASE(enemyItem->data); 
+        enemyItem = enemyItem->next;
+    }
+    enemies.Clear();
 
     return true;
 }

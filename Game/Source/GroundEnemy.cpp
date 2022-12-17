@@ -10,36 +10,53 @@
 #include "Point.h"
 #include "Physics.h"
 #include "Scene2.h"
+#include "Map2.h"
 
 
 GroundEnemy::GroundEnemy() : Entity(EntityType::GROUND_ENEMY)
 {
-	iddle.PushBack({ 192,48,48,48 });
-	iddle.PushBack({ 240,48,48,48 });
-	iddle.PushBack({ 288,48,48,48 });
-	iddle.PushBack({ 336,48,48,48 });
-	iddle.PushBack({ 384,48,48,48 });
-	iddle.PushBack({ 432,48,48,48 });
-	iddle.PushBack({ 480,48,48,48 });
+	iddle.PushBack({ 1103,0,48,48 });
+	iddle.PushBack({ 1055,0,48,48 });
+	iddle.PushBack({ 1007,0,48,48 });
+	iddle.PushBack({ 959,0,48,48 });
 	iddle.speed = 0.1f;
 
-	run_right.PushBack({ 192,48,48,48 });
-	run_right.PushBack({ 240,48,48,48 });
-	run_right.PushBack({ 288,48,48,48 });
-	run_right.PushBack({ 336,48,48,48 });
-	run_right.PushBack({ 384,48,48,48 });
-	run_right.PushBack({ 432,48,48,48 });
-	run_right.PushBack({ 480,48,48,48 });
-	run_right.speed = 0.1f;
+	walk_right.PushBack({ 192,48,48,48 });
+	walk_right.PushBack({ 240,48,48,48 });
+	walk_right.PushBack({ 288,48,48,48 });
+	walk_right.PushBack({ 336,48,48,48 });
+	walk_right.PushBack({ 384,48,48,48 });
+	walk_right.PushBack({ 432,48,48,48 });
+	walk_right.PushBack({ 480,48,48,48 });
+	walk_right.speed = 0.1f;
 
-	run_left.PushBack({ 912,0,48,48 });
-	run_left.PushBack({ 864,0,48,48 });
-	run_left.PushBack({ 816,0,48,48 });
-	run_left.PushBack({ 768,0,48,48 });
-	run_left.PushBack({ 720,0,48,48 });
-	run_left.PushBack({ 672,0,48,48 });
-	run_left.PushBack({ 624,0,48,48 });
+	walk_left.PushBack({ 912,0,48,48 });
+	walk_left.PushBack({ 864,0,48,48 });
+	walk_left.PushBack({ 816,0,48,48 });
+	walk_left.PushBack({ 768,0,48,48 });
+	walk_left.PushBack({ 720,0,48,48 });
+	walk_left.PushBack({ 672,0,48,48 });
+	walk_left.PushBack({ 624,0,48,48 });
+	walk_left.speed = 0.1f;
+
+	run_left.PushBack({ 0,0,48,48 });
+	run_left.PushBack({ 48,0,48,48 });
+	run_left.PushBack({ 96,0,48,48 });
+	run_left.PushBack({ 144,0,48,48 });
+	run_left.PushBack({ 192,0,48,48 });
+	run_left.PushBack({ 240,0,48,48 });
+	run_left.PushBack({ 288,0,48,48 }); 
 	run_left.speed = 0.1f;
+
+	run_right.PushBack({ 816,48,48,48 });
+	run_right.PushBack({ 864,48,48,48 });
+	run_right.PushBack({ 912,48,48,48 });
+	run_right.PushBack({ 960,48,48,48 });
+	run_right.PushBack({ 1008,48,48,48 });
+	run_right.PushBack({ 1058,48,48,48 });
+	run_right.PushBack({ 1106,48,48,48 });
+	run_right.speed = 0.1;
+	
 
 	name.Create("GroundEnemy");
 }
@@ -51,16 +68,17 @@ GroundEnemy::~GroundEnemy() {
 bool GroundEnemy::Awake() {
 
 	//L02: DONE 5: Get Player parameters from XML
-
+	
 
 	return true;
 }
 
 bool GroundEnemy::Start() {
-		position.x = parameters.attribute("x").as_int();
-		position.y = parameters.attribute("y").as_int();
+	position.x = parameters.attribute("posx").as_int();
+	position.y = parameters.attribute("posy").as_int();
+
+	texturePath = parameters.attribute("texturepath").as_string();
 		
-		texturePath = parameters.attribute("texturepath").as_string();
 		dead = false;
 		
 		//initilize textures
@@ -74,6 +92,8 @@ bool GroundEnemy::Start() {
 
 		// L07 DONE 7: Assign collider type
 		ebody->ctype = ColliderType::GROUND_ENEMY;
+
+		app->map2->enemies.Add(ebody);
 		left = true;
 
 		/*dieFxId = app->audio->LoadFx("Assets/Audio/Fx/die.ogg");
@@ -88,49 +108,67 @@ bool GroundEnemy::Update()
 	//takes player position
 	playerPos = app->scene2->player->position;
 
-	if (dead == true) {
-		ebody->body->GetWorld()->DestroyBody(ebody->body);
-		ebody = NULL;
-		this->Disable();
-	}
-
-	if (abs(playerPos.x - ebody->body->GetPosition().x) > NOTCHILLDISTANCE ) {
-		walkstate = WalkState::FOLLOWINGPLAYER;
-	}
-	else {
+	if (playerPos.x -  position.x > NOTCHILLDISTANCE || playerPos.x - position.x < -NOTCHILLDISTANCE) {
 		walkstate = WalkState::CHILL;
 	}
+	else {
+		walkstate = WalkState::FOLLOWINGPLAYER;
+	}
 
-	//enemy movement no pathfinding
-	b2Vec2 vel(0, 0);
-	ebody->body->SetGravityScale(1);
-	currentEnemyAnimation = &run_left;
+	//enemy movement 
+ 	b2Vec2 vel(0,-GRAVITY_Y);
 	if (walkstate == WalkState::CHILL) {
 		if (changedir == true) {
-			vel.x = -2;
-			ebody->body->SetLinearVelocity(vel);
-			currentEnemyAnimation = &run_left;
+			vel.x = -ENEMYVELX;
+			currentEnemyAnimation = &walk_left;
 		}
 		else {
-			vel.x = 2;
-			ebody->body->SetLinearVelocity(vel);
-			currentEnemyAnimation = &run_right;
+			vel.x = ENEMYVELX;
+			currentEnemyAnimation = &walk_right;
 		}
+		ebody->body->SetLinearVelocity(vel);
 	}
 	else if (walkstate == WalkState::FOLLOWINGPLAYER) {
-		vel.x = 0;
-		ebody->body->SetLinearVelocity(vel);
+
+		if (abs(target.x + PIXEL_TO_METERS(app->map2->mapData.tileWidth / 2) - ebody->body->GetPosition().x) <= PIXEL_TO_METERS(1)) {
+
+			moveState = MS_STOP;
+			currentEnemyAnimation = &iddle;
+		}
+		else if (target.x > (int)ebody->body->GetPosition().x) {
+			moveState = MS_RIGHT;
+			currentEnemyAnimation = &run_right;
+		}
+		else if (target.x  < (int)ebody->body->GetPosition().x) {
+			moveState = MS_LEFT;
+			currentEnemyAnimation = &run_left;
+		}
+		b2Vec2 vel = ebody->body->GetLinearVelocity();
+		float desiredVelx = 0;
+		float desiredVely = 0;
+		switch (moveState)
+		{
+		case MS_LEFT:  desiredVelx = -4; break;
+		case MS_STOP:  desiredVelx = 0; desiredVely = 0; break;
+		case MS_RIGHT: desiredVelx = 4; break;
+		}
+		float velChangex = desiredVelx - vel.x;
+		float impulsex = ebody->body->GetMass() * velChangex; //disregard time factor
+		ebody->body->ApplyLinearImpulse(b2Vec2(impulsex, 0), ebody->body->GetWorldCenter(), true);
 	}
 
 	currentEnemyAnimation->Update();
 
-	position.x = METERS_TO_PIXELS(ebody->body->GetTransform().p.x) - 16;
-	position.y = METERS_TO_PIXELS(ebody->body->GetTransform().p.y) - 16;
+	position.x = METERS_TO_PIXELS(ebody->body->GetTransform().p.x) - 24;
+	position.y = METERS_TO_PIXELS(ebody->body->GetTransform().p.y) - 24;
 
 	SDL_Rect rect = currentEnemyAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y, &rect);
 
-	
+	if (dead == true) {
+		ebody->body->SetActive(false);
+		this->Disable();
+	}
 	return true;
 }
 
@@ -160,6 +198,7 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::DEATH:
 		LOG("Collision DEATH");
+		dead = true;
 		
 		break;
 	case ColliderType::WIN:
@@ -171,9 +210,9 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::CHANGE_DIR:
 		LOG("Collision ENEMY CHANGE DIR");
-
-		changedir = !changedir;
-
+		if (walkstate == CHILL) {
+			changedir = !changedir;
+		}
 		break;
 	case ColliderType::PLAYER:
 
@@ -186,7 +225,7 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 			dead = true;
 		}
 		else {
-			left = !left;
+			app->scene2->player->isdead = true;
 		}
 
 		LOG("change direction");

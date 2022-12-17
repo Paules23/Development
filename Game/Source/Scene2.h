@@ -56,7 +56,6 @@ private:
 	SDL_Texture* mouseTileTex = nullptr;
 	SDL_Texture* originTex = nullptr;
 	iPoint origin;
-	iPoint destination;
 	bool originSelected = false;
 
 };

@@ -169,10 +169,10 @@ bool Scene2::Update(float dt)
 
 
 	//camera limits
-	app->render->camera.y = 0;
+	/*app->render->camera.y = 0;
 	if (app->render->camera.x > 0) {
 		app->render->camera.x = 0;
-	}
+	}*/
 	if (app->render->camera.x < -3340) {
 		app->render->camera.x = -3340;
 	}
@@ -204,31 +204,41 @@ bool Scene2::Update(float dt)
 		app->map2->Draw();
 	}
 	//pathfinding
+	ListItem<PhysBody*>* enemyBodyItem = app->map2->enemies.start;
 	ListItem<GroundEnemy*>* groundEnemyItem = groundEnemies.start;
 
-	while (groundEnemyItem != NULL) {
+	while (groundEnemyItem != NULL && enemyBodyItem != NULL) {
 
-		if (groundEnemyItem->data->walkstate == WalkState::FOLLOWINGPLAYER)
+		if (groundEnemyItem != NULL && groundEnemyItem->data->walkstate == WalkState::FOLLOWINGPLAYER && enemyBodyItem->data->body->IsActive() == true)
 		{
-			app->pathfinding->ClearLastPath();
-			destination = player->position;
-			origin = groundEnemyItem->data->position;
 			
+			origin.x = enemyBodyItem->data->body->GetPosition().x;
+			origin.y = enemyBodyItem->data->body->GetPosition().y;
+			iPoint destination;
+			destination.x = player->GetBody()->body->GetPosition().x;
+			destination.y = player->GetBody()->body->GetPosition().y;
+			app->pathfinding->ClearLastPath();
 			app->pathfinding->CreatePath(origin, destination);
 
 			const DynArray<iPoint>* path = app->pathfinding->GetLastPath();
 			for (uint i = 0; i < path->Count(); ++i)
 			{
-				iPoint pos = app->map->MapToWorld(path->At(i)->x, path->At(i)->y);
-				app->render->DrawTexture(mouseTileTex, pos.x, pos.y);
-			}
+				iPoint pos = app->map2->MapToWorld(path->At(i)->x, path->At(i)->y);
 
+				if (i == 1)
+				{
+					groundEnemyItem->data->target.x = PIXEL_TO_METERS(pos.x);
+					groundEnemyItem->data->target.y = PIXEL_TO_METERS(pos.y);
+				}
+				if (app->physics->debug) app->render->DrawTexture(mouseTileTex, pos.x, pos.y);
+			} 
 			// L12: Debug pathfinding
-			iPoint originScreen = app->map->MapToWorld(origin.x, origin.y);
-			app->render->DrawTexture(originTex, originScreen.x, originScreen.y);
+			iPoint originScreen = app->map2->MapToWorld(origin.x, origin.y);
+			if (app->physics->debug) app->render->DrawTexture(originTex, originScreen.x, originScreen.y);
 
 		}
 		groundEnemyItem = groundEnemyItem->next;
+		enemyBodyItem = enemyBodyItem->next;
 	}
 
 
@@ -242,6 +252,35 @@ bool Scene2::PostUpdate()
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
+
+	//debug of the path
+
+	if (app->physics->debug )
+	{
+		ListItem<PhysBody*>* ItemListE = app->map2->enemies.start;
+		ListItem<GroundEnemy*>* groundEnemyItem = groundEnemies.start;
+		PhysBody* tebody;
+		PhysBody* pbody = player->GetBody();
+
+
+		while (ItemListE != NULL && groundEnemyItem->data->walkstate == WalkState::FOLLOWINGPLAYER)
+		{
+			tebody = ItemListE->data;
+
+			if (ItemListE->data->body->IsActive())
+			{
+
+				app->render->DrawLine(METERS_TO_PIXELS(tebody->body->GetPosition().x),
+					METERS_TO_PIXELS(tebody->body->GetPosition().y),
+					METERS_TO_PIXELS(pbody->body->GetPosition().x),
+					METERS_TO_PIXELS(pbody->body->GetPosition().y),
+					255, 0, 0);
+			}
+
+			groundEnemyItem = groundEnemyItem->next;
+			ItemListE = ItemListE->next;
+		}
+	}
 
 	return ret;
 }

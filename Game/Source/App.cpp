@@ -185,6 +185,7 @@ pugi::xml_node App::LoadConfig2() {
 	// L01: DONE 3: Check result for loading errors
 	if (parseResult) {
 		configNode = configFile.child("config");
+		LOG("config correctly");
 	}
 	else {
 		LOG("Error in App::LoadConfig(): %s", parseResult.description());

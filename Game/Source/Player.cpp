@@ -324,3 +324,6 @@ bool Player::GetWinState() {
 bool Player::GetDeadState() {
 	return isdead;
 }
+PhysBody* Player::GetBody() {
+	return pbody;
+}
