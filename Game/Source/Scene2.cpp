@@ -315,8 +315,6 @@ bool Scene2::PostUpdate()
 					METERS_TO_PIXELS(pbody->body->GetPosition().y),
 					255, 0, 0);
 			}
-
-			
 			ItemListE = ItemListE->next;
 		}
 	}

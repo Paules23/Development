@@ -158,17 +158,16 @@ bool FlyingEnemy::Update()
 		typeOfMovement = !typeOfMovement;
 	}
 
-	/*if (dead == true) {
+	if (dead == true) {
 		ebody->body->SetActive(false);
 		this->Disable();
-	}*/
+	}
 	return true;
 }
 
 bool FlyingEnemy::CleanUp()
 {
-	ebody->body->GetWorld()->DestroyBody(ebody->body);
-	ebody = NULL;
+	app->tex->UnLoad(texture);
 	return true;
 }
 
@@ -201,7 +200,22 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::GROUND:
 		LOG("Collision JUMPS RESTORED");
 		break;
+	case ColliderType::PLAYER:
+
+		int playerY, enemyY;
+
+		playerY = METERS_TO_PIXELS(physB->body->GetPosition().y);
+		enemyY = METERS_TO_PIXELS(physA->body->GetPosition().y);
+
+		if (enemyY > playerY + physB->height - 2) {
+			dead = true;
+		}
+		else {
+			app->scene2->player->isdead = true;
+		}
+		break;
 	}
+	
 }
 
 

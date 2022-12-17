@@ -225,10 +225,7 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		}
 		else {
 			app->scene2->player->isdead = true;
-		}
-
-		LOG("change direction");
-		
+		}		
 		break;
 	}
 }
