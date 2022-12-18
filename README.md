@@ -3,7 +3,9 @@
 ## Description
 
 A simple platformer with levels created with Tiled. There is an animated character moving 
-around while being able to save and load the game's state. It also has two new enemies a flying and a ground type, to kill both of them you have to jump on top of them. Also has a level 2 now. 
+around while being able to save and load the game's state. It also has two new enemies a flying and a ground type that can jump, to kill both of them you have to jump on top of them. Also has a level 2 now. 
+
+some notes: there is no dying scene because we wanted to make a similar game like supermeatboy so it makes it faster
 
 ## Controls
 
