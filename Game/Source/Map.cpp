@@ -156,6 +156,7 @@ bool Map::CleanUp()
         RELEASE(layerItem->data);
         layerItem = layerItem->next;
     }
+    mapData.maplayers.Clear();
 
     ListItem<PhysBody*>* collisions;
     collisions = mapColliders.start;

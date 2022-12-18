@@ -15,6 +15,8 @@
 
 GroundEnemy::GroundEnemy() : Entity(EntityType::GROUND_ENEMY)
 {
+	name.Create("GroundEnemy");
+
 	iddle.PushBack({ 1103,0,48,48 });
 	iddle.PushBack({ 1055,0,48,48 });
 	iddle.PushBack({ 1007,0,48,48 });
@@ -57,8 +59,7 @@ GroundEnemy::GroundEnemy() : Entity(EntityType::GROUND_ENEMY)
 	run_right.PushBack({ 1106,48,48,48 });
 	run_right.speed = 0.1;
 	
-
-	name.Create("GroundEnemy");
+	
 }
 
 GroundEnemy::~GroundEnemy() {
@@ -66,9 +67,6 @@ GroundEnemy::~GroundEnemy() {
 }
 
 bool GroundEnemy::Awake() {
-
-	//L02: DONE 5: Get Player parameters from XML
-	
 
 	return true;
 }
@@ -84,13 +82,10 @@ bool GroundEnemy::Start() {
 		//initilize textures
 		texture = app->tex->Load(texturePath);
 
-		// L07 DONE 5: Add physics to the player - initialize physics body
 		ebody = app->physics->CreateCircle(position.x + 16, position.y + 16, 15, bodyType::DYNAMIC);
 
-		// L07 DONE 6: Assign player class (using "this") to the listener of the pbody. This makes the Physics module to call the OnCollision method
 		ebody->listener = this;
 
-		// L07 DONE 7: Assign collider type
 		ebody->ctype = ColliderType::GROUND_ENEMY;
 
 		app->map2->enemies.Add(ebody);
@@ -191,6 +186,7 @@ bool GroundEnemy::Update()
 
 	SDL_Rect rect = currentEnemyAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y, &rect);
+
 
 	if (dead == true) {
 		ebody->body->SetActive(false);

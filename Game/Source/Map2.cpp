@@ -187,6 +187,8 @@ bool Map2::CleanUp()
         RELEASE(layerItem->data);
         layerItem = layerItem->next;
     }
+    mapData.maplayers.Clear();
+    //clean colliders
 
     ListItem<PhysBody*>* collisions;
     collisions = mapColliders.start;

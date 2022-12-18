@@ -7,7 +7,8 @@
 #define GRAVITY_X 0.0f
 #define GRAVITY_Y -20.0f
 
-#define INIT_POSITION b2Vec2(parameters.attribute("x1").as_int(),parameters.attribute("y1").as_int())
+#define INIT_POSITION1 b2Vec2(parameters.attribute("x1").as_int(),parameters.attribute("y1").as_int())
+#define INIT_POSITION2 b2Vec2(parameters.attribute("x2").as_int(),parameters.attribute("y2").as_int())
 
 #define PIXELS_PER_METER 32.0f // if touched change METER_PER_PIXEL too
 #define METER_PER_PIXEL 0.03125f // this is 1 / PIXELS_PER_METER !
