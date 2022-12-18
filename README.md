@@ -19,8 +19,10 @@ some notes: there is no dying scene because we wanted to make a similar game lik
  - F4 - Change the flying enemy movement behaviour
  - F5 - Save the current game state
  - F6 - Load the previous state
+ - F7 - Player dies
  - F9 - View colliders / logic
  - F10 - God Mode
+ - F11 - Insta win
 
 ## Developers
 
