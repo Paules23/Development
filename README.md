@@ -2,8 +2,8 @@
 
 ## Description
 
-A simple platformer with levels created with Tiled. There is an animated characer moving 
-around while being able to save and load the game's state.
+A simple platformer with levels created with Tiled. There is an animated character moving 
+around while being able to save and load the game's state. It also has two new enemies a flying and a ground type, to kill both of them you have to jump on top of them. Also has a level 2 now. 
 
 ## Controls
 
@@ -14,6 +14,7 @@ around while being able to save and load the game's state.
  - F1/F2 - Start from the first/second level
  - ESC - Quit
  - F3 - Start from the beginning of the current level
+ -F4 - Change the flying enemy movement behaviour
  - F5 - Save the current game state
  - F6 - Load the previous state
  - F9 - View colliders / logic
