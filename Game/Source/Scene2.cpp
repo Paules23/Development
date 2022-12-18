@@ -211,7 +211,8 @@ bool Scene2::Update(float dt)
 
 	while (enemyBodyItem != NULL) {
 
-		if (groundEnemyItem != NULL && groundEnemyItem->data->walkstate == WalkState::FOLLOWINGPLAYER && enemyBodyItem->data->body->IsActive() == true)
+		if (groundEnemyItem != NULL && groundEnemyItem->data->walkstate == WalkState::FOLLOWINGPLAYER
+			&& enemyBodyItem->data->body->IsActive() == true && !groundEnemyItem->data->dead)
 		{
 			
 			origin.x = enemyBodyItem->data->body->GetPosition().x;
@@ -234,12 +235,13 @@ bool Scene2::Update(float dt)
 				}
 				if (app->physics->debug) app->render->DrawTexture(mouseTileTex, pos.x, pos.y);
 			} 
-			// L12: Debug pathfinding
-			iPoint originScreen = app->map2->MapToWorld(origin.x, origin.y);
+			// L12: Debug pathfinding didn't change the names cause xd
+			iPoint originScreen = app->map2->MapToWorld(destination.x, destination.y);
 			if (app->physics->debug) app->render->DrawTexture(originTex, originScreen.x, originScreen.y);
 			groundEnemyItem = groundEnemyItem->next;
 		}
-		else if (flyingEnemyItem != NULL && flyingEnemyItem->data->walkstate == WalkState::FOLLOWINGPLAYER && enemyBodyItem->data->body->IsActive() == true)
+		else if (flyingEnemyItem != NULL && flyingEnemyItem->data->walkstate == WalkState::FOLLOWINGPLAYER 
+			&& enemyBodyItem->data->body->IsActive() == true && !flyingEnemyItem->data->dead)
 		{
 
 			origin.x = enemyBodyItem->data->body->GetPosition().x;
@@ -262,8 +264,8 @@ bool Scene2::Update(float dt)
 				}
 				if (app->physics->debug) app->render->DrawTexture(mouseTileTex, pos.x, pos.y);
 			}
-			// L12: Debug pathfinding
-			iPoint originScreen = app->map2->MapToWorld(origin.x, origin.y);
+			// L12: Debug pathfinding didn't change the names cause xd
+			iPoint originScreen = app->map2->MapToWorld(destination.x, destination.y);
 			if (app->physics->debug) app->render->DrawTexture(originTex, originScreen.x, originScreen.y);
 			flyingEnemyItem = flyingEnemyItem->next;
 		}

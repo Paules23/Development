@@ -35,8 +35,9 @@
 		<player x1="70" y1="520" x2="70" y2="400" texturepath="Assets/Textures/player1.png"/>
 		<!--<groundenemy posx="800" posy="615" texturepath="Assets/Textures/ground enemy.png"/>
 		<groundenemy posx="850" posy="385" texturepath="Assets/Textures/ground enemy.png"/>
-		<flyingenemy posx="900" posy="100" texturepath="Assets/Textures/flyingenemy.png"/>-->
+		-->
 		<groundenemy posx="850" posy="385" texturepath="Assets/Textures/ground enemy.png"/>
+		<flyingenemy posx="900" posy="100" texturepath="Assets/Textures/flyingenemy.png"/>
 	</scene2>
 
   <sceneIntro texturepath="Assets/Textures/introscene.jpg"/>
