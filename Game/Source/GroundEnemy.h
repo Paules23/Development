@@ -58,6 +58,9 @@ private:
 	bool jump,jumpVel;
 	iPoint position;
 
+	//sound
+	int deadFxId;
+
 	// animations and textures
 	Animation* currentEnemyAnimation;
 	Animation iddle, run_left, run_right, walk_right, walk_left;
