@@ -35,13 +35,13 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	//L07 DONE 2: Add Physics module
 	physics = new Physics(true);
 	pathfinding = new PathFinding(true);
-	scene = new Scene(false);
-	scene2 = new Scene2(true);
-	entityManager = new EntityManager(true);
-	map = new Map(false);
-	map2 = new Map2(true);
+	scene = new Scene(true);
+	scene2 = new Scene2(false);
+	entityManager = new EntityManager(false);
+	map = new Map(true);
+	map2 = new Map2(false);
 	fade = new FadeToBlack(true);
-	intro = new SceneIntro(false);
+	intro = new SceneIntro(true);
 	scenewin = new SceneWin(false);
 
 
@@ -185,7 +185,6 @@ pugi::xml_node App::LoadConfig2() {
 	// L01: DONE 3: Check result for loading errors
 	if (parseResult) {
 		configNode = configFile.child("config");
-		LOG("config correctly");
 	}
 	else {
 		LOG("Error in App::LoadConfig(): %s", parseResult.description());

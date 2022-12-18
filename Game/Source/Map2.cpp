@@ -204,7 +204,6 @@ bool Map2::CleanUp()
 
     while (enemyItem != NULL)
     {
-        enemyItem->data->body->DestroyFixture(enemyItem->data->body->GetFixtureList());
         enemyItem->data->body->GetWorld()->DestroyBody(enemyItem->data->body);
         RELEASE(enemyItem->data); 
         enemyItem = enemyItem->next;
