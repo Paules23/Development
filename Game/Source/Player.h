@@ -41,29 +41,25 @@ public:
 
 public:
 	bool isdead;
+	iPoint position;
 private:
 
-
-
-	//L02: DONE 1: Declare player parameters
-	SDL_Texture* texture;
-	const char* texturePath;
-
-	// L07 DONE 5: Add physics to the player - declare a Physics body
+	//movement and physics
 	PhysBody* pbody;
-
 	_moveState moveState;
-
 	int remainingJumps;
 	int timerbetweenjumps;
+	
+	//win lose
 	bool win;
-
-
 	int dieFxId;
 	int jumpFxId;
 	int winFxId;
+	//anims
 	Animation* currentPlayerAnimation;
 	Animation movement, jump, die, iddle, movementLeft;
+	SDL_Texture* texture;
+	const char* texturePath;
 
 };
 

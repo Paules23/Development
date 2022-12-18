@@ -56,7 +56,7 @@ private:
 	iPoint playerPos;
 	int remainingJumps;
 	bool jump,jumpVel;
-
+	iPoint position;
 
 	// animations and textures
 	Animation* currentEnemyAnimation;

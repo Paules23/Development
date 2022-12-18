@@ -46,6 +46,7 @@ private:
 	_moveState moveStateX;
 	_moveState moveStateY;
 	bool typeOfMovement;
+	iPoint position;
 
 	//animations and textures
 	Animation* currentEnemyAnimation;
