@@ -27,13 +27,14 @@ bool SceneWin::Start()
 	bool ret = true;
 	texturepath = app->LoadConfig2().child("sceneWin").attribute("texturepath").as_string();
 	winTexture = app->tex->Load(texturepath);
-	app->render->camera.x = 0;
+	
 
 	return ret;
 }
 
 bool SceneWin::Update(float dt)
 {
+	app->render->camera.x = 0;
 	bool ret = true;
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
 		ret = false;

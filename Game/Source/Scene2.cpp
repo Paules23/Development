@@ -11,6 +11,7 @@
 #include "Physics.h"
 #include "FadeToBlack.h"
 #include "Pathfinding.h"
+#include "Scene.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -132,14 +133,15 @@ bool Scene2::PreUpdate()
 // Called each loop iteration
 bool Scene2::Update(float dt)
 {
-
+	
+	//winstate
 	if (player->GetWinState() == true) {
 		app->map2->Disable();
 		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scenewin, 20);
 		app->render->camera.x = 0;
 		level2 = false;
 	}
-	// L03: DONE 3: Request App to Load / Save when pressing the keys F5 (save) / F6 (load)
+	// debug keys
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		app->SaveGameRequest();
 
@@ -150,6 +152,17 @@ bool Scene2::Update(float dt)
 			app->render->camera.x = 0;
 		}
 	}
+	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
+		app->map2->Disable();
+		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scene, 20);
+		app->map->Enable();
+		app->render->camera.x = 0;
+		level2 = false;
+		app->scene->level1 = true;
+		app->scene2->Disable();
+	}
+
+	//camera movement
 	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) {
 		app->render->camera.y += CAMERASPEED;
 		stopcamera = false;
@@ -209,7 +222,14 @@ bool Scene2::Update(float dt)
 	ListItem<GroundEnemy*>* groundEnemyItem = groundEnemies.start;
 
 	while (enemyBodyItem != NULL && groundEnemyItem != NULL) {
-		if (enemyBodyItem->data->body->IsActive() && enemyBodyItem->data->ctype == ColliderType::GROUND_ENEMY
+		if (enemyBodyItem->data->ctype != ColliderType::GROUND_ENEMY) {
+			enemyBodyItem = enemyBodyItem->next;
+		}
+		else if (groundEnemyItem->data->dead == true) {
+			groundEnemyItem = groundEnemyItem->next;
+			enemyBodyItem = enemyBodyItem->next;
+		}
+		else if (enemyBodyItem->data->body->IsActive() && enemyBodyItem->data->ctype == ColliderType::GROUND_ENEMY
 			&& groundEnemyItem->data->walkstate == WalkState::FOLLOWINGPLAYER) {
 			origin.x = enemyBodyItem->data->body->GetPosition().x;
 			origin.y = enemyBodyItem->data->body->GetPosition().y;
@@ -232,10 +252,14 @@ bool Scene2::Update(float dt)
 			// L12: Debug pathfinding didn't change the names cause xd
 			iPoint originScreen = app->map2->MapToWorld(destination.x, destination.y);
 			if (app->physics->debug) app->render->DrawTexture(originTex, originScreen.x, originScreen.y);
-			
+			groundEnemyItem = groundEnemyItem->next;
+			enemyBodyItem = enemyBodyItem->next;
 		}
-		groundEnemyItem = groundEnemyItem->next;
-		enemyBodyItem = enemyBodyItem->next;
+		else {
+			groundEnemyItem = groundEnemyItem->next;
+			enemyBodyItem = enemyBodyItem->next;
+		}
+		
 	}
 	enemyBodyItem = app->map2->enemies.start;
 	ListItem<FlyingEnemy*>* flyingEnemyItem = flyingEnemies.start;
@@ -279,9 +303,6 @@ bool Scene2::Update(float dt)
 			flyingEnemyItem = flyingEnemyItem->next;
 		}
 	}
-	
-		
-		
 	
 	return true;
 }
@@ -342,6 +363,11 @@ bool Scene2::PostUpdate()
 bool Scene2::CleanUp()
 {
 	LOG("Freeing scene");
-
+	groundEnemies.Clear();
+	flyingEnemies.Clear();
+	app->tex->UnLoad(img);
+	app->tex->UnLoad(mouseTileTex);
+	app->tex->UnLoad(originTex);
+	
 	return true;
 }

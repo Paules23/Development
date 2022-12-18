@@ -42,7 +42,7 @@ FlyingEnemy::~FlyingEnemy() {
 
 bool FlyingEnemy::Awake() {
 
-	//L02: DONE 5: Get Player parameters from XML
+	
 
 
 	return true;
@@ -59,20 +59,16 @@ bool FlyingEnemy::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 
-	// L07 DONE 5: Add physics to the player - initialize physics body
 	ebody = app->physics->CreateCircle(position.x + 16, position.y + 16, 15, bodyType::DYNAMIC);
 
-	// L07 DONE 6: Assign player class (using "this") to the listener of the pbody. This makes the Physics module to call the OnCollision method
 	ebody->listener = this;
 
-	// L07 DONE 7: Assign collider type
 	ebody->ctype = ColliderType::FLYING_ENEMY;
 	app->map2->enemies.Add(ebody);
 
 	typeOfMovement = false;
 
 
-	//initialize audio effect - !! Path is hardcoded, should be loaded from config.xml
 	/*dieFxId = app->audio->LoadFx("Assets/Audio/Fx/die.ogg");
 	jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/Jump-1.ogg");
 	winFxId = app->audio->LoadFx("Assets/Audio/Fx/win.ogg");*/

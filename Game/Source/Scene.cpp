@@ -86,6 +86,7 @@ bool Scene::Start()
 		app->map->mapData.tilesets.Count());
 
 	app->win->SetTitle(title.GetString());
+	app->render->camera.x = 0;
 
 	stopcamera = true;
 	level1 = true;
@@ -113,7 +114,7 @@ bool Scene::Update(float dt)
 		app->scene2->level2 = true;
 	}
 
-	// L03: DONE 3: Request App to Load / Save when pressing the keys F5 (save) / F6 (load)
+	// ALL DEBUG
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		app->SaveGameRequest();
 		
@@ -124,6 +125,18 @@ bool Scene::Update(float dt)
 			app->render->camera.x = 0;
 		}
 	}
+
+	//debug keys for change of levels
+	/*if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
+		app->map->Disable();
+		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scene2, 20);
+		app->map2->Enable();
+		app->scene->Disable();
+		app->render->camera.x = 0;
+		level1 = false;
+		app->scene2->level2 = true;
+	}*/
+
 
 	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) {
 		app->render->camera.y += CAMERASPEED;
@@ -173,11 +186,6 @@ bool Scene::Update(float dt)
 	}
 	
 	
-	
-
-	
-
-
 	//godmode
 	ListItem<PhysBody*>* colliderItem;
 	colliderItem = app->map->mapColliders.start;
@@ -192,8 +200,6 @@ bool Scene::Update(float dt)
 		}
 		colliderItem = colliderItem->next;
 	}
-
-	
 
 	// Draw map
 	if (level1) {
