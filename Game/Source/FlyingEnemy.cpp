@@ -16,22 +16,22 @@ FlyingEnemy::FlyingEnemy() : Entity(EntityType::PLAYER)
 {
 	name.Create("FlyingEnemy");
 
-	iddle.PushBack({0,0,32,32});
-	iddle.PushBack({ 32,0,32,32 });
-	iddle.PushBack({ 64,0,32,32 });
-	iddle.PushBack({ 96,0,32,32 });
+	iddle.PushBack({0,0,48,48});
+	iddle.PushBack({ 48,0,48,48 });
+	iddle.PushBack({ 96,0,48,48 });
+	iddle.PushBack({ 144,0,48,48 });
 	iddle.speed = 0.1f;
 
-	fly_right.PushBack({ 0,32,32,32 });
-	fly_right.PushBack({ 32,32,32,32 });
-	fly_right.PushBack({ 64,32,32,32 });
-	fly_right.PushBack({ 96,32,32,32 });
+	fly_right.PushBack({ 0,48,48,48 });
+	fly_right.PushBack({ 48,48,48,48 });
+	fly_right.PushBack({ 96,48,48,48 });
+	fly_right.PushBack({ 144,48,48,48 });
 	fly_right.speed = 0.1f;
 
-	fly_left.PushBack({ 0,96,32,32 });
-	fly_left.PushBack({ 32,96,32,32 });
-	fly_left.PushBack({ 64,96,32,32 });
-	fly_left.PushBack({ 96,96,32,32 });
+	fly_left.PushBack({ 0,96,48,48 });
+	fly_left.PushBack({ 48,96,48,48 });
+	fly_left.PushBack({ 96,96,48,48 });
+	fly_left.PushBack({ 144,96,48,48 });
 	fly_left.speed = 0.1f;
 
 }
@@ -76,6 +76,9 @@ bool FlyingEnemy::Start() {
 	/*dieFxId = app->audio->LoadFx("Assets/Audio/Fx/die.ogg");
 	jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/Jump-1.ogg");
 	winFxId = app->audio->LoadFx("Assets/Audio/Fx/win.ogg");*/
+
+	deadFxId = app->audio->LoadFx("Assets/Audio/Fx/eDeath.ogg");
+
 	return true;
 }
 
@@ -83,6 +86,23 @@ bool FlyingEnemy::Update()
 {
 	currentEnemyAnimation = &iddle;
 	playerPos = app->scene2->player->position;
+
+	if (dead == true) {
+		app->audio->PlayFx(deadFxId);
+		if (app->scene->level1) {
+			position.x = parameters.attribute("x1").as_int();
+			position.y = parameters.attribute("y1").as_int();
+		}
+		if (app->scene2->level2) {
+			position.x = parameters.attribute("x2").as_int();
+			position.y = parameters.attribute("y2").as_int();
+		}
+
+		b2Vec2 pos(position.x, position.y);
+		ebody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
+		app->render->camera.x = 0;
+		dead = false;
+	}
 
 	if (playerPos.x - position.x > NOTCHILLDISTANCE || playerPos.x - position.x < -NOTCHILLDISTANCE) {
 		walkstate = WalkState::CHILL;

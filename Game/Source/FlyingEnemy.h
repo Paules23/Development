@@ -48,6 +48,9 @@ private:
 	bool typeOfMovement;
 	iPoint position;
 
+	//sound
+	int deadFxId;
+
 	//animations and textures
 	Animation* currentEnemyAnimation;
 	Animation fly_left, fly_right, iddle;
