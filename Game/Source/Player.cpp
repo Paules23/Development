@@ -109,22 +109,44 @@ bool Player::Start() {
 
 bool Player::Update()
 {
-
 	//win and death conditions
 	if (isdead == true) {
 		app->audio->PlayFx(dieFxId);
 		if (app->scene->level1) {
 			position.x = parameters.attribute("x1").as_int();
 			position.y = parameters.attribute("y1").as_int();
+			
+			
 		}
 		if (app->scene2->level2) {
 			position.x = parameters.attribute("x2").as_int();
 			position.y = parameters.attribute("y2").as_int();
+
+			//future enemies will respawn if the enemy dies
+			/*ListItem<GroundEnemy*>* groundEnemyItem = app->scene2->groundEnemies.start;
+			while (groundEnemyItem != NULL) {
+				if ( groundEnemyItem->data->dead){
+					groundEnemyItem->data->Enable();
+				}
+				groundEnemyItem = groundEnemyItem->next;
+			}
+
+			ListItem<FlyingEnemy*>* flyingEnemyItem = app->scene2->flyingEnemies.start;
+			while (flyingEnemyItem != NULL) {
+				if (flyingEnemyItem->data->dead) {
+					flyingEnemyItem->data->Enable();
+				}
+				flyingEnemyItem = flyingEnemyItem->next;
+			}*/
+
 		}
 
 		b2Vec2 pos(position.x, position.y);
 		pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
 		app->render->camera.x = 0;
+
+		
+
 		isdead = false;
 	}
 	if (win == true) {
@@ -217,9 +239,21 @@ bool Player::Update()
 	}
 
 	//debug options
-	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN || app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
-		pbody->body->SetTransform(PIXEL_TO_METERS(INIT_POSITION), 0);
+	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
+		if (app->scene->level1) {
+			pbody->body->SetTransform(PIXEL_TO_METERS(INIT_POSITION1), 0);
+		}
+		else if (app->scene2->level2) {
+			pbody->body->SetTransform(PIXEL_TO_METERS(INIT_POSITION2), 0);
+		}
 	}
+
+	if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
+		if (app->scene->level1) {
+			win = true;
+		}
+	}
+
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 		app->scene->godmode = !app->scene->godmode;
 	}
@@ -231,10 +265,8 @@ bool Player::Update()
 	}
 	
 	
-	//Update player position in pixels
+	// draw textures and animations
 	currentPlayerAnimation->Update();
-
-	
 
 	SDL_Rect rect = currentPlayerAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y, &rect);
