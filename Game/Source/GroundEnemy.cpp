@@ -266,42 +266,6 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	}
 }
-
-
-bool GroundEnemy::LoadState(pugi::xml_node& data)
-{
-	if (app->scene->level1) {
-		position.x = parameters.attribute("x1").as_int();
-		position.y = parameters.attribute("y1").as_int();
-	}
-	if (app->scene2->level2) {
-		position.x = parameters.attribute("x2").as_int();
-		position.y = parameters.attribute("y2").as_int();
-	}
-
-	b2Vec2 pos(position.x, position.y);
-	ebody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
-
-	return true;
-}
-
-// L03: DONE 8: Create a method to save the state of the renderer
-// using append_child and append_attribute
-bool GroundEnemy::SaveState(pugi::xml_node& data)
-{
-	pugi::xml_node play = data.append_child("player");
-
-	if (app->scene->level1) {
-		play.append_attribute("x1") = position.x;
-		play.append_attribute("y1") = position.y;
-	}
-	if (app->scene2->level2) {
-		play.append_attribute("x2") = position.x;
-		play.append_attribute("y2") = position.y;
-	}
-
-	return true;
-}
 bool GroundEnemy::GetDeadState() {
 	return dead;
 }

@@ -330,55 +330,55 @@ bool Player::LoadState(pugi::xml_node& data)
 		position.y = data.child("player").attribute("y2").as_int();
 		remainingJumps = data.child("player").attribute("remainingJumps").as_int();
 
-		////ground enemies loadstate
-		//ListItem<GroundEnemy*>* groundEnemyItem = app->scene2->groundEnemies.start;
-		//pugi::xml_node GE = data.child("groundEnemy");
+		//ground enemies loadstate
+		ListItem<GroundEnemy*>* groundEnemyItem = app->scene2->groundEnemies.start;
+		pugi::xml_node GE = data.child("groundEnemy");
 
-		//while (groundEnemyItem != NULL)
-		//{
-		//	groundEnemyItem->data->position.x = GE.attribute("x").as_int();
-		//	groundEnemyItem->data->position.x = GE.attribute("y").as_int();
+		while (groundEnemyItem != NULL)
+		{
+			groundEnemyItem->data->position.x = GE.attribute("x").as_int();
+			groundEnemyItem->data->position.x = GE.attribute("y").as_int();
 
-		//	if (groundEnemyItem->data->dead == true && GE.attribute("dead").as_bool() == false)
-		//	{
-		//		groundEnemyItem->data->dead = false;
-		//		groundEnemyItem->data->ebody->body->SetActive(true);
-		//		groundEnemyItem->data->Enable();
-		//	}
-		//	else if (groundEnemyItem->data->dead == false && GE.attribute("dead").as_bool() == true)
-		//	{
-		//		groundEnemyItem->data->dead = true;
-		//	}
-		//	b2Vec2 pos(groundEnemyItem->data->position.x, groundEnemyItem->data->position.y);
-		//	pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
-		//	GE = GE.next_sibling("groundEnemy");
-		//	groundEnemyItem = groundEnemyItem->next;
-		//}
+			if (groundEnemyItem->data->dead == true && GE.attribute("dead").as_bool() == false)
+			{
+				groundEnemyItem->data->dead = false;
+				groundEnemyItem->data->ebody->body->SetActive(true);
+				groundEnemyItem->data->Enable();
+			}
+			else if (groundEnemyItem->data->dead == false && GE.attribute("dead").as_bool() == true)
+			{
+				groundEnemyItem->data->dead = true;
+			}
+			b2Vec2 pos(groundEnemyItem->data->position.x, groundEnemyItem->data->position.y);
+			pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
+			GE = GE.next_sibling("groundEnemy");
+			groundEnemyItem = groundEnemyItem->next;
+		}
 
-		////flying enemies loadstate
-		//ListItem<FlyingEnemy*>* flyingEnemyItem = app->scene2->flyingEnemies.start;
-		//pugi::xml_node FE = data.child("flyingEnemy");
+		//flying enemies loadstate
+		ListItem<FlyingEnemy*>* flyingEnemyItem = app->scene2->flyingEnemies.start;
+		pugi::xml_node FE = data.child("flyingEnemy");
 
-		//while (flyingEnemyItem != NULL)
-		//{
-		//	flyingEnemyItem->data->position.x = FE.attribute("x").as_int();
-		//	flyingEnemyItem->data->position.x = FE.attribute("y").as_int();
+		while (flyingEnemyItem != NULL)
+		{
+			flyingEnemyItem->data->position.x = FE.attribute("x").as_int();
+			flyingEnemyItem->data->position.x = FE.attribute("y").as_int();
 
-		//	if (flyingEnemyItem->data->dead == true && FE.attribute("dead").as_bool() == false)
-		//	{
-		//		flyingEnemyItem->data->dead = false;
-		//		flyingEnemyItem->data->ebody->body->SetActive(true);
-		//		flyingEnemyItem->data->Enable();
-		//	}
-		//	else if (flyingEnemyItem->data->dead == false && FE.attribute("dead").as_bool() == true)
-		//	{
-		//		flyingEnemyItem->data->dead = true;
-		//	}
-		//	b2Vec2 pos(flyingEnemyItem->data->position.x, flyingEnemyItem->data->position.y);
-		//	pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
-		//	FE = FE.next_sibling("flyingEnemy");
-		//	flyingEnemyItem = flyingEnemyItem->next;
-		//}
+			if (flyingEnemyItem->data->dead == true && FE.attribute("dead").as_bool() == false)
+			{
+				flyingEnemyItem->data->dead = false;
+				flyingEnemyItem->data->ebody->body->SetActive(true);
+				flyingEnemyItem->data->Enable();
+			}
+			else if (flyingEnemyItem->data->dead == false && FE.attribute("dead").as_bool() == true)
+			{
+				flyingEnemyItem->data->dead = true;
+			}
+			b2Vec2 pos(flyingEnemyItem->data->position.x, flyingEnemyItem->data->position.y);
+			pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
+			FE = FE.next_sibling("flyingEnemy");
+			flyingEnemyItem = flyingEnemyItem->next;
+		}
 	}
 
 	b2Vec2 pos (position.x, position.y);
@@ -406,31 +406,31 @@ bool Player::SaveState(pugi::xml_node& data)
 		play.append_attribute("y2") = position.y;
 		play.append_attribute("remainingJumps") = remainingJumps;
 
-		////ground enemies savestate
-		//ListItem<GroundEnemy*>* groundEnemyItem = app->scene2->groundEnemies.start;
-		//pugi::xml_node GE = data.append_child("groundEnemy");
+		//ground enemies savestate
+		ListItem<GroundEnemy*>* groundEnemyItem = app->scene2->groundEnemies.start;
+		pugi::xml_node GE = data.append_child("groundEnemy");
 
-		//while (groundEnemyItem != NULL)
-		//{
-		//	GE.append_attribute("x") = groundEnemyItem->data->position.x;
-		//	GE.append_attribute("y") = groundEnemyItem->data->position.y;
-		//	GE.append_attribute("dead") = groundEnemyItem->data->dead;
+		while (groundEnemyItem != NULL)
+		{
+			GE.append_attribute("x") = groundEnemyItem->data->position.x;
+			GE.append_attribute("y") = groundEnemyItem->data->position.y;
+			GE.append_attribute("dead") = groundEnemyItem->data->dead;
 
-		//	GE = GE.next_sibling("groundEnemy");
-		//	groundEnemyItem = groundEnemyItem->next;
-		//}
-		////flying enemies savestate
-		//ListItem<FlyingEnemy*>* flyingEnemyItem = app->scene2->flyingEnemies.start;
-		//pugi::xml_node FE = data.append_child("flyingEnemy");
+			GE = GE.next_sibling("groundEnemy");
+			groundEnemyItem = groundEnemyItem->next;
+		}
+		//flying enemies savestate
+		ListItem<FlyingEnemy*>* flyingEnemyItem = app->scene2->flyingEnemies.start;
+		pugi::xml_node FE = data.append_child("flyingEnemy");
 
-		//while (flyingEnemyItem != NULL)
-		//{
-		//	FE.append_attribute("x") = flyingEnemyItem->data->position.x;
-		//	FE.append_attribute("y") = flyingEnemyItem->data->position.y;
-		//	FE.append_attribute("dead") = flyingEnemyItem->data->dead;
-		//	FE = FE.next_sibling("flyingEnemy");
-		//	flyingEnemyItem = flyingEnemyItem->next;
-		//}
+		while (flyingEnemyItem != NULL)
+		{
+			FE.append_attribute("x") = flyingEnemyItem->data->position.x;
+			FE.append_attribute("y") = flyingEnemyItem->data->position.y;
+			FE.append_attribute("dead") = flyingEnemyItem->data->dead;
+			FE = FE.next_sibling("flyingEnemy");
+			flyingEnemyItem = flyingEnemyItem->next;
+		}
 	}
 
 	

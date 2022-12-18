@@ -9,14 +9,9 @@
 	<scene />
 	<scene2 />
 	<entitymanager>
-		<player x1="89" y1="512" remainingJumps = "0" x2="89" y2="512"/>
-		<groundEnemy x="89" y="512" dead = "false"/>
-		<groundEnemy x="89" y="512" dead = "false"/>
-		<groundEnemy x="89" y="512" dead = "false"/>
-		<groundEnemy x="89" y="512" dead = "false"/>
-		<flyingEnemy x="89" y="512" dead = "false"/>
-		<flyingEnemy x="89" y="512" dead = "false"/>
-		<flyingEnemy x="89" y="512" dead = "false"/>
+		<player x2="292" y2="480" remainingJumps="2" />
+		<groundEnemy x="741" y="376" dead="false" />
+		<flyingEnemy x="995" y="95" dead="false" />
 	</entitymanager>
 	<map />
 	<map2 />
