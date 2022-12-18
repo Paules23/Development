@@ -14,7 +14,7 @@ around while being able to save and load the game's state. It also has two new e
  - F1/F2 - Start from the first/second level
  - ESC - Quit
  - F3 - Start from the beginning of the current level
- -F4 - Change the flying enemy movement behaviour
+ - F4 - Change the flying enemy movement behaviour
  - F5 - Save the current game state
  - F6 - Load the previous state
  - F9 - View colliders / logic
