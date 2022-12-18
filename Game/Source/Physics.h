@@ -38,6 +38,7 @@ enum class ColliderType {
 	GROUND_ENEMY,
 	FLYING_ENEMY,
 	CHANGE_DIR,
+	ENEMY_JUMP,
 	UNKNOWN
 	// ..
 };

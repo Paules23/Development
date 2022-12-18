@@ -95,6 +95,8 @@ bool GroundEnemy::Start() {
 
 		app->map2->enemies.Add(ebody);
 
+		remainingJumps = 1;
+
 		/*dieFxId = app->audio->LoadFx("Assets/Audio/Fx/die.ogg");
 		jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/Jump-1.ogg");
 		winFxId = app->audio->LoadFx("Assets/Audio/Fx/win.ogg");*/
@@ -128,8 +130,7 @@ bool GroundEnemy::Update()
 		ebody->body->SetLinearVelocity(vel);
 	}
 	else if (walkstate == WalkState::FOLLOWINGPLAYER) {
-
-		if (abs(target.x + PIXEL_TO_METERS(app->map2->mapData.tileWidth / 2) - ebody->body->GetPosition().x) <= PIXEL_TO_METERS(1)) {
+		if (abs(target.x + PIXEL_TO_METERS(app->map2->mapData.tileWidth / 2) - ebody->body->GetPosition().x) <= PIXEL_TO_METERS(1) && jumpVel == false) {
 
 			moveState = MS_STOP;
 			currentEnemyAnimation = &iddle;
@@ -147,13 +148,21 @@ bool GroundEnemy::Update()
 		float desiredVely = 0;
 		switch (moveState)
 		{
-		case MS_LEFT:  desiredVelx = -4; break;
-		case MS_STOP:  desiredVelx = 0; desiredVely = 0; break;
-		case MS_RIGHT: desiredVelx = 4; break;
+		case MS_LEFT:  if (jumpVel) { desiredVelx = -6; } else { desiredVelx = -4; }; break;
+		case MS_STOP:  desiredVelx = 0; break;
+		case MS_RIGHT: if (jumpVel) { desiredVelx = 6; }else { desiredVelx = 4; }; break;
 		}
 		float velChangex = desiredVelx - vel.x;
 		float impulsex = ebody->body->GetMass() * velChangex; //disregard time factor
 		ebody->body->ApplyLinearImpulse(b2Vec2(impulsex, 0), ebody->body->GetWorldCenter(), true);
+
+		if (jump == true) {
+			b2Vec2 xd(ebody->body->GetLinearVelocity().x, 0);
+			ebody->body->SetLinearVelocity(xd);
+			float impulsey = ebody->body->GetMass() * JUMPIMPULSEENEMYUP;
+			ebody->body->ApplyLinearImpulse(b2Vec2(0, impulsey), ebody->body->GetWorldCenter(), false);
+			jump = false;
+		}
 	}
 
 	currentEnemyAnimation->Update();
@@ -206,11 +215,23 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::GROUND:
 		LOG("Collision JUMPS RESTORED");
+		remainingJumps = 1;
+		jumpVel = false;
 		break;
 	case ColliderType::CHANGE_DIR:
 		LOG("Collision ENEMY CHANGE DIR");
 		if (walkstate == CHILL) {
 			changedir = !changedir;
+		}
+		break;
+	case ColliderType::ENEMY_JUMP:
+		LOG("Collision ENEMY CHANGE DIR");
+		if (walkstate == FOLLOWINGPLAYER) {
+			if (remainingJumps > 0) {
+				--remainingJumps;
+				jump = true;
+				jumpVel = true;
+			}
 		}
 		break;
 	case ColliderType::PLAYER:

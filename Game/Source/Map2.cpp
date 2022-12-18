@@ -466,6 +466,13 @@ void Map2::LoadCollisionsFromTileId() {
                         c1->ctype = ColliderType::CHANGE_DIR;
                     }
                 }
+                if (mapLayerItem->data->properties.GetProperty("EnemyJump") != NULL && mapLayerItem->data->properties.GetProperty("EnemyJump")->value == true) {
+                    if (gid != NULL) {
+                        PhysBody* c1 = app->physics->CreateRectangleSensor(pos.x + 16, pos.y + 16, 20, 20, STATIC);
+                        mapColliders.Add(c1);
+                        c1->ctype = ColliderType::ENEMY_JUMP;
+                    }
+                }
             }
         }
         mapLayerItem = mapLayerItem->next;

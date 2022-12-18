@@ -8,6 +8,7 @@
 
 #define NOTCHILLDISTANCE 500
 #define ENEMYVELX 2
+#define JUMPIMPULSEENEMYUP -12
 
 
 
@@ -53,11 +54,13 @@ private:
 	_moveState moveState;
 	PhysBody* ebody;
 	iPoint playerPos;
+	int remainingJumps;
+	bool jump,jumpVel;
+
 
 	// animations and textures
 	Animation* currentEnemyAnimation;
 	Animation iddle, run_left, run_right, walk_right, walk_left;
-
 	SDL_Texture* texture;
 	const char* texturePath;
 
