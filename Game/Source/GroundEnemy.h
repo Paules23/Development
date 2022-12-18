@@ -45,6 +45,8 @@ public:
 	bool changedir;
 	WalkState walkstate;
 	iPoint target;
+	iPoint position;
+	PhysBody* ebody;
 
 private:
 
@@ -52,11 +54,10 @@ private:
 	
 	//body and movement parameters
 	_moveState moveState;
-	PhysBody* ebody;
 	iPoint playerPos;
 	int remainingJumps;
 	bool jump,jumpVel;
-	iPoint position;
+
 
 	//sound
 	int deadFxId;

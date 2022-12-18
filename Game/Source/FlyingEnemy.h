@@ -35,18 +35,19 @@ public:
 	bool dead;
 	WalkState walkstate;
 	iPoint target;
+	iPoint position;
+	PhysBody* ebody;
 
 private:
 
 
 	//body and movement parameters
-	PhysBody* ebody;
 	iPoint playerPos;
 	iPoint bodyPos;
 	_moveState moveStateX;
 	_moveState moveStateY;
 	bool typeOfMovement;
-	iPoint position;
+
 
 	//sound
 	int deadFxId;
