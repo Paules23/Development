@@ -76,6 +76,7 @@ bool GroundEnemy::Start() {
 	position.y = parameters.attribute("posy").as_int();
 
 	texturePath = parameters.attribute("texturepath").as_string();
+	audioPath = parameters.attribute("aduiopath").as_string();
 		
 		dead = false;
 		
@@ -96,7 +97,7 @@ bool GroundEnemy::Start() {
 		jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/Jump-1.ogg");
 		winFxId = app->audio->LoadFx("Assets/Audio/Fx/win.ogg");*/
 
-		deadFxId = app->audio->LoadFx("Assets/Audio/Fx/egDeath.ogg");
+		deadFxId = app->audio->LoadFx(audioPath);
 
 	return true;
 }

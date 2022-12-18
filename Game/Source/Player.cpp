@@ -85,6 +85,9 @@ bool Player::Start() {
 		position.y = parameters.attribute("y2").as_int();
 	}
 	texturePath = parameters.attribute("texturepath").as_string();
+	audioDie = parameters.attribute("audioDie").as_string();
+	audioWin = parameters.attribute("audioWin").as_string();
+	audioJump = parameters.attribute("audioJump").as_string();
 	isdead = false;
 	win = false;
 	//initilize textures
@@ -144,14 +147,10 @@ bool Player::Update()
 		b2Vec2 pos(position.x, position.y);
 		pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
 		app->render->camera.x = 0;
-
-		
-
 		isdead = false;
 	}
 	if (win == true) {
 		app->audio->PlayMusic("");
-		app->audio->PlayFx(winFxId);
 	}
 	//Movement and jump of the player
 	if (remainingJumps < 1) {
@@ -306,6 +305,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::WIN:
 		LOG("Collision WIN");
 		win = true;
+		app->audio->PlayFx(winFxId);
 		break;
 	case ColliderType::GROUND:
 		LOG("Collision JUMPS RESTORED");

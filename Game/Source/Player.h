@@ -60,6 +60,9 @@ private:
 	Animation movement, jump, die, iddle, movementLeft;
 	SDL_Texture* texture;
 	const char* texturePath;
+	const char* audioDie; 
+	const char* audioJump; 
+	const char* audioWin;
 
 };
 

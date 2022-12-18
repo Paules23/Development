@@ -66,6 +66,7 @@ private:
 	Animation iddle, run_left, run_right, walk_right, walk_left;
 	SDL_Texture* texture;
 	const char* texturePath;
+	const char* audioPath;
 
 
 };

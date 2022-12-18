@@ -56,6 +56,8 @@ private:
 	Animation fly_left, fly_right, iddle;
 	SDL_Texture* texture;
 	const char* texturePath;
+	const char* audioPath;
+
 
 };
 
