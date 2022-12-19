@@ -84,23 +84,6 @@ bool FlyingEnemy::Update()
 	currentEnemyAnimation = &iddle;
 	playerPos = app->scene2->player->position;
 
-	if (dead == true) {
-		app->audio->PlayFx(deadFxId);
-		if (app->scene->level1) {
-			position.x = parameters.attribute("x1").as_int();
-			position.y = parameters.attribute("y1").as_int();
-		}
-		if (app->scene2->level2) {
-			position.x = parameters.attribute("x2").as_int();
-			position.y = parameters.attribute("y2").as_int();
-		}
-
-		b2Vec2 pos(position.x, position.y);
-		ebody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
-		app->render->camera.x = 0;
-		dead = false;
-	}
-
 	if (playerPos.x - position.x > NOTCHILLDISTANCE || playerPos.x - position.x < -NOTCHILLDISTANCE) {
 		walkstate = WalkState::CHILL;
 	}
@@ -176,6 +159,7 @@ bool FlyingEnemy::Update()
 	} 
 
 	if (dead == true) {
+		app->audio->PlayFx(deadFxId);
 		ebody->body->SetActive(false);
 		this->Disable();
 	}

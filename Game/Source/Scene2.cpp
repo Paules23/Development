@@ -183,10 +183,10 @@ bool Scene2::Update(float dt)
 
 
 	//camera limits
-	/*app->render->camera.y = 0;
+	app->render->camera.y = 0;
 	if (app->render->camera.x > 0) {
 		app->render->camera.x = 0;
-	}*/
+	}
 	if (app->render->camera.x < -3340) {
 		app->render->camera.x = -3340;
 	}
