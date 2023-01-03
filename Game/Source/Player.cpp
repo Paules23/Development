@@ -161,29 +161,33 @@ bool Player::Update()
 	else {
 		currentPlayerAnimation = &iddle;
 	}
-	if (app->scene->godmode) {
+	if (app->scene->godmode || app->scene2->godmode) {
 		b2Vec2 vel(0, 0);
 		pbody->body->SetGravityScale(0);
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
 			currentPlayerAnimation = &iddle;
 			vel.y = GODMODESPEED;
 			app->scene->stopcamera = true;
+			app->scene2->stopcamera = true;
 		}
 		if (app->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) {
 			currentPlayerAnimation = &iddle;
 			vel.y = -GODMODESPEED;
 			app->scene->stopcamera = true;
+			app->scene2->stopcamera = true;
 		}
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) {
 
 			currentPlayerAnimation = &movement;
 			vel.x = GODMODESPEED;
 			app->scene->stopcamera = true;
+			app->scene2->stopcamera = true;
 		}
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) {
 			currentPlayerAnimation = &movementLeft;
 			vel.x = -GODMODESPEED;
 			app->scene->stopcamera = true;
+			app->scene2->stopcamera = true;
 		}
 		pbody->body->SetLinearVelocity(vel);
 		position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
@@ -208,6 +212,7 @@ bool Player::Update()
 			currentPlayerAnimation = &movementLeft;
 			moveState = MS_LEFT;
 			app->scene->stopcamera = true;
+			app->scene2->stopcamera = true;
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_A) == KEY_UP) {
@@ -218,6 +223,7 @@ bool Player::Update()
 			currentPlayerAnimation = &movement;
 			moveState = MS_RIGHT;
 			app->scene->stopcamera = true;
+			app->scene2->stopcamera = true;
 		}
 
 		if (app->input->GetKey(SDL_SCANCODE_D) == KEY_UP) {
@@ -256,7 +262,13 @@ bool Player::Update()
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
-		app->scene->godmode = !app->scene->godmode;
+		if (app->scene->level1) {
+			app->scene->godmode = !app->scene->godmode;
+		}
+		else if (app->scene2->level2){
+			app->scene2->godmode = !app->scene2->godmode;
+		}
+		
 	}
 	if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
 		win = true;
@@ -301,6 +313,9 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision UNKNOWN");
 		break;
 	case ColliderType::DEATH:
+		if (app->scene2->godmode) {
+			break;
+		}
 		LOG("Collision DEATH");
 		isdead = true;
 		break;

@@ -205,8 +205,8 @@ bool GroundEnemy::Update()
 			hitcounter = HITCOUNTER;
 		}
 		else {
-			enemyhit = false;
 			hitcounter = RESETHITCOUNTER;
+			enemyhit = false;
 		}
 		
 	}
@@ -220,6 +220,7 @@ bool GroundEnemy::Update()
 	SDL_Rect rect = currentEnemyAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y, &rect);
 	if (dead == true) {
+		hitcounter = RESETHITCOUNTER;
 		app->audio->PlayFx(deadFxId);
 		ebody->body->SetActive(false);
 		this->Disable();
@@ -284,7 +285,9 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		}
 		break;
 	case ColliderType::PLAYER:
-
+		if (app->scene2->godmode) {
+			break;
+		}
 		int playerY, enemyY;
 
 		playerY = METERS_TO_PIXELS(physB->body->GetPosition().y);

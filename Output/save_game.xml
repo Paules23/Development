@@ -9,7 +9,9 @@
 	<scene />
 	<scene2 />
 	<entitymanager>
-		<player x1="2473" y1="230" remainingJumps="2" />
+		<player x2="403" y2="352" remainingJumps="2" />
+		<groundEnemy x="791" y="600" dead="false" />
+		<flyingEnemy x="997" y="98" dead="false" />
 	</entitymanager>
 	<map />
 	<map2 />
@@ -17,6 +19,6 @@
 	<:anonymous />
 	<:anonymous />
 	<renderer>
-		<camera x="-2170" y="0" />
+		<camera x="-103" y="0" />
 	</renderer>
 </save_state>

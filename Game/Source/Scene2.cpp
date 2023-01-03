@@ -198,21 +198,6 @@ bool Scene2::Update(float dt)
 		app->render->camera.x = -player->position.x + 300;
 	}
 
-	//godmode
-	ListItem<PhysBody*>* colliderItem;
-	colliderItem = app->map2->mapColliders.start;
-	while (colliderItem != NULL)
-	{
-		if (godmode) {
-			colliderItem->data->body->SetActive(false);
-
-		}
-		else {
-			colliderItem->data->body->SetActive(true);
-		}
-		colliderItem = colliderItem->next;
-	}
-
 	// Draw map
 	if (level2) {
 		app->map2->Draw();
@@ -304,6 +289,7 @@ bool Scene2::Update(float dt)
 		}
 	}
 	
+	
 	return true;
 }
 
@@ -314,48 +300,63 @@ bool Scene2::PostUpdate()
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
 		ret = false;
-
-	//debug of the path
-
+	//debug of the path basically shows a fking red line xdd
 	if (app->physics->debug )
 	{
-		ListItem<PhysBody*>* ItemListE = app->map2->enemies.start;
-		ListItem<GroundEnemy*>* groundEnemyItem = groundEnemies.start;
-		ListItem<FlyingEnemy*>* flyingEnemyItem = flyingEnemies.start;
-		PhysBody* ebody;
 		PhysBody* pbody = player->GetBody();
+		ListItem<PhysBody*>* enemyBodyItem = app->map2->enemies.start;
+		ListItem<GroundEnemy*>* groundEnemyItem = groundEnemies.start;
 
-
-		while (ItemListE != NULL)
-		{
-			ebody = ItemListE->data;
-
-			if (ItemListE->data->body->IsActive() && groundEnemyItem != NULL 
-				&& groundEnemyItem->data->walkstate == WalkState::FOLLOWINGPLAYER && !groundEnemyItem->data->dead)
-			{
-
-				app->render->DrawLine(METERS_TO_PIXELS(ebody->body->GetPosition().x),
-					METERS_TO_PIXELS(ebody->body->GetPosition().y),
+		while (enemyBodyItem != NULL && groundEnemyItem != NULL) {
+			if (enemyBodyItem->data->ctype != ColliderType::GROUND_ENEMY) {
+				enemyBodyItem = enemyBodyItem->next;
+			}
+			else if (groundEnemyItem->data->dead == true) {
+				groundEnemyItem = groundEnemyItem->next;
+				enemyBodyItem = enemyBodyItem->next;
+			}
+			else if (enemyBodyItem->data->body->IsActive() && enemyBodyItem->data->ctype == ColliderType::GROUND_ENEMY
+				&& groundEnemyItem->data->walkstate == WalkState::FOLLOWINGPLAYER) {
+				app->render->DrawLine(METERS_TO_PIXELS(enemyBodyItem->data->body->GetPosition().x),
+					METERS_TO_PIXELS(enemyBodyItem->data->body->GetPosition().y),
 					METERS_TO_PIXELS(pbody->body->GetPosition().x),
 					METERS_TO_PIXELS(pbody->body->GetPosition().y),
 					255, 0, 0);
 				groundEnemyItem = groundEnemyItem->next;
+				enemyBodyItem = enemyBodyItem->next;
 			}
-			if (ItemListE->data->body->IsActive() && flyingEnemyItem != NULL && 
-				flyingEnemyItem->data->walkstate == WalkState::FOLLOWINGPLAYER && !groundEnemyItem->data->dead)
-			{
+			else {
+				groundEnemyItem = groundEnemyItem->next;
+				enemyBodyItem = enemyBodyItem->next;
+			}
+		}
+		enemyBodyItem = app->map2->enemies.start;
+		ListItem<FlyingEnemy*>* flyingEnemyItem = flyingEnemies.start;
 
-				app->render->DrawLine(METERS_TO_PIXELS(ebody->body->GetPosition().x),
-					METERS_TO_PIXELS(ebody->body->GetPosition().y),
+		while (enemyBodyItem != NULL && flyingEnemyItem != NULL) {
+			if (enemyBodyItem->data->ctype != ColliderType::FLYING_ENEMY) {
+				enemyBodyItem = enemyBodyItem->next;
+			}
+			else if (flyingEnemyItem->data->dead == true) {
+				flyingEnemyItem = flyingEnemyItem->next;
+				enemyBodyItem = enemyBodyItem->next;
+			}
+			else if (enemyBodyItem->data->ctype == ColliderType::FLYING_ENEMY
+				&& flyingEnemyItem->data->walkstate == WalkState::FOLLOWINGPLAYER) {
+				app->render->DrawLine(METERS_TO_PIXELS(enemyBodyItem->data->body->GetPosition().x),
+					METERS_TO_PIXELS(enemyBodyItem->data->body->GetPosition().y),
 					METERS_TO_PIXELS(pbody->body->GetPosition().x),
 					METERS_TO_PIXELS(pbody->body->GetPosition().y),
 					255, 0, 0);
 				flyingEnemyItem = flyingEnemyItem->next;
+				enemyBodyItem = enemyBodyItem->next;
 			}
-			ItemListE = ItemListE->next;
+			else {
+				enemyBodyItem = enemyBodyItem->next;
+				flyingEnemyItem = flyingEnemyItem->next;
+			}
 		}
 	}
-
 	return ret;
 }
 

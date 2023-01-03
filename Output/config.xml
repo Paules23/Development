@@ -34,8 +34,8 @@
 		-->
 		<groundenemy posx="900" posy="385" texturepath="Assets/Textures/ground enemy.png" audiopath ="Assets/Audio/Fx/egDeath.ogg"/>
 		<groundenemy posx="770" posy="615" texturepath="Assets/Textures/ground enemy.png" audiopath ="Assets/Audio/Fx/egDeath.ogg"/>
-		<groundenemy posx="2200" posy="384" texturepath="Assets/Textures/ground enemy.png" audiopath ="Assets/Audio/Fx/egDeath.ogg"/>
-		<groundenemy posx="2272" posy="192" texturepath="Assets/Textures/ground enemy.png" audiopath ="Assets/Audio/Fx/egDeath.ogg"/>
+		<groundenemy posx="2250" posy="384" texturepath="Assets/Textures/ground enemy.png" audiopath ="Assets/Audio/Fx/egDeath.ogg"/>
+		<groundenemy posx="2280" posy="192" texturepath="Assets/Textures/ground enemy.png" audiopath ="Assets/Audio/Fx/egDeath.ogg"/>
 		<flyingenemy posx="1000" posy="100" texturepath="Assets/Textures/flyingenemy.png" audiopath ="Assets/Audio/Fx/eDeath.ogg"/>
 		<flyingenemy posx="1728" posy="100" texturepath="Assets/Textures/flyingenemy.png" audiopath ="Assets/Audio/Fx/eDeath.ogg"/>
 		<flyingenemy posx="3488" posy="224" texturepath="Assets/Textures/flyingenemy.png" audiopath ="Assets/Audio/Fx/eDeath.ogg"/>

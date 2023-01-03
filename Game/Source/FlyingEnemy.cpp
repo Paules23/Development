@@ -202,7 +202,9 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision JUMPS RESTORED");
 		break;
 	case ColliderType::PLAYER:
-
+		if (app->scene2->godmode) {
+			break;
+		}
 		int playerY, enemyY;
 
 		playerY = METERS_TO_PIXELS(physB->body->GetPosition().y);
