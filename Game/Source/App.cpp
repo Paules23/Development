@@ -35,7 +35,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	//L07 DONE 2: Add Physics module
 	physics = new Physics(true);
 	pathfinding = new PathFinding(true);
-	scene = new Scene(true);
+	scene = new Scene(false);
 	scene2 = new Scene2(false);
 	entityManager = new EntityManager(false);
 	map = new Map(true);
