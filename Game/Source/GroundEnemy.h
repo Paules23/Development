@@ -9,7 +9,7 @@
 #define NOTCHILLDISTANCE 500
 #define ENEMYVELX 2
 #define JUMPIMPULSEENEMYUP -12
-#define HITCOUNTER 5;
+#define HITCOUNTER 3;
 #define RESETHITCOUNTER -2;
 
 
@@ -36,6 +36,10 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody* physA, PhysBody* physB);
+
+	/*bool LoadState(pugi::xml_node&);
+	bool SaveState(pugi::xml_node&);*/
+
 	bool GetDeadState();
 
 public:

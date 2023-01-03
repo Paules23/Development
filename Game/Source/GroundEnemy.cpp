@@ -90,7 +90,7 @@ bool GroundEnemy::Start() {
 		//initilize textures
 		texture = app->tex->Load(texturePath);
 
-		ebody = app->physics->CreateCircle(position.x + 16, position.y + 16, 15, bodyType::DYNAMIC);
+		ebody = app->physics->CreateCircle(position.x + 24, position.y + 24, 15, bodyType::DYNAMIC);
 
 		ebody->listener = this;
 
@@ -113,8 +113,14 @@ bool GroundEnemy::Start() {
 
 bool GroundEnemy::Update()
 {
+	if (dead == true) {
+		app->audio->PlayFx(deadFxId);
+		ebody->body->SetActive(false);
+		return true;
+	}
 	if (hp == 0) {
 		dead = true;
+		hp = 2;
 	}
 	//takes player position
 	playerPos = app->scene2->player->position;
@@ -174,9 +180,6 @@ bool GroundEnemy::Update()
 			jump = false;
 		}
 	}
-
-	
-
 	
 	if (enemyhit) {
 		if (hitcounter > 0) {
@@ -210,23 +213,12 @@ bool GroundEnemy::Update()
 		}
 		
 	}
-
-
-
 	currentEnemyAnimation->Update();
 	position.x = METERS_TO_PIXELS(ebody->body->GetTransform().p.x) - 24;
 	position.y = METERS_TO_PIXELS(ebody->body->GetTransform().p.y) - 24;
 
 	SDL_Rect rect = currentEnemyAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y, &rect);
-	if (dead == true) {
-		hitcounter = RESETHITCOUNTER;
-		app->audio->PlayFx(deadFxId);
-		ebody->body->SetActive(false);
-		this->Disable();
-	}
-
-	
 	return true;
 }
 
@@ -302,6 +294,33 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	}
 }
+
+//bool GroundEnemy::LoadState(pugi::xml_node& data)
+//{
+//
+//	position.x = data.child("groundEnemy").attribute("x").as_int();
+//	position.y = data.child("groundEnemy").attribute("y").as_int();
+//	dead = data.child("groundEnemy").attribute("dead").as_bool();
+//
+//	b2Vec2 pos(position.x, position.y);
+//	ebody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
+//	return true;
+//}
+//
+//// using append_child and append_attribute
+//bool GroundEnemy::SaveState(pugi::xml_node& data)
+//{
+//	//player savestate
+//	pugi::xml_node play = data.append_child("groundEnemy");
+//
+//	play.append_attribute("x") = position.x;
+//	play.append_attribute("y") = position.y;
+//	play.append_attribute("dead") = dead;
+//	
+//	return true;
+//}
+
+
 bool GroundEnemy::GetDeadState() {
 	return dead;
 }

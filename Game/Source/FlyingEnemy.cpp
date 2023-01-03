@@ -81,6 +81,11 @@ bool FlyingEnemy::Start() {
 
 bool FlyingEnemy::Update()
 {
+	if (dead == true) {
+		app->audio->PlayFx(deadFxId);
+		ebody->body->SetActive(false);
+		return true;
+	}
 	currentEnemyAnimation = &iddle;
 	playerPos = app->scene2->player->position;
 
@@ -157,12 +162,6 @@ bool FlyingEnemy::Update()
 	if (app->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {
 		typeOfMovement = !typeOfMovement;
 	} 
-
-	if (dead == true) {
-		app->audio->PlayFx(deadFxId);
-		ebody->body->SetActive(false);
-		this->Disable();
-	}
 	return true;
 }
 
