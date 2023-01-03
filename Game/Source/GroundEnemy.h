@@ -9,6 +9,8 @@
 #define NOTCHILLDISTANCE 500
 #define ENEMYVELX 2
 #define JUMPIMPULSEENEMYUP -12
+#define HITCOUNTER 5;
+#define RESETHITCOUNTER -2;
 
 
 
@@ -38,6 +40,7 @@ public:
 
 public:
 
+	//need public jaja maybe could use friends but whatever
 	bool dead;
 	bool changedir;
 	WalkState walkstate;
@@ -46,9 +49,6 @@ public:
 	PhysBody* ebody;
 
 private:
-
-
-	
 	//body and movement parameters
 	_moveState moveState;
 	iPoint playerPos;
@@ -58,13 +58,19 @@ private:
 
 	//sound
 	int deadFxId;
+	int hitFxId;
 
 	// animations and textures
 	Animation* currentEnemyAnimation;
-	Animation iddle, run_left, run_right, walk_right, walk_left;
+	Animation iddle, run_left, run_right, walk_right, walk_left, hit_left, hit_right;
 	SDL_Texture* texture;
 	const char* texturePath;
 	const char* audioPath;
+
+	//hit logic
+	uint hp;
+	bool enemyhit;
+	int hitcounter;
 
 
 };

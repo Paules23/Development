@@ -58,6 +58,10 @@ GroundEnemy::GroundEnemy() : Entity(EntityType::GROUND_ENEMY)
 	run_right.PushBack({ 1058,48,48,48 });
 	run_right.PushBack({ 1106,48,48,48 });
 	run_right.speed = 0.1;
+
+	hit_left.PushBack({ 384,0,48,48 });
+
+	hit_right.PushBack({ 720,48,48,48 });
 	
 	
 }
@@ -79,6 +83,9 @@ bool GroundEnemy::Start() {
 	audioPath = parameters.attribute("aduiopath").as_string();
 		
 		dead = false;
+		hp = 2;
+		enemyhit = false;
+		hitcounter = RESETHITCOUNTER;
 		
 		//initilize textures
 		texture = app->tex->Load(texturePath);
@@ -90,6 +97,8 @@ bool GroundEnemy::Start() {
 		ebody->ctype = ColliderType::GROUND_ENEMY;
 
 		app->map2->enemies.Add(ebody);
+
+
 
 		remainingJumps = 1;
 
@@ -104,6 +113,9 @@ bool GroundEnemy::Start() {
 
 bool GroundEnemy::Update()
 {
+	if (hp == 0) {
+		dead = true;
+	}
 	//takes player position
 	playerPos = app->scene2->player->position;
 
@@ -163,20 +175,57 @@ bool GroundEnemy::Update()
 		}
 	}
 
-	currentEnemyAnimation->Update();
+	
 
+	
+	if (enemyhit) {
+		if (hitcounter > 0) {
+			switch (moveState)
+			{
+			case MS_STOP:
+				currentEnemyAnimation = &hit_right;
+				break;
+			case MS_LEFT:
+				currentEnemyAnimation = &hit_left;
+				break;
+			case MS_RIGHT:
+				currentEnemyAnimation = &hit_right;
+				break;
+			default:
+				break;
+			}
+			--hitcounter;
+		}
+		else if(hitcounter < -1){
+			b2Vec2 xd(app->scene2->player->GetBody()->body->GetLinearVelocity().x, 0);
+			app->scene2->player->GetBody()->body->SetLinearVelocity(xd);
+			float impulse = app->scene2->player->GetBody()->body->GetMass() * KILLENEMYIMPULSE;
+			app->scene2->player->GetBody()->body->ApplyLinearImpulse(b2Vec2(0, impulse), app->scene2->player->GetBody()->body->GetWorldCenter(), false);
+			--hp;
+			hitcounter = HITCOUNTER;
+		}
+		else {
+			enemyhit = false;
+			hitcounter = RESETHITCOUNTER;
+		}
+		
+	}
+
+
+
+	currentEnemyAnimation->Update();
 	position.x = METERS_TO_PIXELS(ebody->body->GetTransform().p.x) - 24;
 	position.y = METERS_TO_PIXELS(ebody->body->GetTransform().p.y) - 24;
 
 	SDL_Rect rect = currentEnemyAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y, &rect);
-
-
 	if (dead == true) {
 		app->audio->PlayFx(deadFxId);
 		ebody->body->SetActive(false);
 		this->Disable();
 	}
+
+	
 	return true;
 }
 
@@ -242,7 +291,7 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		enemyY = METERS_TO_PIXELS(physA->body->GetPosition().y);
 
 		if (enemyY > playerY + physB->height -2) {
-			dead = true;
+			enemyhit = true;
 		}
 		else {
 			app->scene2->player->isdead = true;

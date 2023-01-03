@@ -7,6 +7,7 @@
 #include "Animation.h"
 
 #define JUMPIMPULSE -9
+#define KILLENEMYIMPULSE -7
 #define GODMODESPEED 10
 
 

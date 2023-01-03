@@ -28,10 +28,10 @@ FlyingEnemy::FlyingEnemy() : Entity(EntityType::PLAYER)
 	fly_right.PushBack({ 144,48,48,48 });
 	fly_right.speed = 0.1f;
 
-	fly_left.PushBack({ 0,96,48,48 });
-	fly_left.PushBack({ 48,96,48,48 });
-	fly_left.PushBack({ 96,96,48,48 });
-	fly_left.PushBack({ 144,96,48,48 });
+	fly_left.PushBack({ 0,144,48,48 });
+	fly_left.PushBack({ 48,144,48,48 });
+	fly_left.PushBack({ 96,144,48,48 });
+	fly_left.PushBack({ 144,144,48,48 });
 	fly_left.speed = 0.1f;
 
 }
@@ -209,6 +209,10 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		enemyY = METERS_TO_PIXELS(physA->body->GetPosition().y);
 
 		if (enemyY > playerY + physB->height - 2) {
+			b2Vec2 xd(app->scene2->player->GetBody()->body->GetLinearVelocity().x, 0);
+			app->scene2->player->GetBody()->body->SetLinearVelocity(xd);
+			float impulse = app->scene2->player->GetBody()->body->GetMass() * KILLENEMYIMPULSE;
+			app->scene2->player->GetBody()->body->ApplyLinearImpulse(b2Vec2(0, impulse), app->scene2->player->GetBody()->body->GetWorldCenter(), false);
 			dead = true;
 		}
 		else {
