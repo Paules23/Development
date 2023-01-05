@@ -164,20 +164,20 @@ bool Scene2::Update(float dt)
 
 	//camera movement
 	if (app->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) {
-		app->render->camera.y += CAMERASPEED;
+		app->render->camera.y += ceil(CAMERASPEED * dt);
 		stopcamera = false;
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) {
-		app->render->camera.y -= CAMERASPEED;
+		app->render->camera.y -= ceil(CAMERASPEED * dt);
 		stopcamera = false;
 	}
 	if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
-		app->render->camera.x += CAMERASPEED;
+		app->render->camera.x += ceil(CAMERASPEED * dt);
 		stopcamera = false;
 	}
 	if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
-		app->render->camera.x -= CAMERASPEED;
+		app->render->camera.x -= ceil(CAMERASPEED * dt);
 		stopcamera = false;
 	}
 

@@ -8,7 +8,7 @@
 struct SDL_Texture;
 
 
-#define CAMERASPEED 15
+#define CAMERASPEED 1.0f
 
 class Scene : public Module
 {
