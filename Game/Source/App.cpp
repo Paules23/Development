@@ -15,6 +15,7 @@
 #include "SceneIntro.h"
 #include "SceneWin.h"
 #include "Pathfinding.h"
+#include "GuiManager.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -40,6 +41,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	entityManager = new EntityManager(false);
 	map = new Map(true);
 	map2 = new Map2(false);
+	guiManager = new GuiManager(true);
 	fade = new FadeToBlack(true);
 	intro = new SceneIntro(true);
 	scenewin = new SceneWin(false);
@@ -59,6 +61,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(entityManager);
 	AddModule(map);
 	AddModule(map2);
+	AddModule(guiManager);
 	AddModule(fade);
 	AddModule(intro);
 	AddModule(scenewin);
@@ -84,7 +87,6 @@ App::~App()
 void App::AddModule(Module* module)
 {
 	modules.Add(module);
-	
 }
 
 // Called before render is available

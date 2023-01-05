@@ -4,11 +4,10 @@
 #include "SString.h"
 
 #include "PugiXml/src/pugixml.hpp"
-
-
-
+	
 class App;
 class PhysBody;
+class GuiControl;
 
 class Module 
 {
@@ -16,6 +15,11 @@ public:
 
 	Module(bool startEnabled) : isEnabled(startEnabled)
 	{}
+
+	void Init()
+	{
+		isEnabled = true;
+	}
 
 	// Called before render is available
 	virtual bool Awake(pugi::xml_node&)
@@ -67,6 +71,11 @@ public:
 	virtual void OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	{
 
+	}
+
+	virtual bool OnGuiMouseClickEvent(GuiControl* control)
+	{
+		return true;
 	}
 
 	void Enable()
