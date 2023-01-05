@@ -130,26 +130,24 @@ bool Player::Update()
 			//enemies will respawn if the player dies
 			ListItem<GroundEnemy*>* groundEnemyItem = app->scene2->groundEnemies.start;
 			while (groundEnemyItem != NULL) {
-				if ( groundEnemyItem->data->dead){
-					groundEnemyItem->data->dead = false;
-					groundEnemyItem->data->ebody->body->SetActive(true);
-					groundEnemyItem->data->position.x = groundEnemyItem->data->parameters.attribute("posx").as_int();
-					groundEnemyItem->data->position.y = groundEnemyItem->data->parameters.attribute("posy").as_int();
-					b2Vec2 pos(groundEnemyItem->data->position.x, groundEnemyItem->data->position.y);
-					groundEnemyItem->data->ebody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
-				}
+				
+				groundEnemyItem->data->dead = false;
+				groundEnemyItem->data->ebody->body->SetActive(true);
+				groundEnemyItem->data->position.x = groundEnemyItem->data->parameters.attribute("posx").as_int();
+				groundEnemyItem->data->position.y = groundEnemyItem->data->parameters.attribute("posy").as_int();
+				b2Vec2 pos(groundEnemyItem->data->position.x, groundEnemyItem->data->position.y);
+				groundEnemyItem->data->ebody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
+				
 				groundEnemyItem = groundEnemyItem->next;
 			}
 			ListItem<FlyingEnemy*>* flyingEnemyItem = app->scene2->flyingEnemies.start;
 			while (flyingEnemyItem != NULL) {
-				if (flyingEnemyItem->data->dead) {
-					flyingEnemyItem->data->dead = false;
-					flyingEnemyItem->data->ebody->body->SetActive(true);
-					flyingEnemyItem->data->position.x = flyingEnemyItem->data->parameters.attribute("posx").as_int();
-					flyingEnemyItem->data->position.y = flyingEnemyItem->data->parameters.attribute("posy").as_int();
-					b2Vec2 pos(flyingEnemyItem->data->position.x, flyingEnemyItem->data->position.y);
-					flyingEnemyItem->data->ebody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
-				}
+				flyingEnemyItem->data->dead = false;
+				flyingEnemyItem->data->ebody->body->SetActive(true);
+				flyingEnemyItem->data->position.x = flyingEnemyItem->data->parameters.attribute("posx").as_int();
+				flyingEnemyItem->data->position.y = flyingEnemyItem->data->parameters.attribute("posy").as_int();
+				b2Vec2 pos(flyingEnemyItem->data->position.x, flyingEnemyItem->data->position.y);
+				flyingEnemyItem->data->ebody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
 				flyingEnemyItem = flyingEnemyItem->next;
 			}
 
@@ -471,3 +469,7 @@ bool Player::GetDeadState() {
 PhysBody* Player::GetBody() {
 	return pbody;
 }
+void Player::SetJumps(int jumps) {
+	remainingJumps = jumps;
+}
+

@@ -38,6 +38,7 @@ public:
 	bool SaveState(pugi::xml_node&);
 	bool GetWinState();
 	bool GetDeadState();
+	void SetJumps(int jumps);
 	PhysBody* GetBody();
 
 public:

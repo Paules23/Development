@@ -213,6 +213,7 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 			app->scene2->player->GetBody()->body->SetLinearVelocity(xd);
 			float impulse = app->scene2->player->GetBody()->body->GetMass() * KILLENEMYIMPULSE;
 			app->scene2->player->GetBody()->body->ApplyLinearImpulse(b2Vec2(0, impulse), app->scene2->player->GetBody()->body->GetWorldCenter(), false);
+			app->scene2->player->SetJumps(2);
 			dead = true;
 		}
 		else {

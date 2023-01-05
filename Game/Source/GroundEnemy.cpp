@@ -286,6 +286,7 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		enemyY = METERS_TO_PIXELS(physA->body->GetPosition().y);
 
 		if (enemyY > playerY + physB->height -2) {
+			app->scene2->player->SetJumps(2);
 			enemyhit = true;
 		}
 		else {
