@@ -80,7 +80,7 @@ bool GroundEnemy::Start() {
 	position.y = parameters.attribute("posy").as_int();
 
 	texturePath = parameters.attribute("texturepath").as_string();
-	audioPath = parameters.attribute("aduiopath").as_string();
+	audioPath = parameters.attribute("audiopath").as_string();
 		
 		dead = false;
 		hp = 2;

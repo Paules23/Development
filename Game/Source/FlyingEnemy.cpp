@@ -82,7 +82,6 @@ bool FlyingEnemy::Start() {
 bool FlyingEnemy::Update()
 {
 	if (dead == true) {
-		app->audio->PlayFx(deadFxId);
 		ebody->body->SetActive(false);
 		return true;
 	}
@@ -219,6 +218,7 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		else {
 			app->scene2->player->isdead = true;
 		}
+		app->audio->PlayFx(deadFxId);
 		break;
 	}
 	
