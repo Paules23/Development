@@ -112,8 +112,17 @@ bool Player::Start() {
 	return true;
 }
 
+bool Player::PreUpdate() 
+{
+	return true;
+}
+
 bool Player::Update()
 {
+	if (app->physics->getPause()) {
+		moveState = MS_STOP;
+		return true;
+	}
 	//win and death conditions
 	if (isdead == true) {
 		app->audio->PlayFx(dieFxId);
@@ -168,7 +177,7 @@ bool Player::Update()
 	else {
 		currentPlayerAnimation = &iddle;
 	}
-	if (app->scene->godmode || app->scene2->godmode) {
+	if (app->physics->getGodMode()) {
 		b2Vec2 vel(0, 0);
 		pbody->body->SetGravityScale(0);
 		if (app->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) {
@@ -269,13 +278,7 @@ bool Player::Update()
 	}
 
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
-		if (app->scene->level1) {
-			app->scene->godmode = !app->scene->godmode;
-		}
-		else if (app->scene2->level2){
-			app->scene2->godmode = !app->scene2->godmode;
-		}
-		
+		app->physics->GodMode();
 	}
 	if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
 		win = true;
@@ -284,12 +287,18 @@ bool Player::Update()
 		isdead = true;
 	}
 	
-	
 	// draw textures and animations
 	currentPlayerAnimation->Update();
+	return true;
+}
+
+bool Player::PostUpdate() {
+	if (currentPlayerAnimation == NULL)
+		return true;
 
 	SDL_Rect rect = currentPlayerAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y, &rect);
+
 	return true;
 }
 
@@ -320,7 +329,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision UNKNOWN");
 		break;
 	case ColliderType::DEATH:
-		if (app->scene2->godmode) {
+		if (app->physics->getGodMode()) {
 			break;
 		}
 		LOG("Collision DEATH");

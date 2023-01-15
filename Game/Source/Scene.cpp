@@ -70,7 +70,6 @@ bool Scene::Start()
 	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 	player->parameters = app->LoadConfig2().child("scene").child("player");
 	app->entityManager->Enable();
-	godmode = false;
 
 	app->audio->PlayMusic("Assets/Audio/Music/song.ogg");
 		
@@ -103,7 +102,6 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
-
 	if (player->GetWinState() == true) {
 		app->map->Disable();
 		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scene2, 20);
@@ -180,7 +178,7 @@ bool Scene::Update(float dt)
 	colliderItem = app->map->mapColliders.start;
 	while (colliderItem != NULL)
 	{
-		if (godmode) {
+		if (app->physics->getGodMode()) {
 			colliderItem->data->body->SetActive(false);
 
 		}
@@ -203,8 +201,9 @@ bool Scene::PostUpdate()
 {
 	bool ret = true;
 
-	if(app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+		app->physics->Pause();
+	}
 
 	return ret;
 }

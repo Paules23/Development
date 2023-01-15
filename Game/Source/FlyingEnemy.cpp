@@ -79,8 +79,16 @@ bool FlyingEnemy::Start() {
 	return true;
 }
 
+bool FlyingEnemy::PreUpdate() 
+{
+	return true;
+}
+
 bool FlyingEnemy::Update()
 {
+	if (app->physics->getPause()) {
+		return true;
+	}
 	if (dead == true) {
 		ebody->body->SetActive(false);
 		return true;
@@ -150,17 +158,27 @@ bool FlyingEnemy::Update()
 		}
 	}
 
+	if (app->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {
+		typeOfMovement = !typeOfMovement;
+	} 
 	currentEnemyAnimation->Update();
+	return true;
+}
 
+bool FlyingEnemy::PostUpdate() 
+{
+	if (currentEnemyAnimation == NULL) {
+		return true;
+	}
+	if (dead == true) {
+		return true;
+	}
+	
 	position.x = METERS_TO_PIXELS(ebody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(ebody->body->GetTransform().p.y) - 16;
 
 	SDL_Rect rect = currentEnemyAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y, &rect);
-
-	if (app->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN) {
-		typeOfMovement = !typeOfMovement;
-	} 
 	return true;
 }
 
@@ -200,7 +218,7 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision JUMPS RESTORED");
 		break;
 	case ColliderType::PLAYER:
-		if (app->scene2->godmode) {
+		if (app->physics->getGodMode()) {
 			break;
 		}
 		int playerY, enemyY;

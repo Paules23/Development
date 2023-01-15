@@ -35,6 +35,8 @@ bool Physics::Start()
 {
 	LOG("Creating Physics 2D environment");
 	debug = false;
+	pause = false;
+	godmode = false;
 	world = new b2World(b2Vec2(GRAVITY_X, -GRAVITY_Y));
 
 	world->SetContactListener(this);
@@ -46,7 +48,9 @@ bool Physics::PreUpdate()
 {
 	bool ret = true;
 
-
+	if (pause) {
+		return ret;
+	}
 	// Step (update) the World
 	// WARNING: WE ARE STEPPING BY CONSTANT 1/60 SECONDS!
 	world->Step(1.0f / 60.0f, 6, 2);
@@ -208,8 +212,6 @@ bool Physics::PostUpdate()
 	if (app->input->GetKey(SDL_SCANCODE_F9) == KEY_DOWN) {
 		debug = !debug;
 	}
-
-	
 
 	// Bonus code: this will iterate all objects in the world and draw the circles
 	// You need to provide your own macro to translate meters to pixels
@@ -428,4 +430,23 @@ b2WeldJoint* Physics::CreateWeldJoint(PhysBody* A, b2Vec2 anchorA, PhysBody* B, 
 	weldJointDef.referenceAngle = 0;
 
 	return (b2WeldJoint*)world->CreateJoint(&weldJointDef);
+}
+
+void Physics::Pause() {
+	pause = !pause;
+}
+void Physics::Debug() {
+	debug = !debug;
+}
+void Physics::GodMode() {
+	godmode = !godmode;
+}
+bool Physics::getDebug() {
+	return debug;
+}
+bool Physics::getGodMode() {
+	return godmode;
+}
+bool Physics::getPause() {
+	return pause;
 }

@@ -111,8 +111,17 @@ bool GroundEnemy::Start() {
 	return true;
 }
 
+bool GroundEnemy::PreUpdate() 
+{
+	return true;
+}
+
 bool GroundEnemy::Update()
 {
+	if (app->physics->getPause()) {
+		return true;
+	}
+
 	if (dead == true) {
 		app->audio->PlayFx(deadFxId);
 		ebody->body->SetActive(false);
@@ -214,6 +223,17 @@ bool GroundEnemy::Update()
 		
 	}
 	currentEnemyAnimation->Update();
+	return true;
+}
+
+bool GroundEnemy::PostUpdate() {
+	if (currentEnemyAnimation == NULL) {
+		return true;
+	}	
+	if (dead == true) {
+		return true;
+	}
+
 	position.x = METERS_TO_PIXELS(ebody->body->GetTransform().p.x) - 24;
 	position.y = METERS_TO_PIXELS(ebody->body->GetTransform().p.y) - 24;
 
@@ -277,7 +297,7 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		}
 		break;
 	case ColliderType::PLAYER:
-		if (app->scene2->godmode) {
+		if (app->physics->getGodMode()) {
 			break;
 		}
 		int playerY, enemyY;

@@ -48,7 +48,6 @@ public:
 
 
 	bool stopcamera;
-	bool godmode;
 	bool level2;
 
 private:

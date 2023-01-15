@@ -88,7 +88,6 @@ bool Scene2::Start()
 	player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
 	player->parameters = app->LoadConfig2().child("scene").child("player");
 	app->entityManager->Enable();
-	godmode = false;
 
 	app->audio->PlayMusic("Assets/Audio/Music/song.ogg");
 	mouseTileTex = app->tex->Load("Assets/Textures/path_square.png");
@@ -232,11 +231,11 @@ bool Scene2::Update(float dt)
 					groundEnemyItem->data->target.y = PIXEL_TO_METERS(pos.y);
 				}
 
-				if (app->physics->debug) app->render->DrawTexture(mouseTileTex, pos.x, pos.y);
+				if (app->physics->getDebug()) app->render->DrawTexture(mouseTileTex, pos.x, pos.y);
 			}
 			// L12: Debug pathfinding didn't change the names cause xd
 			iPoint originScreen = app->map2->MapToWorld(destination.x, destination.y);
-			if (app->physics->debug) app->render->DrawTexture(originTex, originScreen.x, originScreen.y);
+			if (app->physics->getDebug()) app->render->DrawTexture(originTex, originScreen.x, originScreen.y);
 			groundEnemyItem = groundEnemyItem->next;
 			enemyBodyItem = enemyBodyItem->next;
 		}
@@ -275,11 +274,11 @@ bool Scene2::Update(float dt)
 					flyingEnemyItem->data->target.y = PIXEL_TO_METERS(pos.y);
 				}
 
-				if (app->physics->debug) app->render->DrawTexture(mouseTileTex, pos.x, pos.y);
+				if (app->physics->getDebug()) app->render->DrawTexture(mouseTileTex, pos.x, pos.y);
 			}
 			// L12: Debug pathfinding didn't change the names cause xd
 			iPoint originScreen = app->map2->MapToWorld(destination.x, destination.y);
-			if (app->physics->debug) app->render->DrawTexture(originTex, originScreen.x, originScreen.y);
+			if (app->physics->getDebug()) app->render->DrawTexture(originTex, originScreen.x, originScreen.y);
 			flyingEnemyItem = flyingEnemyItem->next;
 			enemyBodyItem = enemyBodyItem->next;
 		}
@@ -299,9 +298,9 @@ bool Scene2::PostUpdate()
 	bool ret = true;
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
-		ret = false;
+		app->physics->Pause();
 	//debug of the path basically shows a fking red line xdd
-	if (app->physics->debug )
+	if (app->physics->getDebug())
 	{
 		PhysBody* pbody = player->GetBody();
 		ListItem<PhysBody*>* enemyBodyItem = app->map2->enemies.start;
