@@ -29,6 +29,9 @@ public:
 	// Additional methods
 	GuiControl* CreateGuiControl(GuiControlType type, int id, const char* text, SDL_Rect bounds, Module* observer, SDL_Rect sliderBounds = { 0,0,0,0 });
 
+	void activateMenu();
+	void activateSettings();
+
 public:
 
 	List<GuiControl*> guiControlsList;
@@ -38,6 +41,9 @@ public:
 	bool doLogic = false;
 
 	SDL_Texture* texture;
+
+	bool menu;
+	bool settings;
 
 };
 

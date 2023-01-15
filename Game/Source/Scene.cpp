@@ -12,6 +12,7 @@
 #include "FadeToBlack.h"
 #include "Map2.h"
 #include "Scene2.h"
+#include "GuiManager.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -89,6 +90,12 @@ bool Scene::Start()
 
 	stopcamera = true;
 	level1 = true;
+
+	//all damn buttons
+	uint w, h;
+	app->win->GetWindowSize(w, h);
+	resume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "Resume", { (int)w / 2 - 50,(int)h / 2 - 30,100,20 }, this);
+	settings = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, "Settings", { (int)w / 2 - 50,(int)h / 2,100,20 }, this);
 
 	return true;
 }
@@ -188,10 +195,69 @@ bool Scene::Update(float dt)
 		colliderItem = colliderItem->next;
 	}
 
+	//buttons
+	if (app->guiManager->menu == true) {
+		ListItem<GuiControl*>* control = app->guiManager->guiControlsList.start;
+
+		while (control != nullptr)
+		{
+			for (int i = 1; i < 5; ++i) {
+				if (control->data->id == 1) {
+					control->data->enabled = true;
+				}
+			}
+			control = control->next;
+		}
+	}
+	//deactivate menu
+	if (app->guiManager->menu == false) {
+		ListItem<GuiControl*>* control = app->guiManager->guiControlsList.start;
+
+		while (control != nullptr)
+		{
+			for (int i = 1; i < 5; ++i) {
+				if (control->data->id == 1) {
+					control->data->enabled = false;
+				}
+			}
+			control = control->next;
+		}
+	}
+
+	if (app->guiManager->settings == true) {
+		ListItem<GuiControl*>* control = app->guiManager->guiControlsList.start;
+
+		while (control != nullptr)
+		{
+			for (int i = 1; i < 5; ++i) {
+				if (control->data->id == 2) {
+					control->data->enabled = true;
+				}
+			}
+			control = control->next;
+		}
+	}
+
+	if (app->guiManager->settings == false) {
+		ListItem<GuiControl*>* control = app->guiManager->guiControlsList.start;
+
+		while (control != nullptr)
+		{
+			for (int i = 1; i < 5; ++i) {
+				if (control->data->id == 2) {
+					control->data->enabled = false;
+				}
+			}
+			control = control->next;
+		}
+	}
+
 	// Draw map
 	if (level1) {
 		app->map->Draw();
 	}
+
+	app->guiManager->Draw();
 	
 	return true;
 }
@@ -203,9 +269,34 @@ bool Scene::PostUpdate()
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
 		app->physics->Pause();
+		app->guiManager->activateMenu();
+
+		//LOGIC FOR THE BUTTONS makes sense to do here in order to not check the if every time and do the whiles and for
+		//activate menu
+		
 	}
 
 	return ret;
+}
+
+bool Scene::OnGuiMouseClickEvent(GuiControl* control)
+{
+	// L15: DONE 5: Implement the OnGuiMouseClickEvent method
+	LOG("Event by %d ", control->id);
+
+	switch (control->id)
+	{
+	case 1:
+		LOG("Button 1 click");
+		app->guiManager->settings = true;
+		app->guiManager->menu = false;
+		break;
+	case 2:
+		LOG("Button 2 click");
+		break;
+	}
+
+	return true;
 }
 
 // Called before quitting

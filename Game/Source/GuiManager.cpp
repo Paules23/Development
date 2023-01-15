@@ -14,6 +14,8 @@ GuiManager::~GuiManager() {}
 
 bool GuiManager::Start()
 {
+	menu = false;
+	settings = false;
 	return true;
 }
 
@@ -74,7 +76,9 @@ bool GuiManager::Update(float dt)
 
 		while (control != nullptr)
 		{
-			control->data->Update(dt);
+			if (control->data->enabled) {
+				control->data->Update(dt);
+			}
 			control = control->next;
 		}
 
@@ -91,7 +95,9 @@ bool GuiManager::Draw() {
 
 	while (control != nullptr)
 	{
-		control->data->Draw(app->render);
+		if (control->data->enabled) {
+			control->data->Draw(app->render);
+		}
 		control = control->next;
 	}
 
@@ -111,4 +117,11 @@ bool GuiManager::CleanUp()
 	return true;
 
 	return false;
+}
+
+void GuiManager::activateMenu() {
+	menu = !menu;
+}
+void GuiManager::activateSettings() {
+	settings = !settings;
 }

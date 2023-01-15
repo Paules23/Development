@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Player.h"
 #include "Item.h"
+#include "GuiButton.h"
 
 struct SDL_Texture;
 
@@ -30,6 +31,9 @@ public:
 
 	bool CleanUp();
 
+	// Define multiple Gui Event methods
+	bool OnGuiMouseClickEvent(GuiControl* control);
+
 public:
 
 	//L02: DONE 3: Declare a Player attribute 
@@ -40,6 +44,10 @@ public:
 private:
 	SDL_Texture* img;
 	
+	GuiButton* resume;
+	GuiButton* settings;
+	GuiButton* backTopTitle;
+	GuiButton* Exit;
 
 };
 
