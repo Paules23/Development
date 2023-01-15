@@ -201,6 +201,9 @@ bool Scene2::Update(float dt)
 	if (level2) {
 		app->map2->Draw();
 	}
+	if (app->physics->getPause()) {
+		return true;
+	}
 	//pathfinding
 	ListItem<PhysBody*>* enemyBodyItem = app->map2->enemies.start;
 	ListItem<GroundEnemy*>* groundEnemyItem = groundEnemies.start;
