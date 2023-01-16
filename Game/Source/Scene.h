@@ -42,12 +42,19 @@ public:
 	bool level1;
 
 private:
+	bool exit;
 	SDL_Texture* img;
 	
+	//menu buttons
 	GuiButton* resume;
 	GuiButton* settings;
-	GuiButton* backTopTitle;
+	GuiButton* backToTitle;
 	GuiButton* Exit;
+	//settings
+	GuiButton* musicVolume;
+	GuiButton* fxVolume;
+	GuiButton* fullscreenmode;
+	GuiButton* Vsync;
 
 };
 

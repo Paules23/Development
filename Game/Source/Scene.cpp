@@ -13,6 +13,7 @@
 #include "Map2.h"
 #include "Scene2.h"
 #include "GuiManager.h"
+#include "SceneIntro.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -90,12 +91,21 @@ bool Scene::Start()
 
 	stopcamera = true;
 	level1 = true;
+	exit = false;
 
-	//all damn buttons
+	//menu buttons
 	uint w, h;
 	app->win->GetWindowSize(w, h);
-	resume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "Resume", { (int)w / 2 - 50,(int)h / 2 - 30,100,20 }, this);
-	settings = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, "Settings", { (int)w / 2 - 50,(int)h / 2,100,20 }, this);
+	resume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "Resume", { (int)w / 2 - 50,(int)h / 2 - 60,100,20 }, this);
+	settings = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, "Settings", { (int)w / 2 - 50,(int)h / 2 -30,100,20 }, this);
+	backToTitle = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, "Back to title", { (int)w / 2 - 50,(int)h / 2,100,20 }, this);
+	Exit = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, "Exit", { (int)w / 2 - 50,(int)h / 2 + 30,100,20 }, this);
+
+	//settings buttons
+	musicVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "Music volume", { (int)w / 2 - 50,(int)h / 2 - 60,100,20 }, this);
+	fxVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "Fx Volume", { (int)w / 2 - 50,(int)h / 2 - 30,100,20 }, this);
+	fullscreenmode = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, "Fullscreen mode", { (int)w / 2 - 50,(int)h / 2,100,20 }, this);
+	Vsync = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 8, "Vsync", { (int)w / 2 - 50,(int)h / 2 + 30,100,20 }, this);
 
 	return true;
 }
@@ -109,6 +119,13 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
+
+	if (exit) {
+		app->guiManager->menu = false;
+		app->physics->Pause();
+		return false;
+	}
+
 	if (player->GetWinState() == true) {
 		app->map->Disable();
 		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scene2, 20);
@@ -202,21 +219,21 @@ bool Scene::Update(float dt)
 		while (control != nullptr)
 		{
 			for (int i = 1; i < 5; ++i) {
-				if (control->data->id == 1) {
+				if (control->data->id == i) {
 					control->data->enabled = true;
 				}
 			}
 			control = control->next;
 		}
 	}
-	//deactivate menu
+
 	if (app->guiManager->menu == false) {
 		ListItem<GuiControl*>* control = app->guiManager->guiControlsList.start;
 
 		while (control != nullptr)
 		{
 			for (int i = 1; i < 5; ++i) {
-				if (control->data->id == 1) {
+				if (control->data->id == i ) {
 					control->data->enabled = false;
 				}
 			}
@@ -229,8 +246,8 @@ bool Scene::Update(float dt)
 
 		while (control != nullptr)
 		{
-			for (int i = 1; i < 5; ++i) {
-				if (control->data->id == 2) {
+			for (int i = 5; i < 9; ++i) {
+				if (control->data->id == i) {
 					control->data->enabled = true;
 				}
 			}
@@ -243,8 +260,8 @@ bool Scene::Update(float dt)
 
 		while (control != nullptr)
 		{
-			for (int i = 1; i < 5; ++i) {
-				if (control->data->id == 2) {
+			for (int i = 5; i < 9; ++i) {
+				if (control->data->id == i) {
 					control->data->enabled = false;
 				}
 			}
@@ -268,12 +285,14 @@ bool Scene::PostUpdate()
 	bool ret = true;
 
 	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
-		app->physics->Pause();
-		app->guiManager->activateMenu();
-
-		//LOGIC FOR THE BUTTONS makes sense to do here in order to not check the if every time and do the whiles and for
-		//activate menu
-		
+		if (app->guiManager->settings == false) {
+			app->guiManager->activateMenu();
+			app->physics->Pause();
+		}
+		else {
+			app->guiManager->settings = false;
+			app->guiManager->menu = true;
+		}
 	}
 
 	return ret;
@@ -287,12 +306,38 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 	switch (control->id)
 	{
 	case 1:
+		app->guiManager->activateMenu();
+		app->physics->Pause();
 		LOG("Button 1 click");
-		app->guiManager->settings = true;
-		app->guiManager->menu = false;
 		break;
 	case 2:
+		app->guiManager->settings = true;
+		app->guiManager->menu = false;
 		LOG("Button 2 click");
+		break;
+	case 3:
+		app->fade->FadeToBlack1(this, (Module*)app->intro, 20);
+		app->entityManager->Disable();
+		LOG("Button 3 click");
+		break;
+	case 4:
+		exit = true;
+		LOG("Button 4 click");
+		break;
+	case 5:
+		LOG("Button 5 click");
+		break;
+	case 6:
+		LOG("Button 6 click");
+		break;
+	case 7:
+		LOG("Button 7 click");
+		break;
+	case 8:
+		LOG("Button 8 click");
+		break;
+	case 9:
+		LOG("Button 9 click");
 		break;
 	}
 
