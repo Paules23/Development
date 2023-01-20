@@ -9,18 +9,15 @@
 	<scene />
 	<scene2 />
 	<entitymanager>
-		<groundEnemy x="815" y="366" dead="false" />
-		<groundEnemy x="772" y="563" dead="false" />
-		<groundEnemy x="841" y="600" dead="false" />
-		<groundEnemy x="793" y="600" dead="false" />
-		<player x2="1025" y2="608" remainingJumps="2" />
+		<player x2="111" y2="480" remainingJumps="2" />
 	</entitymanager>
 	<map />
 	<map2 />
+	<guiManager />
 	<fade />
 	<:anonymous />
 	<:anonymous />
 	<renderer>
-		<camera x="-725" y="0" />
+		<camera x="0" y="0" />
 	</renderer>
 </save_state>
