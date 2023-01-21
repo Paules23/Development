@@ -140,6 +140,14 @@ bool Scene2::Update(float dt)
 		app->render->camera.x = 0;
 		level2 = false;
 	}
+
+	if (player->isdead) {
+		app->map2->Disable();
+		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scenedeath, 20);
+		app->scene2->Disable();
+		app->render->camera.x = 0;
+		app->audio->PlayMusic("");
+	}
 	// debug keys
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 		app->SaveGameRequest();
@@ -366,6 +374,7 @@ bool Scene2::PostUpdate()
 bool Scene2::CleanUp()
 {
 	LOG("Freeing scene");
+	app->render->camera.x = 0;
 	groundEnemies.Clear();
 	flyingEnemies.Clear();
 	app->tex->UnLoad(img);

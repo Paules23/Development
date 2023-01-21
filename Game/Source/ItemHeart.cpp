@@ -13,13 +13,13 @@ ItemHeart::ItemHeart() : Entity(EntityType::ITEMHEART)
 {
 	name.Create("Heart");
 
-	/*spinning.PushBack({ 32, 32, 32, 32 });
-	spinning.PushBack({ 64, 32, 32, 32 });
-	spinning.PushBack({ 96, 32, 32, 32 });
-	spinning.PushBack({ 128, 32, 32, 35 });
-	spinning.PushBack({ 160, 32, 32, 32 });
-	spinning.PushBack({ 192, 32, 32, 32 });
-	spinning.speed = 0.1f;*/
+	heart.PushBack({ 960, 224, 32, 32 });
+	heart.PushBack({ 928, 224, 32, 32 });
+	heart.PushBack({ 992, 224, 32, 32 });
+	heart.PushBack({ 992, 224, 32, 35 });
+	heart.PushBack({ 928, 224, 32, 32 });
+	heart.PushBack({ 960, 224, 32, 32 });
+	heart.speed = 0.08f;
 
 }
 
@@ -46,11 +46,11 @@ bool ItemHeart::Start() {
 
 	// L07 DONE 4: Add a physics to an item - initialize the physics body
 
-	ibody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16, 16, 16, STATIC);
+	ibody = app->physics->CreateRectangleSensor(position.x + 24, position.y + 24, 24, 24, STATIC);
 
 	ibody->listener = this;
 
-	ibody->ctype = ColliderType::ITEM;
+	ibody->ctype = ColliderType::ITEMHEART;
 
 	return true;
 }
@@ -65,7 +65,7 @@ bool ItemHeart::Update()
 		ibody->body->SetActive(false);
 		activated = false;
 	}
-	/*currentItemAnimation = &spinning;*/
+	currentItemAnimation = &heart;
 
 	currentItemAnimation->Update();
 

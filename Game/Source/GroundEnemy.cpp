@@ -257,7 +257,7 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	switch (physB->ctype)
 	{
-	case ColliderType::ITEM:
+	case ColliderType::ITEMCOIN:
 		LOG("Collision ITEM");
 		break;
 	case ColliderType::PLATFORM:
@@ -302,18 +302,23 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		if (app->physics->getGodMode()) {
 			break;
 		}
-		int playerY, enemyY;
+		int playerY, playerX, enemyY, enemyX;
 
 		playerY = METERS_TO_PIXELS(physB->body->GetPosition().y);
+		playerX = METERS_TO_PIXELS(physB->body->GetPosition().x);
 		enemyY = METERS_TO_PIXELS(physA->body->GetPosition().y);
+		enemyX = METERS_TO_PIXELS(physA->body->GetPosition().x);
 
 		if (enemyY > playerY + physB->height -2) {
 			app->scene2->player->SetJumps(2);
 			enemyhit = true;
 		}
+		else if(enemyX > playerX + physB->width -1){
+			app->scene2->player->playerhitRight = true;
+		}
 		else {
-			app->scene2->player->hp -= 1;
-		}		
+			app->scene2->player->playerhitLeft = true;
+		}
 		break;
 	}
 }

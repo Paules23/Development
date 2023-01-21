@@ -197,7 +197,7 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	switch (physB->ctype)
 	{
-	case ColliderType::ITEM:
+	case ColliderType::ITEMCOIN:
 		LOG("Collision ITEM");
 		break;
 	case ColliderType::PLATFORM:
@@ -235,7 +235,7 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 			dead = true;
 		}
 		else {
-			app->scene2->player->hp -= 1;
+			/*app->scene2->player->playerhit = true;*/
 		}
 		app->audio->PlayFx(deadFxId);
 		break;

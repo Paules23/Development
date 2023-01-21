@@ -53,7 +53,7 @@ bool ItemCoin::Start() {
 
 	ibody->listener = this;
 
-	ibody->ctype = ColliderType::ITEM;
+	ibody->ctype = ColliderType::ITEMCOIN;
 
 	
 
