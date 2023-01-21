@@ -70,6 +70,8 @@ private:
 	const char* audioJump; 
 	const char* audioWin;
 
+	uint coinCount;
+
 };
 
 #endif // __PLAYER_H__

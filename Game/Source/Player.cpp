@@ -320,7 +320,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::ITEM:
-		LOG("Collision ITEM");
+		++coinCount;
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");
