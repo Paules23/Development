@@ -11,7 +11,16 @@
 
 Item::Item() : Entity(EntityType::ITEM)
 {
-	name.Create("item");
+	name.Create("Coin");
+
+	spinning.PushBack({ 32, 32, 32, 32 });
+	spinning.PushBack({ 32, 64, 32, 32 });
+	spinning.PushBack({ 32, 96, 32, 32 });
+	spinning.PushBack({ 32, 128, 32, 35 });
+	spinning.PushBack({ 32, 160, 32, 32 });
+	spinning.PushBack({ 32, 192, 32, 32 });
+	spinning.speed = 0.1f;
+
 }
 
 Item::~Item() {}
@@ -25,9 +34,12 @@ bool Item::Awake() {
 
 bool Item::Start() {
 
+
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
+
+	isPicked = false;
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
@@ -57,7 +69,10 @@ bool Item::Update()
 
 	app->render->DrawTexture(texture, position.x, position.y);
 
+	// draw textures and animations
+	currentItemAnimation->Update();
 	return true;
+
 }
 
 bool Item::CleanUp()
