@@ -46,8 +46,9 @@ public:
 	PhysBody* GetBody();
 
 public:
-	bool isdead;
+	uint hp;
 	iPoint position;
+	bool isdead;
 private:
 
 	//movement and physics
@@ -61,6 +62,7 @@ private:
 	int dieFxId;
 	int jumpFxId;
 	int winFxId;
+	bool playerhit;
 	//anims
 	Animation* currentPlayerAnimation;
 	Animation movement, jump, die, iddle, movementLeft;

@@ -126,6 +126,13 @@ bool Scene::Update(float dt)
 		return false;
 	}
 
+	if (player->isdead) {
+		app->map->Disable();
+		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scenedeath, 20);
+		app->scene->Disable();
+		app->render->camera.x = 0;
+	}
+
 	if (player->GetWinState() == true) {
 		app->map->Disable();
 		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scene2, 20);
@@ -147,17 +154,6 @@ bool Scene::Update(float dt)
 			app->render->camera.x = 0;
 		}
 	}
-
-	//debug keys for change of levels
-	/*if (app->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
-		app->map->Disable();
-		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scene2, 20);
-		app->map2->Enable();
-		app->scene->Disable();
-		app->render->camera.x = 0;
-		level1 = false;
-		app->scene2->level2 = true;
-	}*/
 	if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
 		app->render->camera.x += ceil(CAMERASPEED * dt);
 		stopcamera = false;

@@ -92,6 +92,7 @@ bool Player::Start() {
 	audioJump = parameters.attribute("audioJump").as_string();
 	isdead = false;
 	win = false;
+	hp = 3;
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 
@@ -124,48 +125,24 @@ bool Player::Update()
 		return true;
 	}
 	//win and death conditions
-	if (isdead == true) {
+	if (hp == 0) {
+		isdead = true;
+	}
+	if (playerhit == true) {
 		app->audio->PlayFx(dieFxId);
 		if (app->scene->level1) {
 			position.x = parameters.attribute("x1").as_int();
 			position.y = parameters.attribute("y1").as_int();
-			
-			
 		}
 		if (app->scene2->level2) {
 			position.x = parameters.attribute("x2").as_int();
 			position.y = parameters.attribute("y2").as_int();
-
-			//enemies will respawn if the player dies
-			ListItem<GroundEnemy*>* groundEnemyItem = app->scene2->groundEnemies.start;
-			while (groundEnemyItem != NULL) {
-				
-				groundEnemyItem->data->dead = false;
-				groundEnemyItem->data->ebody->body->SetActive(true);
-				groundEnemyItem->data->position.x = groundEnemyItem->data->parameters.attribute("posx").as_int();
-				groundEnemyItem->data->position.y = groundEnemyItem->data->parameters.attribute("posy").as_int();
-				b2Vec2 pos(groundEnemyItem->data->position.x, groundEnemyItem->data->position.y);
-				groundEnemyItem->data->ebody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
-				
-				groundEnemyItem = groundEnemyItem->next;
-			}
-			ListItem<FlyingEnemy*>* flyingEnemyItem = app->scene2->flyingEnemies.start;
-			while (flyingEnemyItem != NULL) {
-				flyingEnemyItem->data->dead = false;
-				flyingEnemyItem->data->ebody->body->SetActive(true);
-				flyingEnemyItem->data->position.x = flyingEnemyItem->data->parameters.attribute("posx").as_int();
-				flyingEnemyItem->data->position.y = flyingEnemyItem->data->parameters.attribute("posy").as_int();
-				b2Vec2 pos(flyingEnemyItem->data->position.x, flyingEnemyItem->data->position.y);
-				flyingEnemyItem->data->ebody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
-				flyingEnemyItem = flyingEnemyItem->next;
-			}
-
 		}
-
 		b2Vec2 pos(position.x, position.y);
 		pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
 		app->render->camera.x = 0;
-		isdead = false;
+		--hp;
+		playerhit = false;
 	}
 	if (win == true) {
 		app->audio->PlayMusic("");
@@ -333,7 +310,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			break;
 		}
 		LOG("Collision DEATH");
-		isdead = true;
+		playerhit = true;
 		break;
 	case ColliderType::WIN:
 		LOG("Collision WIN");

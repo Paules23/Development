@@ -235,7 +235,7 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 			dead = true;
 		}
 		else {
-			app->scene2->player->isdead = true;
+			app->scene2->player->hp -= 1;
 		}
 		app->audio->PlayFx(deadFxId);
 		break;

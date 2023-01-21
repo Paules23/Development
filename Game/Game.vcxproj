@@ -101,6 +101,7 @@
     <ClCompile Include="Source\FadeToBlack.cpp" />
     <ClCompile Include="Source\GuiButton.cpp" />
     <ClCompile Include="Source\GuiManager.cpp" />
+    <ClCompile Include="Source\HeartItem.cpp" />
     <ClCompile Include="Source\Item.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\App.cpp" />
@@ -115,6 +116,7 @@
     <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\Render.cpp" />
     <ClCompile Include="Source\Scene2.cpp" />
+    <ClCompile Include="Source\SceneDeath.cpp" />
     <ClCompile Include="Source\SceneIntro.cpp" />
     <ClCompile Include="Source\SceneWin.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
@@ -129,6 +131,7 @@
     <ClInclude Include="Source\GuiButton.h" />
     <ClInclude Include="Source\GuiControl.h" />
     <ClInclude Include="Source\GuiManager.h" />
+    <ClInclude Include="Source\HeartItem.h" />
     <ClInclude Include="Source\Item.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Map2.h" />
@@ -145,6 +148,7 @@
     <ClInclude Include="Source\Module.h" />
     <ClInclude Include="Source\Render.h" />
     <ClInclude Include="Source\Scene2.h" />
+    <ClInclude Include="Source\SceneDeath.h" />
     <ClInclude Include="Source\SceneIntro.h" />
     <ClInclude Include="Source\SceneWin.h" />
     <ClInclude Include="Source\Textures.h" />

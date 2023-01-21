@@ -22,6 +22,7 @@ class Scene;
 class Scene2;
 class SceneIntro;
 class SceneWin;
+class SceneDeath;
 class EntityManager;
 class Map;
 class Map2;
@@ -112,6 +113,7 @@ public:
 	GuiManager* guiManager;
 	SceneIntro* intro;
 	SceneWin* scenewin;
+	SceneDeath* scenedeath;
 	Animation* animation;
 
 private:

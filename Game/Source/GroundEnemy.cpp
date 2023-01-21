@@ -123,11 +123,11 @@ bool GroundEnemy::Update()
 	}
 
 	if (dead == true) {
-		app->audio->PlayFx(deadFxId);
-		ebody->body->SetActive(false);
 		return true;
 	}
 	if (hp == 0) {
+		ebody->body->SetActive(false);
+		app->audio->PlayFx(deadFxId);
 		dead = true;
 		hp = 2;
 	}
@@ -268,6 +268,8 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::DEATH:
 		LOG("Collision DEATH");
+		ebody->body->SetActive(false);
+		app->audio->PlayFx(deadFxId);
 		dead = true;
 		
 		break;
@@ -310,7 +312,7 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 			enemyhit = true;
 		}
 		else {
-			app->scene2->player->isdead = true;
+			app->scene2->player->hp -= 1;
 		}		
 		break;
 	}

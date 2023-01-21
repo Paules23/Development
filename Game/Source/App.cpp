@@ -14,6 +14,7 @@
 #include "FadeToBlack.h"
 #include "SceneIntro.h"
 #include "SceneWin.h"
+#include "SceneDeath.h"
 #include "Pathfinding.h"
 #include "GuiManager.h"
 
@@ -44,8 +45,8 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	guiManager = new GuiManager(true);
 	fade = new FadeToBlack(true);
 	intro = new SceneIntro(true);
+	scenedeath = new SceneDeath(false);
 	scenewin = new SceneWin(false);
-
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -65,6 +66,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(fade);
 	AddModule(intro);
 	AddModule(scenewin);
+	AddModule(scenedeath);
 	// Render last to swap buffer
 	AddModule(render);
 }
