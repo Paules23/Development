@@ -30,12 +30,18 @@ public:
 
 private:
 
+	//Animation
+	Animation* currentItemAnimation;
+	Animation* spinning;
 	SDL_Texture* texture;
 	const char* texturePath;
 
 	//DONE 4: Add a physics to an item
 	PhysBody* ibody;
 	bool pickedUp;
+
+	
+	
 };
 
 #endif // __ITEM_H__
