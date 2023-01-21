@@ -11,7 +11,8 @@ struct Collider;
 enum class EntityType
 {
 	PLAYER,
-	ITEM,
+	ITEMCOIN,
+	ITEMHEART,
 	FLYING_ENEMY,
 	GROUND_ENEMY,
 	UNKNOWN

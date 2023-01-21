@@ -62,9 +62,15 @@ bool Scene::Start()
 
 	// iterate all objects in the scene
 	// Check https://pugixml.org/docs/quickstart.html#access
-	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
+	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("itemCoin"); itemNode; itemNode = itemNode.next_sibling("itemCoin"))
 	{
-		Item* item = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
+		ItemCoin* item = (ItemCoin*)app->entityManager->CreateEntity(EntityType::ITEMCOIN);
+		item->parameters = itemNode;
+	}
+
+	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("itemHeart"); itemNode; itemNode = itemNode.next_sibling("itemHEart"))
+	{
+		ItemHeart* item = (ItemHeart*)app->entityManager->CreateEntity(EntityType::ITEMHEART);
 		item->parameters = itemNode;
 	}
 

@@ -1,4 +1,4 @@
-#include "Item.h"
+#include "ItemCoin.h"
 #include "App.h"
 #include "Textures.h"
 #include "Audio.h"
@@ -9,40 +9,43 @@
 #include "Point.h"
 #include "Physics.h"
 
-Item::Item() : Entity(EntityType::ITEM)
+ItemCoin::ItemCoin() : Entity(EntityType::ITEMCOIN)
 {
 	name.Create("Coin");
 
 	spinning.PushBack({ 32, 32, 32, 32 });
-	spinning.PushBack({ 32, 64, 32, 32 });
-	spinning.PushBack({ 32, 96, 32, 32 });
-	spinning.PushBack({ 32, 128, 32, 35 });
-	spinning.PushBack({ 32, 160, 32, 32 });
-	spinning.PushBack({ 32, 192, 32, 32 });
+	spinning.PushBack({ 64, 32, 32, 32 });
+	spinning.PushBack({ 96, 32, 32, 32 });
+	spinning.PushBack({ 128, 32, 32, 35 });
+	spinning.PushBack({ 160, 32, 32, 32 });
+	spinning.PushBack({ 192, 32, 32, 32 });
 	spinning.speed = 0.1f;
 
 }
 
-Item::~Item() {}
+ItemCoin::~ItemCoin() {}
 
-bool Item::Awake() {
+bool ItemCoin::Awake() {
 
 	
 
 	return true;
 }
 
-bool Item::Start() {
+bool ItemCoin::Start() {
 
 
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
+	audioPath = parameters.attribute("audiopath").as_string();
 
 	isPicked = false;
+	activated = true;
 
 	//initilize textures
 	texture = app->tex->Load(texturePath);
+	pickUpFx = app->audio->LoadFx(audioPath);
 	
 	// L07 DONE 4: Add a physics to an item - initialize the physics body
 
@@ -52,35 +55,42 @@ bool Item::Start() {
 
 	ibody->ctype = ColliderType::ITEM;
 
+	
+
 	return true;
 }
 
-bool Item::Update()
+bool ItemCoin::Update()
 {
-	if (pickedUp) {
-		ibody->body->SetActive(false);
+	if (!activated) {
 		return true;
 	}
+	if (pickedUp) {
+		app->audio->PlayFx(pickUpFx);
+		ibody->body->SetActive(false);
+		activated = false;
+	}
+	currentItemAnimation = &spinning;
 
-
-	// L07 DONE 4: Add a physics to an item - update the position of the object from the physics.  
+	currentItemAnimation->Update();
+	// draw textures and animations
 	position.x = METERS_TO_PIXELS(ibody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(ibody->body->GetTransform().p.y) - 16;
 
-	app->render->DrawTexture(texture, position.x, position.y);
-
-	// draw textures and animations
-	currentItemAnimation->Update();
+	SDL_Rect rect = currentItemAnimation->GetCurrentFrame();
+	app->render->DrawTexture(texture, position.x, position.y, &rect);
+	
+	
 	return true;
 
 }
 
-bool Item::CleanUp()
+bool ItemCoin::CleanUp()
 {
 	return true;
 }
 
-void Item::OnCollision(PhysBody* physA, PhysBody* physB) {
+void ItemCoin::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	// L07 DONE 7: Detect the type of collision
 

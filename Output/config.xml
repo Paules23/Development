@@ -27,7 +27,8 @@
 	  <player x1="70" y1="520" x2="70" y2="400" texturepath="Assets/Textures/player1.png" 
 	   audioJump =" Assets/Audio/Fx/Jump-1.ogg" audioDie =" Assets/Audio/Fx/die.ogg" audioWin ="Assets/Audio/Fx/win.ogg"/>
 
-	  <item x="256" y="515" texturepath="Assets/Textures/x_square.png"/>
+	  <itemCoin x="256" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin.ogg"/>
+	  <itemHeart x="500" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/heart.ogg"/>
   </scene>
 
 	<scene2>

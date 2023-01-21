@@ -1,18 +1,19 @@
-#ifndef __ITEM_H__
-#define __ITEM_H__
+#ifndef __ITEMHEART_H__
+#define __ITEMHEART_H__
 
 #include "Entity.h"
 #include "Point.h"
 #include "SDL/include/SDL.h"
+#include "Animation.h"
 
 struct SDL_Texture;
 
-class Item : public Entity
+class ItemHeart : public Entity
 {
 public:
 
-	Item();
-	virtual ~Item();
+	ItemHeart();
+	virtual ~ItemHeart();
 
 	bool Awake();
 
@@ -32,16 +33,20 @@ private:
 
 	//Animation
 	Animation* currentItemAnimation;
-	Animation* spinning;
+	Animation heart;
 	SDL_Texture* texture;
 	const char* texturePath;
+	//audio
+	const char* audioPath;
+	int pickUpFx;
 
 	//DONE 4: Add a physics to an item
 	PhysBody* ibody;
 	bool pickedUp;
+	bool activated;
 
-	
-	
+
+
 };
 
-#endif // __ITEM_H__
+#endif // __ITEMHEART_H__
