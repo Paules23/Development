@@ -267,11 +267,8 @@ void GroundEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		LOG("Collision UNKNOWN");
 		break;
 	case ColliderType::DEATH:
-		LOG("Collision DEATH");
-		ebody->body->SetActive(false);
+		hp = 0;
 		app->audio->PlayFx(deadFxId);
-		dead = true;
-		
 		break;
 	case ColliderType::WIN:
 		LOG("Collision WIN");

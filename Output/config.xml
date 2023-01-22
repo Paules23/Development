@@ -29,7 +29,7 @@
 
 	  <itemCoin x="256" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
 	  <itemCoin x="280" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
-	  <itemHeart x="500" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/heart.ogg"/>
+	  <itemHeart x="300" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/heart.ogg"/>
   </scene>
 
 	<scene2>
@@ -48,6 +48,8 @@
 	</scene2>
 
   <sceneIntro texturepath="Assets/Textures/introscene.jpg"/>
+
+  <HUD texturepath="Assets/Textures/coins-hearts-etc.png"/>
 	
   <sceneWin texturepath="Assets/Textures/win.jpg"/>
 

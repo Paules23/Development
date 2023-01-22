@@ -59,6 +59,8 @@ private:
 	//checkpoints
 	bool checkpoint;
 
+
+
 };
 
 #endif // __SCENE_H__

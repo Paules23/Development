@@ -34,6 +34,9 @@
     <ClCompile Include="Source\GuiManager.cpp" />
     <ClCompile Include="Source\ItemHeart.cpp" />
     <ClCompile Include="Source\SceneDeath.cpp" />
+    <ClCompile Include="Source\GUICheckBox.cpp" />
+    <ClCompile Include="Source\GUISlider.cpp" />
+    <ClCompile Include="Source\HUD.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Window.h" />
@@ -96,6 +99,9 @@
     </ClInclude>
     <ClInclude Include="Source\ItemHeart.h" />
     <ClInclude Include="Source\SceneDeath.h" />
+    <ClInclude Include="Source\GUICheckBox.h" />
+    <ClInclude Include="Source\GUISlider.h" />
+    <ClInclude Include="Source\HUD.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="External">

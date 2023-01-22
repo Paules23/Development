@@ -17,6 +17,7 @@
 #include "SceneDeath.h"
 #include "Pathfinding.h"
 #include "GuiManager.h"
+#include "HUD.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -47,6 +48,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	intro = new SceneIntro(true);
 	scenedeath = new SceneDeath(false);
 	scenewin = new SceneWin(false);
+	hud = new HUD(false);
 
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -67,6 +69,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(intro);
 	AddModule(scenewin);
 	AddModule(scenedeath);
+	AddModule(hud);
 	// Render last to swap buffer
 	AddModule(render);
 }
