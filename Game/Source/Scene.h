@@ -56,6 +56,8 @@ private:
 	GuiButton* fxVolume;
 	GuiButton* fullscreenmode;
 	GuiButton* Vsync;
+	//checkpoints
+	bool checkpoint;
 
 };
 

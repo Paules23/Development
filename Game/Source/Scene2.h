@@ -56,6 +56,7 @@ private:
 	SDL_Texture* mouseTileTex = nullptr;
 	SDL_Texture* originTex = nullptr;
 	iPoint origin;
+	bool checkpoint1, checkpoint2, checkpoint3;
 
 };
 

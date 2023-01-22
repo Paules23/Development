@@ -98,6 +98,7 @@ bool Scene::Start()
 	stopcamera = true;
 	level1 = true;
 	exit = false;
+	checkpoint = true;
 
 	//menu buttons
 	uint w, h;
@@ -112,6 +113,8 @@ bool Scene::Start()
 	fxVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "Fx Volume", { (int)w / 2 - 50,(int)h / 2 - 30,100,20 }, this);
 	fullscreenmode = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, "Fullscreen mode", { (int)w / 2 - 50,(int)h / 2,100,20 }, this);
 	Vsync = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 8, "Vsync", { (int)w / 2 - 50,(int)h / 2 + 30,100,20 }, this);
+
+	app->SaveGameRequest();
 
 	return true;
 }
@@ -277,6 +280,12 @@ bool Scene::Update(float dt)
 	}
 
 	app->guiManager->Draw();
+
+	//checkpoints
+	if (player->position.x >= 1013 && player->position.x < 1020 && checkpoint == true  ) {
+		app->SaveGameRequest();
+		checkpoint = false;
+	}
 	
 	return true;
 }

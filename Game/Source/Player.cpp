@@ -142,14 +142,7 @@ bool Player::Update()
 		if (hp != 1) {
 			app->audio->PlayFx(ouchFxId);
 		}
-		if (app->scene->level1) {
-			position.x = parameters.attribute("x1").as_int();
-			position.y = parameters.attribute("y1").as_int();
-		}
-		if (app->scene2->level2) {
-			position.x = parameters.attribute("x2").as_int();
-			position.y = parameters.attribute("y2").as_int();
-		}
+		app->LoadGameRequest();
 		b2Vec2 pos(position.x, position.y);
 		pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
 		app->render->camera.x = 0;

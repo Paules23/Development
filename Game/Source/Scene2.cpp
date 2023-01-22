@@ -119,6 +119,11 @@ bool Scene2::Start()
 	stopcamera = true;
 	level2 = true;
 	app->render->camera.x = 0;
+	checkpoint1 = true;
+	checkpoint2 = true;
+	checkpoint3 = true;
+
+	app->SaveGameRequest();
 
 	return true;
 }
@@ -298,7 +303,22 @@ bool Scene2::Update(float dt)
 			flyingEnemyItem = flyingEnemyItem->next;
 		}
 	}
-	
+
+	//checkpoints
+	if (player->position.x >= 1225 && player->position.x < 1300 && player->position.y == 352 && checkpoint1 == true) {
+		app->SaveGameRequest();
+		checkpoint1 = false;
+	}
+
+	if (player->position.x >= 1909 && player->position.x < 1915 && player->position.y == 448 && checkpoint2 == true) {
+		app->SaveGameRequest();
+		checkpoint2 = false;
+	}
+
+	if (player->position.x >= 2945 && player->position.x < 2950 && player->position.y == 384 && checkpoint3 == true) {
+		app->SaveGameRequest();
+		checkpoint3 = false;
+	}
 	
 	return true;
 }
