@@ -52,6 +52,7 @@ bool SceneDeath::Start()
 
 bool SceneDeath::Update(float dt)
 {
+	app->render->camera.x = 0;
 	bool ret = true;
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) {
 		app->audio->PlayFx(entersound);

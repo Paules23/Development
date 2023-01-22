@@ -151,6 +151,7 @@ bool Scene2::Update(float dt)
 		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scenedeath, 20);
 		app->scene2->Disable();
 		app->render->camera.x = 0;
+		app->render->camera.y = 0;
 		app->audio->PlayMusic("");
 	}
 	// debug keys

@@ -135,6 +135,7 @@ bool Player::Update()
 	//win and death conditions
 	if (hp == 0) {
 		app->audio->PlayFx(dieFxId);
+		hp = 3;
 		isdead = true;
 	}
 	
