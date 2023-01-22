@@ -16,6 +16,15 @@ bool GuiManager::Start()
 {
 	menu = false;
 	settings = false;
+
+	ListItem<GuiControl*>* control = guiControlsList.start;
+
+	while (control != nullptr)
+	{
+		control->data->Start();
+		control = control->next;
+	}
+
 	return true;
 }
 
@@ -113,6 +122,7 @@ bool GuiManager::CleanUp()
 	{
 		RELEASE(control);
 	}
+	guiControlsList.Clear();
 
 	return true;
 

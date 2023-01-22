@@ -2,6 +2,7 @@
 #include "Render.h"
 #include "App.h"
 #include "Audio.h"
+#include "Textures.h"
 #include "Log.h"
 
 GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::BUTTON, id)
@@ -11,13 +12,24 @@ GuiButton::GuiButton(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(
 
 	canClick = true;
 	drawBasic = false;
-
-	audioFxId = app->audio->LoadFx("Assets/Audio/Fx/retro-video-game-coin-pickup-38299.ogg");
 }
 
 GuiButton::~GuiButton()
 {
 
+}
+
+bool GuiButton::Start() {
+
+	texturePath = parameters.attribute("texturepath").as_string();
+	clickAudioPath = parameters.attribute("clickaudiopath").as_string();
+	focusAudioPath = parameters.attribute("focusaudiopath").as_string();
+
+	clickaudioFxId = app->audio->LoadFx(clickAudioPath);
+	focusaudioFxId = app->audio->LoadFx(focusAudioPath);
+	texture = app->tex->Load(texturePath);
+
+	return true;
 }
 
 bool GuiButton::Update(float dt)
@@ -34,13 +46,20 @@ bool GuiButton::Update(float dt)
 			mouseY >= bounds.y && mouseY <= bounds.y + bounds.h) {
 
 			state = GuiControlState::FOCUSED;
-			if (previousState != state) {
-				LOG("Change state from %d to %d", previousState, state);
-				app->audio->PlayFx(audioFxId);
-			}
+			
 
 			if (app->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KeyState::KEY_REPEAT) {
 				state = GuiControlState::PRESSED;
+			}
+
+			
+			if (previousState == GuiControlState::FOCUSED && state == GuiControlState::PRESSED) {
+				LOG("Change state from %d to %d", previousState, state);
+				app->audio->PlayFx(clickaudioFxId);
+			}
+			else if (previousState == GuiControlState::NORMAL && state == GuiControlState::FOCUSED) {
+				LOG("Change state from %d to %d", previousState, state);
+				app->audio->PlayFx(focusaudioFxId);
 			}
 
 			//
@@ -66,17 +85,20 @@ bool GuiButton::Draw(Render* render)
 		render->DrawRectangle(bounds, 200, 200, 200, 255, true, false);
 		break;
 	case GuiControlState::NORMAL:
-		render->DrawRectangle(bounds, 0, 0, 255, 255, true, false);
+		section = {124,10,104,44};
+		render->DrawTexture(texture,bounds.x,bounds.y,&section);
 		break;
 	case GuiControlState::FOCUSED:
-		render->DrawRectangle(bounds, 0, 0, 20, 255, true, false);
+		section = { 12,10,104,44 };
+		render->DrawTexture(texture, bounds.x, bounds.y, &section);
 		break;
 	case GuiControlState::PRESSED:
-		render->DrawRectangle(bounds, 0, 255, 0, 255, true, false);
+		section = { 12,74,104,44 };
+		render->DrawTexture(texture, bounds.x, bounds.y, &section);
 		break;
 	}
 
-	app->render->DrawText(text.GetString(), bounds.x, bounds.y, bounds.w, bounds.h, { 255,255,255 });
+	app->render->DrawText(text.GetString(), bounds.x+10, bounds.y+10, bounds.w-20, bounds.h-20, { 0,0,0 });
 
 	return false;
 }

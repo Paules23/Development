@@ -5,6 +5,7 @@
 
 #include "Point.h"
 #include "SString.h"
+#include "Animation.h"
 
 class GuiButton : public GuiControl
 {
@@ -12,6 +13,8 @@ public:
 
 	GuiButton(uint32 id, SDL_Rect bounds, const char* text);
 	virtual ~GuiButton();
+
+	bool Start();
 
 	bool Update(float dt);
 	bool Draw(Render* render);
@@ -22,7 +25,13 @@ public:
 	bool canClick = true;
 	bool drawBasic = false;
 
-	uint audioFxId;
+private:
+	const char* texturePath;
+	const char* focusAudioPath;
+	const char* clickAudioPath;
+
+	uint clickaudioFxId;
+	uint focusaudioFxId;
 };
 
 #endif // __GUIBUTTON_H__
