@@ -117,12 +117,22 @@ bool Scene::Start()
 	//settings buttons
 	musicVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "Music volume", { (int)w / 2 - 50,(int)h / 2 - 80,104,44 }, this);
 	musicVolume->parameters = app->LoadConfig2().child("scene").child("button");
+
 	fxVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "Fx Volume", { (int)w / 2 - 50,(int)h / 2 - 40,104,44 }, this);
 	fxVolume->parameters = app->LoadConfig2().child("scene").child("button");
-	fullscreenmode = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, "Fullscreen mode", { (int)w / 2 - 50,(int)h / 2,104,44 }, this);
-	fullscreenmode->parameters = app->LoadConfig2().child("scene").child("button");
-	Vsync = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 8, "Vsync", { (int)w / 2 - 50,(int)h / 2 + 40,104,44 }, this);
-	Vsync->parameters = app->LoadConfig2().child("scene").child("button");
+
+	fullscreen = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, "Fullscreen", { (int)w / 2 - 50,(int)h / 2,104,44 }, this);
+	fullscreen->parameters = app->LoadConfig2().child("scene").child("button");
+
+	fullscreenCheck = (GuiCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 10, "", { (int)w / 2 - 50 +104,(int)h / 2,104,36 }, this);
+	fullscreenCheck->parameters = app->LoadConfig2().child("scene").child("checkbox");
+
+	vsync = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 9, "Vsync", { (int)w / 2 - 50,(int)h / 2 + 40,104,44 }, this);
+	vsync->parameters = app->LoadConfig2().child("scene").child("button");
+
+	VsyncCheck = (GuiCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 8, "", { (int)w / 2 - 50 +104,(int)h / 2 + 40,40,36 }, this);
+	VsyncCheck->parameters = app->LoadConfig2().child("scene").child("checkbox");
+	
 
 	//activate gui
 	app->guiManager->Enable();
@@ -270,7 +280,7 @@ bool Scene::Update(float dt)
 
 		while (control != nullptr)
 		{
-			for (int i = 5; i < 9; ++i) {
+			for (int i = 5; i < 11; ++i) {
 				if (control->data->id == i) {
 					control->data->enabled = true;
 				}
@@ -284,7 +294,7 @@ bool Scene::Update(float dt)
 
 		while (control != nullptr)
 		{
-			for (int i = 5; i < 9; ++i) {
+			for (int i = 5; i < 11; ++i) {
 				if (control->data->id == i) {
 					control->data->enabled = false;
 				}

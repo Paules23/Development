@@ -3,6 +3,7 @@
 #include "Textures.h"
 
 #include "GuiButton.h"
+#include "GUICheckBox.h"
 #include "Audio.h"
 
 GuiManager::GuiManager(bool startEnabled) :Module(startEnabled)
@@ -40,28 +41,30 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, int id, const char
 	case GuiControlType::BUTTON:
 		guiControl = new GuiButton(id, bounds, text);
 		break;
-		/*
-		case GuiControlType::TOGGLE:
-			break;
-		case GuiControlType::CHECKBOX:
-			break;
-		case GuiControlType::SLIDER:
-			break;
-		case GuiControlType::SLIDERBAR:
-			break;
-		case GuiControlType::COMBOBOX:
-			break;
-		case GuiControlType::DROPDOWNBOX:
-			break;
-		case GuiControlType::INPUTBOX:
-			break;
-		case GuiControlType::VALUEBOX:
-			break;
-		case GuiControlType::SPINNER:
-			break;
-		default:
-			break;
-			*/
+		
+	case GuiControlType::TOGGLE:
+		break;
+		
+	case GuiControlType::CHECKBOX:
+		guiControl = new GuiCheckBox(id, bounds, text);
+		break;
+	case GuiControlType::SLIDER:
+		break;
+	case GuiControlType::SLIDERBAR:
+		break;
+	case GuiControlType::COMBOBOX:
+		break;
+	case GuiControlType::DROPDOWNBOX:
+		break;
+	case GuiControlType::INPUTBOX:
+		break;
+	case GuiControlType::VALUEBOX:
+		break;
+	case GuiControlType::SPINNER:
+		break;
+	default:
+		break;
+			
 	}
 
 	//Set the observer

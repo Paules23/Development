@@ -29,11 +29,21 @@ bool GuiButton::Start() {
 	focusaudioFxId = app->audio->LoadFx(focusAudioPath);
 	texture = app->tex->Load(texturePath);
 
+	if (this->id == 9 || this->id == 7) {
+		canClick = false;
+	}
+
+	
+
 	return true;
 }
 
 bool GuiButton::Update(float dt)
 {
+	if (canClick == false) {
+		state = GuiControlState::NORMAL;
+		return false;
+	}
 	if (state != GuiControlState::DISABLED)
 	{
 		// L15: DONE 3: Update the state of the GUiButton according to the mouse position
@@ -82,22 +92,19 @@ bool GuiButton::Draw(Render* render)
 	switch (state)
 	{
 	case GuiControlState::DISABLED:
-		render->DrawRectangle(bounds, 200, 200, 200, 255, true, false);
 		break;
 	case GuiControlState::NORMAL:
 		section = {124,10,104,44};
-		render->DrawTexture(texture,bounds.x,bounds.y,&section);
 		break;
 	case GuiControlState::FOCUSED:
 		section = { 12,10,104,44 };
-		render->DrawTexture(texture, bounds.x, bounds.y, &section);
 		break;
 	case GuiControlState::PRESSED:
 		section = { 12,74,104,44 };
-		render->DrawTexture(texture, bounds.x, bounds.y, &section);
 		break;
 	}
 
+	render->DrawTexture(texture, bounds.x, bounds.y, &section);
 	app->render->DrawText(text.GetString(), bounds.x+10, bounds.y+10, bounds.w-20, bounds.h-20, { 0,0,0 });
 
 	return false;
