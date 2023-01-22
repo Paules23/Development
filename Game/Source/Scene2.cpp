@@ -119,6 +119,11 @@ bool Scene2::Start()
 	stopcamera = true;
 	level2 = true;
 	app->render->camera.x = 0;
+	checkpoint1 = true;
+	checkpoint2 = true;
+	checkpoint3 = true;
+
+	app->SaveGameRequest();
 
 	return true;
 }
@@ -139,6 +144,15 @@ bool Scene2::Update(float dt)
 		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scenewin, 20);
 		app->render->camera.x = 0;
 		level2 = false;
+	}
+
+	if (player->isdead) {
+		app->map2->Disable();
+		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scenedeath, 20);
+		app->scene2->Disable();
+		app->render->camera.x = 0;
+		app->render->camera.y = 0;
+		app->audio->PlayMusic("");
 	}
 	// debug keys
 	if (app->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
@@ -290,7 +304,22 @@ bool Scene2::Update(float dt)
 			flyingEnemyItem = flyingEnemyItem->next;
 		}
 	}
-	
+
+	//checkpoints
+	if (player->position.x >= 1225 && player->position.x < 1300 && player->position.y == 352 && checkpoint1 == true) {
+		app->SaveGameRequest();
+		checkpoint1 = false;
+	}
+
+	if (player->position.x >= 1909 && player->position.x < 1915 && player->position.y == 448 && checkpoint2 == true) {
+		app->SaveGameRequest();
+		checkpoint2 = false;
+	}
+
+	if (player->position.x >= 2945 && player->position.x < 2950 && player->position.y == 384 && checkpoint3 == true) {
+		app->SaveGameRequest();
+		checkpoint3 = false;
+	}
 	
 	return true;
 }
@@ -366,6 +395,7 @@ bool Scene2::PostUpdate()
 bool Scene2::CleanUp()
 {
 	LOG("Freeing scene");
+	app->render->camera.x = 0;
 	groundEnemies.Clear();
 	flyingEnemies.Clear();
 	app->tex->UnLoad(img);

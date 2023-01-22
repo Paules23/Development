@@ -24,14 +24,17 @@
 
   <!-- L02: DONE: Add an element for the entity manager and add the player parameters -->
   <scene>
-	  <player x1="70" y1="520" x2="70" y2="400" texturepath="Assets/Textures/player1.png" 
-	   audioJump =" Assets/Audio/Fx/Jump-1.ogg" audioDie =" Assets/Audio/Fx/die.ogg" audioWin ="Assets/Audio/Fx/win.ogg"/>
+	  <player x1="70" y1="520" x2="70" y2="400" texturepath ="Assets/Textures/player1.png" 
+	   audioJump ="Assets/Audio/Fx/Jump-1.ogg" audioDie ="Assets/Audio/Fx/die.ogg" audioWin ="Assets/Audio/Fx/win.ogg" audioOuch ="Assets/Audio/Fx/ouch.ogg"/>
 
-	  <item x="256" y="515" texturepath="Assets/Textures/x_square.png"/>
+	  <itemCoin x="256" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+	  <itemCoin x="280" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+	  <itemHeart x="500" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/heart.ogg"/>
   </scene>
 
 	<scene2>
-		<player x1="70" y1="520" x2="70" y2="400" texturepath="Assets/Textures/player1.png"/>
+		<player x1="70" y1="520" x2="70" y2="400" texturepath="Assets/Textures/player1.png"
+	  audioJump ="Assets/Audio/Fx/Jump-1.ogg" audioDie ="Assets/Audio/Fx/die.ogg" audioWin ="Assets/Audio/Fx/win.ogg" audioouch ="Assets/Audio/Fx/ouch.ogg"/>
 		<!--<groundenemy posx="800" posy="615" texturepath="Assets/Textures/ground enemy.png"/>
 		<groundenemy posx="850" posy="385" texturepath="Assets/Textures/ground enemy.png"/>
 		-->

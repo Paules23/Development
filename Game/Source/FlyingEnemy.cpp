@@ -197,7 +197,7 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	switch (physB->ctype)
 	{
-	case ColliderType::ITEM:
+	case ColliderType::ITEMCOIN:
 		LOG("Collision ITEM");
 		break;
 	case ColliderType::PLATFORM:
@@ -221,10 +221,11 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 		if (app->physics->getGodMode()) {
 			break;
 		}
-		int playerY, enemyY;
-
+		int playerY, playerX, enemyY, enemyX;
 		playerY = METERS_TO_PIXELS(physB->body->GetPosition().y);
+		playerX = METERS_TO_PIXELS(physB->body->GetPosition().x);
 		enemyY = METERS_TO_PIXELS(physA->body->GetPosition().y);
+		enemyX = METERS_TO_PIXELS(physA->body->GetPosition().x);
 
 		if (enemyY > playerY + physB->height - 2) {
 			b2Vec2 xd(app->scene2->player->GetBody()->body->GetLinearVelocity().x, 0);
@@ -232,12 +233,16 @@ void FlyingEnemy::OnCollision(PhysBody* physA, PhysBody* physB) {
 			float impulse = app->scene2->player->GetBody()->body->GetMass() * KILLENEMYIMPULSE;
 			app->scene2->player->GetBody()->body->ApplyLinearImpulse(b2Vec2(0, impulse), app->scene2->player->GetBody()->body->GetWorldCenter(), false);
 			app->scene2->player->SetJumps(2);
+			app->audio->PlayFx(deadFxId);
 			dead = true;
 		}
-		else {
-			app->scene2->player->hp -= 1;
+		else if (enemyX > playerX + physB->width - 1) {
+			app->scene2->player->playerhitRight = true;
 		}
-		app->audio->PlayFx(deadFxId);
+		else {
+			app->scene2->player->playerhitLeft = true;
+		}
+		
 		break;
 	}
 	

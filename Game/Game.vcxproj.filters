@@ -17,7 +17,7 @@
     </ClCompile>
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\Player.cpp" />
-    <ClCompile Include="Source\Item.cpp" />
+    <ClCompile Include="Source\ItemCoin.cpp" />
     <ClCompile Include="Source\Map.cpp" />
     <ClCompile Include="Source\Physics.cpp" />
     <ClCompile Include="Source\FadeToBlack.cpp" />
@@ -32,7 +32,7 @@
     <ClCompile Include="Source\Timer.cpp" />
     <ClCompile Include="Source\GuiButton.cpp" />
     <ClCompile Include="Source\GuiManager.cpp" />
-    <ClCompile Include="Source\HeartItem.cpp" />
+    <ClCompile Include="Source\ItemHeart.cpp" />
     <ClCompile Include="Source\SceneDeath.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -74,7 +74,7 @@
     <ClInclude Include="Source\EntityManager.h" />
     <ClInclude Include="Source\Player.h" />
     <ClInclude Include="Source\Entity.h" />
-    <ClInclude Include="Source\Item.h" />
+    <ClInclude Include="Source\ItemCoin.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Physics.h" />
     <ClInclude Include="Source\Animation.h" />
@@ -94,7 +94,7 @@
     <ClInclude Include="Source\PQueue.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Source\HeartItem.h" />
+    <ClInclude Include="Source\ItemHeart.h" />
     <ClInclude Include="Source\SceneDeath.h" />
   </ItemGroup>
   <ItemGroup>

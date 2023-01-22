@@ -3,7 +3,8 @@
 
 #include "Module.h"
 #include "Player.h"
-#include "Item.h"
+#include "ItemCoin.h"
+#include "ItemHeart.h"
 #include "GroundEnemy.h"
 #include "FlyingEnemy.h"
 
@@ -55,6 +56,7 @@ private:
 	SDL_Texture* mouseTileTex = nullptr;
 	SDL_Texture* originTex = nullptr;
 	iPoint origin;
+	bool checkpoint1, checkpoint2, checkpoint3;
 
 };
 

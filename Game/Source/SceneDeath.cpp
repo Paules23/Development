@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "GuiManager.h"
 #include "Window.h"
+#include "Map.h"
 #include <stdio.h>
 
 SceneDeath::SceneDeath(bool startEnabled) : Module(startEnabled)
@@ -51,9 +52,11 @@ bool SceneDeath::Start()
 
 bool SceneDeath::Update(float dt)
 {
+	app->render->camera.x = 0;
 	bool ret = true;
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) {
 		app->audio->PlayFx(entersound);
+		app->map->Enable();
 		app->fade->FadeToBlack1(this, (Module*)app->scene, 20);
 		/*app->guiManager->guiControlsList.Clear();*/
 	}

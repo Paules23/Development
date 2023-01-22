@@ -101,8 +101,8 @@
     <ClCompile Include="Source\FadeToBlack.cpp" />
     <ClCompile Include="Source\GuiButton.cpp" />
     <ClCompile Include="Source\GuiManager.cpp" />
-    <ClCompile Include="Source\HeartItem.cpp" />
-    <ClCompile Include="Source\Item.cpp" />
+    <ClCompile Include="Source\ItemHeart.cpp" />
+    <ClCompile Include="Source\ItemCoin.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\App.cpp" />
     <ClCompile Include="Source\Audio.cpp" />
@@ -131,8 +131,8 @@
     <ClInclude Include="Source\GuiButton.h" />
     <ClInclude Include="Source\GuiControl.h" />
     <ClInclude Include="Source\GuiManager.h" />
-    <ClInclude Include="Source\HeartItem.h" />
-    <ClInclude Include="Source\Item.h" />
+    <ClInclude Include="Source\ItemHeart.h" />
+    <ClInclude Include="Source\ItemCoin.h" />
     <ClInclude Include="Source\Map.h" />
     <ClInclude Include="Source\Map2.h" />
     <ClInclude Include="Source\Pathfinding.h" />

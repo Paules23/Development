@@ -46,8 +46,6 @@ Player::Player() : Entity(EntityType::PLAYER)
 	jump.PushBack({ 0, 668, 32, 32 });
 	jump.PushBack({ 0, 719, 32, 32 });
 	jump.speed = 0.2f;
-	
-
 
 	movementLeft.PushBack({ 128, 0, 32, 32 });
 	movementLeft.PushBack({ 128, 52, 32, 33 });
@@ -90,9 +88,23 @@ bool Player::Start() {
 	audioDie = parameters.attribute("audioDie").as_string();
 	audioWin = parameters.attribute("audioWin").as_string();
 	audioJump = parameters.attribute("audioJump").as_string();
+	audioOuch = parameters.attribute("audioOuch").as_string();
+
+	//initialize audio effect
+	dieFxId = app->audio->LoadFx(audioDie);
+	jumpFxId = app->audio->LoadFx(audioJump);
+	winFxId = app->audio->LoadFx(audioWin);
+	ouchFxId = app->audio->LoadFx(audioOuch);
+
+	//win death conditions
 	isdead = false;
 	win = false;
+	playerfallen = false;
+	playerhitLeft = false;
+	playerhitRight = false;
 	hp = 3;
+	hitImpulse = false;
+
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 
@@ -105,10 +117,6 @@ bool Player::Start() {
 	// L07 DONE 7: Assign collider type
 	pbody->ctype = ColliderType::PLAYER;
 
-	//initialize audio effect - !! Path is hardcoded, should be loaded from config.xml
-	dieFxId = app->audio->LoadFx("Assets/Audio/Fx/die.ogg");
-	jumpFxId = app->audio->LoadFx("Assets/Audio/Fx/Jump-1.ogg");
-	winFxId = app->audio->LoadFx("Assets/Audio/Fx/win.ogg");
 
 	return true;
 }
@@ -126,23 +134,21 @@ bool Player::Update()
 	}
 	//win and death conditions
 	if (hp == 0) {
+		app->audio->PlayFx(dieFxId);
+		hp = 3;
 		isdead = true;
 	}
-	if (playerhit == true) {
-		app->audio->PlayFx(dieFxId);
-		if (app->scene->level1) {
-			position.x = parameters.attribute("x1").as_int();
-			position.y = parameters.attribute("y1").as_int();
+	
+	if (playerfallen == true) {
+		if (hp != 1) {
+			app->audio->PlayFx(ouchFxId);
 		}
-		if (app->scene2->level2) {
-			position.x = parameters.attribute("x2").as_int();
-			position.y = parameters.attribute("y2").as_int();
-		}
+		app->LoadGameRequest();
 		b2Vec2 pos(position.x, position.y);
 		pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
 		app->render->camera.x = 0;
 		--hp;
-		playerhit = false;
+		playerfallen = false;
 	}
 	if (win == true) {
 		app->audio->PlayMusic("");
@@ -231,13 +237,44 @@ bool Player::Update()
 		case MS_STOP:  desiredVelx = 0; desiredVely = 0; break;
 		case MS_RIGHT: desiredVelx = 7; break;
 		}
-		float velChangex = desiredVelx - vel.x;
-		float impulsex = pbody->body->GetMass() * velChangex; //disregard time factor
-		pbody->body->ApplyLinearImpulse(b2Vec2(impulsex, 0), pbody->body->GetWorldCenter(), true);
+		/*if (moving == true) {
+
+			
+			moving = false;
+		}*/
+		if (hitImpulse == true) {
+			float velChangex = desiredVelx - vel.x;
+			float impulsex = pbody->body->GetMass() * velChangex; //disregard time factor
+			pbody->body->ApplyLinearImpulse(b2Vec2(impulsex, 0), pbody->body->GetWorldCenter(), true);
+		}
 		position.x = METERS_TO_PIXELS(pbody->body->GetTransform().p.x) - 16;
 		position.y = METERS_TO_PIXELS(pbody->body->GetTransform().p.y) - 16;
 	}
 
+	if (playerhitLeft) {
+		hitImpulse = false;
+ 		if (hp != 1) {
+			app->audio->PlayFx(ouchFxId);
+		}
+		b2Vec2 xd(0, pbody->body->GetLinearVelocity().y);
+		pbody->body->SetLinearVelocity(xd);
+		float impulse = pbody->body->GetMass() * PLAYERHITIMPULSE;
+		pbody->body->ApplyLinearImpulse(b2Vec2(impulse, -4), pbody->body->GetWorldCenter(), false);
+		--hp;
+		playerhitLeft = false;
+	}
+	if (playerhitRight) {
+		hitImpulse = false;
+		if (hp != 1) {
+			app->audio->PlayFx(ouchFxId);
+		}
+		b2Vec2 xd(0, pbody->body->GetLinearVelocity().y);
+		pbody->body->SetLinearVelocity(xd);
+		float impulse = pbody->body->GetMass() * -PLAYERHITIMPULSE;
+		pbody->body->ApplyLinearImpulse(b2Vec2(impulse, -4), pbody->body->GetWorldCenter(), false);
+		--hp;
+		playerhitRight = false;
+	}
 	//debug options
 	if (app->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN) {
 		if (app->scene->level1) {
@@ -296,8 +333,13 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	switch (physB->ctype)
 	{
-	case ColliderType::ITEM:
+	case ColliderType::ITEMCOIN:
 		++coinCount;
+		break;
+	case ColliderType::ITEMHEART:
+		if (hp != 3) {
+			++hp;
+		}
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");
@@ -310,7 +352,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			break;
 		}
 		LOG("Collision DEATH");
-		playerhit = true;
+		playerfallen = true;
 		break;
 	case ColliderType::WIN:
 		LOG("Collision WIN");
@@ -320,6 +362,7 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	case ColliderType::GROUND:
 		LOG("Collision JUMPS RESTORED");
 		remainingJumps = 2;
+		hitImpulse = true;
 		break;
 	}
 }

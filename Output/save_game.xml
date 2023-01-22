@@ -9,12 +9,13 @@
 	<scene />
 	<scene2 />
 	<entitymanager>
-		<player x2="111" y2="480" remainingJumps="2" />
+		<player x2="70" y2="400" remainingJumps="0" />
 	</entitymanager>
 	<map />
 	<map2 />
 	<guiManager />
 	<fade />
+	<:anonymous />
 	<:anonymous />
 	<:anonymous />
 	<renderer>

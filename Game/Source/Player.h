@@ -8,7 +8,9 @@
 
 #define JUMPIMPULSE -9
 #define KILLENEMYIMPULSE -7
+#define PLAYERHITIMPULSE 7
 #define GODMODESPEED 10
+
 
 
 
@@ -49,6 +51,9 @@ public:
 	uint hp;
 	iPoint position;
 	bool isdead;
+	bool playerhitRight;
+	bool playerhitLeft;
+
 private:
 
 	//movement and physics
@@ -56,13 +61,15 @@ private:
 	_moveState moveState;
 	int remainingJumps;
 	int timerbetweenjumps;
+	bool hitImpulse;
 	
 	//win lose
 	bool win;
 	int dieFxId;
 	int jumpFxId;
 	int winFxId;
-	bool playerhit;
+	int ouchFxId;
+	bool playerfallen;
 	//anims
 	Animation* currentPlayerAnimation;
 	Animation movement, jump, die, iddle, movementLeft;
@@ -71,6 +78,7 @@ private:
 	const char* audioDie; 
 	const char* audioJump; 
 	const char* audioWin;
+	const char* audioOuch;
 
 	uint coinCount;
 

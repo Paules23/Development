@@ -50,6 +50,7 @@ bool SceneIntro::Start()
 
 bool SceneIntro::Update(float dt)
 {
+	app->render->camera.x = 0;
 	bool ret = true;
 	if (app->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN) {
 		app->audio->PlayFx(entersound);
@@ -68,7 +69,7 @@ bool SceneIntro::Update(float dt)
 // Update: draw background
 bool SceneIntro::PostUpdate()
 {
-	app->render->DrawTexture(bgTexture,0,0);
+	app->render->DrawTexture(bgTexture, app->render->camera.x, app->render->camera.y);
 	return true;
 }
 
