@@ -12,6 +12,7 @@
 #include "FadeToBlack.h"
 #include "Pathfinding.h"
 #include "Scene.h"
+#include "HUD.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -137,10 +138,15 @@ bool Scene2::PreUpdate()
 // Called each loop iteration
 bool Scene2::Update(float dt)
 {
-	
+	//if 5 mins pass u lose
+	if (app->hud->playtime > 300) {
+		player->isdead = true;
+		app->hud->playtime = 0;
+	}
 	//winstate
 	if (player->GetWinState() == true) {
 		app->map2->Disable();
+		app->hud->Disable();
 		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scenewin, 20);
 		app->render->camera.x = 0;
 		level2 = false;
@@ -148,6 +154,7 @@ bool Scene2::Update(float dt)
 
 	if (player->isdead) {
 		app->map2->Disable();
+		app->hud->Disable();
 		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scenedeath, 20);
 		app->scene2->Disable();
 		app->render->camera.x = 0;

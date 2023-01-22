@@ -14,6 +14,7 @@
 #include "Scene2.h"
 #include "GuiManager.h"
 #include "SceneIntro.h"
+#include "HUD.h"
 
 #include "Defs.h"
 #include "Log.h"
@@ -128,7 +129,11 @@ bool Scene::PreUpdate()
 // Called each loop iteration
 bool Scene::Update(float dt)
 {
-
+	//if 5 mins pass u lose
+	if (app->hud->playtime > 300) {
+		player->isdead = true;
+		app->hud->playtime = 0;
+	}
 	if (exit) {
 		app->guiManager->menu = false;
 		app->physics->Pause();
@@ -137,6 +142,7 @@ bool Scene::Update(float dt)
 
 	if (player->isdead) {
 		app->map->Disable();
+		app->hud->Disable();
 		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scenedeath, 20);
 		app->scene->Disable();
 		app->render->camera.x = 0;

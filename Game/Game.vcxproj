@@ -100,7 +100,9 @@
     <ClCompile Include="Source\EntityManager.cpp" />
     <ClCompile Include="Source\FadeToBlack.cpp" />
     <ClCompile Include="Source\GuiButton.cpp" />
+    <ClCompile Include="Source\GUICheckBox.cpp" />
     <ClCompile Include="Source\GuiManager.cpp" />
+    <ClCompile Include="Source\GUISlider.cpp" />
     <ClCompile Include="Source\ItemHeart.cpp" />
     <ClCompile Include="Source\ItemCoin.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -121,6 +123,7 @@
     <ClCompile Include="Source\SceneWin.cpp" />
     <ClCompile Include="Source\Textures.cpp" />
     <ClCompile Include="Source\Timer.cpp" />
+    <ClCompile Include="Source\HUD.cpp" />
     <ClCompile Include="Source\Window.cpp" />
     <ClInclude Include="Source\Animation.h" />
     <ClInclude Include="Source\FlyingEnemy.h" />
@@ -129,8 +132,10 @@
     <ClInclude Include="Source\EntityManager.h" />
     <ClInclude Include="Source\FadeToBlack.h" />
     <ClInclude Include="Source\GuiButton.h" />
+    <ClInclude Include="Source\GUICheckBox.h" />
     <ClInclude Include="Source\GuiControl.h" />
     <ClInclude Include="Source\GuiManager.h" />
+    <ClInclude Include="Source\GUISlider.h" />
     <ClInclude Include="Source\ItemHeart.h" />
     <ClInclude Include="Source\ItemCoin.h" />
     <ClInclude Include="Source\Map.h" />
@@ -153,6 +158,7 @@
     <ClInclude Include="Source\SceneWin.h" />
     <ClInclude Include="Source\Textures.h" />
     <ClInclude Include="Source\Timer.h" />
+    <ClInclude Include="Source\HUD.h" />
     <ClInclude Include="Source\Window.h" />
     <ClInclude Include="Source\Defs.h" />
     <ClInclude Include="Source\List.h" />

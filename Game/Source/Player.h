@@ -49,10 +49,13 @@ public:
 
 public:
 	uint hp;
+	uint coinCount;
 	iPoint position;
 	bool isdead;
 	bool playerhitRight;
 	bool playerhitLeft;
+
+	bool heartHUDAnim, coinHUDAnim;
 
 private:
 
@@ -80,7 +83,7 @@ private:
 	const char* audioWin;
 	const char* audioOuch;
 
-	uint coinCount;
+	
 
 };
 

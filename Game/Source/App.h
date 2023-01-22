@@ -32,6 +32,7 @@ class PathFinding;
 class GuiManager;
 class Animation;
 class FadeToBlack;
+class HUD;
 
 
 class App
@@ -115,7 +116,9 @@ public:
 	SceneWin* scenewin;
 	SceneDeath* scenedeath;
 	Animation* animation;
+	HUD* hud;
 
+	
 private:
 
 	int argc;
@@ -153,6 +156,7 @@ private:
 
 	float averageFps = 0.0f;
 	float secondsSinceStartup = 0.0f;
+	
 
 	uint32 maxFrameDuration = 0;
 

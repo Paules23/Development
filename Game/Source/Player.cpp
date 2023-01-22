@@ -105,6 +105,10 @@ bool Player::Start() {
 	hp = 3;
 	hitImpulse = false;
 
+	//hud stuff
+	coinHUDAnim = false;
+	heartHUDAnim = false;
+
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 
@@ -335,11 +339,13 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	{
 	case ColliderType::ITEMCOIN:
 		++coinCount;
+		coinHUDAnim = true;
 		break;
 	case ColliderType::ITEMHEART:
 		if (hp != 3) {
 			++hp;
 		}
+		heartHUDAnim = true;
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");
