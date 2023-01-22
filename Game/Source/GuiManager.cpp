@@ -4,6 +4,7 @@
 
 #include "GuiButton.h"
 #include "GUICheckBox.h"
+#include "GUISlider.h"
 #include "Audio.h"
 
 GuiManager::GuiManager(bool startEnabled) :Module(startEnabled)
@@ -49,6 +50,7 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, int id, const char
 		guiControl = new GuiCheckBox(id, bounds, text);
 		break;
 	case GuiControlType::SLIDER:
+		guiControl = new GuiSlider(id, bounds, text, sliderBounds);
 		break;
 	case GuiControlType::SLIDERBAR:
 		break;
@@ -123,13 +125,11 @@ bool GuiManager::CleanUp()
 
 	while (control != nullptr)
 	{
+		app->tex->UnLoad(control->data->texture);
 		RELEASE(control);
 	}
-	guiControlsList.Clear();
 
 	return true;
-
-	return false;
 }
 
 void GuiManager::activateMenu() {

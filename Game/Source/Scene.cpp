@@ -118,8 +118,11 @@ bool Scene::Start()
 	musicVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "Music volume", { (int)w / 2 - 50,(int)h / 2 - 80,104,44 }, this);
 	musicVolume->parameters = app->LoadConfig2().child("scene").child("button");
 
-	fxVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "Fx Volume", { (int)w / 2 - 50,(int)h / 2 - 40,104,44 }, this);
-	fxVolume->parameters = app->LoadConfig2().child("scene").child("button");
+	/*fxVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "Fx Volume", { (int)w / 2 - 50,(int)h / 2 - 40,104,44 }, this);
+	fxVolume->parameters = app->LoadConfig2().child("scene").child("button");*/
+
+	fxVolumeSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 6, "Fx Volume", { (int)w / 2 - 50,(int)h / 2 - 40,30,27 }, this, { (int)w / 2 - 50,(int)h / 2 - 40,100,44 });
+	fxVolumeSlider->parameters = app->LoadConfig2().child("scene").child("slider");
 
 	fullscreen = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, "Fullscreen", { (int)w / 2 - 50,(int)h / 2,104,44 }, this);
 	fullscreen->parameters = app->LoadConfig2().child("scene").child("button");

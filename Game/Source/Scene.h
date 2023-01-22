@@ -7,6 +7,7 @@
 #include "ItemHeart.h"
 #include "GuiButton.h"
 #include "GUICheckBox.h"
+#include "GUISlider.h"
 
 struct SDL_Texture;
 
@@ -55,6 +56,7 @@ private:
 	//settings
 	GuiButton* musicVolume;
 	GuiButton* fxVolume;
+	GuiSlider* fxVolumeSlider;
 	GuiButton* fullscreen;
 	GuiCheckBox* fullscreenCheck;
 	GuiButton* vsync;

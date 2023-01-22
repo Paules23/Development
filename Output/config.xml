@@ -32,6 +32,7 @@
 	  <itemHeart x="300" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/heart.ogg"/>
 	  <button texturepath= "Assets/Textures/x_square.png" clickaudiopath = "Assets/Audio/Fx/click.ogg" focusaudiopath= "Assets/Audio/Fx/focus.ogg"/>
 	  <checkbox texturepath= "Assets/Textures/checkbox.png" clickaudiopath = "Assets/Audio/Fx/click.ogg" focusaudiopath= "Assets/Audio/Fx/focus.ogg"/>
+	  <slider texturepath= "Assets/Textures/x_square.png" clickaudiopath = "Assets/Audio/Fx/click.ogg" focusaudiopath= "Assets/Audio/Fx/focus.ogg"/>
   </scene>
 
 	<scene2>
@@ -51,6 +52,8 @@
 	</scene2>
 
   <sceneIntro texturepath="Assets/Textures/introscene.jpg"/>
+
+  <sceneDeath texturepath="Assets/Textures/lose.jpg"/>
 
   <HUD texturepath="Assets/Textures/coins-hearts-etc.png"/>
 	
