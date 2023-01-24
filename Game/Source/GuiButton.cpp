@@ -104,7 +104,7 @@ bool GuiButton::Draw(Render* render)
 		break;
 	}
 
-	render->DrawTexture(texture, bounds.x, bounds.y, &section);
+	render->DrawTexture(texture, bounds.x, bounds.y, &section,0);
 	app->render->DrawText(text.GetString(), bounds.x+10, bounds.y+10, bounds.w-20, bounds.h-20, { 0,0,0 });
 
 	return false;

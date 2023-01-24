@@ -54,6 +54,7 @@ private:
 	GuiButton* backToTitle;
 	GuiButton* Exit;
 	//settings
+	GuiSlider* musicVolumeSlider;
 	GuiButton* musicVolume;
 	GuiButton* fxVolume;
 	GuiSlider* fxVolumeSlider;

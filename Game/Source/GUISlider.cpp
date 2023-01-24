@@ -4,6 +4,8 @@
 #include "Audio.h"
 #include "Textures.h"
 #include "Log.h"
+#include "SDL/include/SDL.h"
+#include "SDL_mixer/include/SDL_mixer.h"
 
 GuiSlider::GuiSlider(uint32 id, SDL_Rect bounds, const char* text, SDL_Rect sliderBounds) : GuiControl(GuiControlType::BUTTON, id)
 {
@@ -30,6 +32,7 @@ bool GuiSlider::Start() {
 	focusaudioFxId = app->audio->LoadFx(focusAudioPath);
 	texture = app->tex->Load(texturePath); 
 
+	bounds.x = sliderbounds.x + sliderbounds.w;
 
 
 	return true;
@@ -62,7 +65,7 @@ bool GuiSlider::Update(float dt)
 
 
 			if (previousState == GuiControlState::PRESSED && state == GuiControlState::NORMAL) {
-				if (mouseX > sliderbounds.x + 12.5f && mouseX < sliderbounds.x + 37.5f) {
+				/*if (mouseX > sliderbounds.x + 12.5f && mouseX < sliderbounds.x + 37.5f) {
 					bounds.x = sliderbounds.x + 25 - bounds.w / 2;
 				}else if (mouseX > sliderbounds.x + 37.5f && mouseX < sliderbounds.x + 62.5f) {
 					bounds.x = sliderbounds.x + 50 - bounds.w/2;
@@ -78,11 +81,27 @@ bool GuiSlider::Update(float dt)
 				}
 				else if (mouseX > sliderbounds.x + 100.0f) {
 					bounds.x = sliderbounds.x + sliderbounds.w;
-				}
+				}*/
 			}
 			else if (previousState == GuiControlState::NORMAL && state == GuiControlState::FOCUSED) {
 				LOG("Change state from %d to %d", previousState, state);
 				app->audio->PlayFx(focusaudioFxId);
+			}
+			if (state == GuiControlState::PRESSED) {
+				bounds.x = mouseX - (bounds.w / 2);
+				if (bounds.x > sliderbounds.x + sliderbounds.w) {
+					bounds.x = sliderbounds.x + sliderbounds.w;
+				}
+				else if (bounds.x < sliderbounds.x) {
+					bounds.x = sliderbounds.x;
+				}
+			}
+
+			if (this->id == 5) {
+				Mix_VolumeMusic(bounds.x-sliderbounds.x);
+			}
+			if (this->id == 6) {
+				Mix_Volume(-1,bounds.x - sliderbounds.x);
 			}
 		}
 	}
@@ -100,10 +119,10 @@ bool GuiSlider::Draw(Render* render)
 		break;
 	case GuiControlState::NORMAL:
 		section = { 18,140,119,21 };
-		render->DrawTexture(texture, sliderbounds.x, sliderbounds.y, &section);
+		render->DrawTexture(texture, sliderbounds.x, sliderbounds.y, &section,0);
 		//section of the slider
 		section = { 147,133,30,27 };
-		render->DrawTexture(texture, bounds.x, bounds.y, &section);
+		render->DrawTexture(texture, bounds.x, bounds.y, &section,0);
 		break;
 	//case GuiControlState::FOCUSED:
 	//	section = { 18,140,119,21 };
@@ -113,19 +132,13 @@ bool GuiSlider::Draw(Render* render)
 	//	render->DrawTexture(texture, mouseX, bounds.y, &section);
 	//	break;
 	case GuiControlState::PRESSED:
-		bounds.x = mouseX - (bounds.w/2);
-		if (bounds.x > sliderbounds.x + sliderbounds.w) {
-			bounds.x = sliderbounds.x + sliderbounds.w;
-		}
-		else if (bounds.x < sliderbounds.x) {
-			bounds.x = sliderbounds.x;
-		}
+		
 		//section of the rectangle
 		section = { 18,140,119,21 };
-		render->DrawTexture(texture, sliderbounds.x, sliderbounds.y, &section);
+		render->DrawTexture(texture, sliderbounds.x, sliderbounds.y, &section,0);
 		//section of the slider
 		section = { 147,133,30,27 };
-		render->DrawTexture(texture, bounds.x, sliderbounds.y, &section);
+		render->DrawTexture(texture, bounds.x, sliderbounds.y, &section,0);
 		break;
 	}
 	//app->render->DrawText(text.GetString(), bounds.x + 10, bounds.y + 10, bounds.w - 20, bounds.h - 20, { 0,0,0 });

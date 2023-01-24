@@ -115,8 +115,12 @@ bool Scene::Start()
 	Exit = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, "Exit", { (int)w / 2 - 50,(int)h / 2 + 40,104,44 }, this);
 	Exit->parameters = app->LoadConfig2().child("scene").child("button");
 	//settings buttons
-	musicVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "Music volume", { (int)w / 2 - 50,(int)h / 2 - 80,104,44 }, this);
-	musicVolume->parameters = app->LoadConfig2().child("scene").child("button");
+
+	/*musicVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "Music volume", { (int)w / 2 - 50,(int)h / 2 - 80,104,44 }, this);
+	musicVolume->parameters = app->LoadConfig2().child("scene").child("button");*/
+
+	musicVolumeSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 5, "Music volume", { (int)w / 2 - 50,(int)h / 2 - 80,30,27 }, this, { (int)w / 2 - 50,(int)h / 2 - 80,100,44 });
+	musicVolumeSlider->parameters = app->LoadConfig2().child("scene").child("slider");
 
 	/*fxVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "Fx Volume", { (int)w / 2 - 50,(int)h / 2 - 40,104,44 }, this);
 	fxVolume->parameters = app->LoadConfig2().child("scene").child("button");*/
@@ -202,6 +206,38 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
 		app->render->camera.x -= ceil(CAMERASPEED * dt);
 		stopcamera = false;
+	}
+	if (app->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
+
+		/*Uint32 flags = SDL_WINDOW_SHOWN;
+		bool fullscreen = true;
+		if (fullscreen == true) flags |= SDL_WINDOW_FULLSCREEN;
+		SDL_DestroyWindow(app->win->window);
+		app->win->window = SDL_CreateWindow(app->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1920, 1080, flags);
+		app->win->screenSurface = SDL_GetWindowSurface(app->win->window);
+		SDL_RenderClear(app->render->renderer);
+
+		Uint32 flags2 = SDL_RENDERER_ACCELERATED;
+		flags2 |= SDL_RENDERER_PRESENTVSYNC;
+		app->render->renderer = SDL_CreateRenderer(app->win->window, -1, flags2);*/
+		
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN) {
+		
+		/*Uint32 flags = SDL_WINDOW_SHOWN;
+		bool fullscreen = true;
+		if (fullscreen == true) flags |= SDL_WINDOW_FULLSCREEN;
+		SDL_DestroyWindow(app->win->window);
+		app->win->window = SDL_CreateWindow(app->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1920, 1080, flags);
+		app->win->screenSurface = SDL_GetWindowSurface(app->win->window);
+		SDL_RenderClear(app->render->renderer);
+
+		Uint32 flags2 = SDL_RENDERER_ACCELERATED;
+		flags2 |= SDL_RENDERER_PRESENTVSYNC;
+		app->render->renderer = SDL_CreateRenderer(app->win->window, -1, flags2);*/
+		
+		
 	}
 
 
@@ -381,6 +417,16 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 		break;
 	case 9:
 		LOG("Button 9 click");
+		break;
+	case 10:
+		LOG("Button fullscreen click");	
+		app->win->fullscreen = !app->win->fullscreen;
+		if (app->win->fullscreen) {
+			SDL_SetWindowFullscreen(app->win->window, SDL_WINDOW_FULLSCREEN);
+		}
+		else {
+			SDL_SetWindowFullscreen(app->win->window, 0);
+		}
 		break;
 	}
 

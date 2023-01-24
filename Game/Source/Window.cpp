@@ -51,6 +51,7 @@ bool Window::Awake(pugi::xml_node& config)
 		if (fullscreen_window == true) flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 
 		window = SDL_CreateWindow(app->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+	
 
 		if (window == NULL)
 		{
@@ -63,6 +64,9 @@ bool Window::Awake(pugi::xml_node& config)
 			screenSurface = SDL_GetWindowSurface(window);
 		}
 	}
+	
+	fullscreen = false;
+
 
 	return ret;
 }
