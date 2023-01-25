@@ -11,6 +11,7 @@
 #include "GuiManager.h"
 #include "Window.h"
 #include "Map.h"
+#include "Physics.h"
 #include <stdio.h>
 
 HUD::HUD(bool startEnabled) : Module(startEnabled)
@@ -100,25 +101,25 @@ bool HUD::Update(float dt)
 // Update: draw background
 bool HUD::PostUpdate()
 {
-	playtime = PlayTime.ReadSec();
 	if (app->scene->player == nullptr) {
 		return true;
 	}
+	playtime = PlayTime.ReadSec();
 	SDL_Rect rect = CurrentCoinAnim->GetCurrentFrame();
-	app->render->DrawTexture(coinTex, 100, 100,&rect, 0);
+	app->render->DrawTexture(coinTex, 100, 70,&rect, 0);
 	rect = CurrentHeartAnim->GetCurrentFrame();
-	app->render->DrawTexture(heartTex, 160, 100, &rect, 0);
+	app->render->DrawTexture(heartTex, 160, 70, &rect, 0);
 
 	sprintf_s(totalHearts, 4, "%d", app->scene->player->hp);
 	sprintf_s(totalPlaytime, 11, "%.0f ", playtime);
 	sprintf_s(totalCoins, 4, "%d", app->scene->player->coinCount);
 
 
-	app->render->DrawText(totalCoins,70,100,32,32, { 255,255,255 });
-	app->render->DrawText(totalHearts, 130, 100, 32, 32, { 255,255,255 });
+	app->render->DrawText(totalCoins,70,70,32,32, { 255,255,255 });
+	app->render->DrawText(totalHearts, 130, 70, 32, 32, { 255,255,255 });
 
-	app->render->DrawText("Total playtime: ", 190, 100, 130, 32, { 255,255,255 });
-	app->render->DrawText(totalPlaytime, 330, 100, 32, 32, { 255,255,255 });
+	app->render->DrawText("Total playtime: ", 200, 70, 130, 32, { 255,255,255 });
+	app->render->DrawText(totalPlaytime, 330, 70, 32, 32, { 255,255,255 });
 	
 
 	return true;

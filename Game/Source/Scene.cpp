@@ -101,19 +101,49 @@ bool Scene::Start()
 	exit = false;
 	checkpoint = true;
 
+	
+
 	//menu buttons
 	uint w, h;
 	app->win->GetWindowSize(w, h);
-	resume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "Resume", { (int)w / 2 - 50,(int)h / 2 - 60,100,20 }, this);
-	settings = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, "Settings", { (int)w / 2 - 50,(int)h / 2 -30,100,20 }, this);
-	backToTitle = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, "Back to title", { (int)w / 2 - 50,(int)h / 2,100,20 }, this);
-	Exit = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, "Exit", { (int)w / 2 - 50,(int)h / 2 + 30,100,20 }, this);
-
+	resume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "Resume", { (int)w / 2 - 50,(int)h / 2 - 80,104,44 }, this);
+	resume->parameters = app->LoadConfig2().child("scene").child("button");
+	settings = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, "Settings", { (int)w / 2 - 50,(int)h / 2 -40,104,44 }, this);
+	settings->parameters = app->LoadConfig2().child("scene").child("button");
+	backToTitle = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, "Back to title", { (int)w / 2 - 50,(int)h / 2,104,44 }, this);
+	backToTitle->parameters = app->LoadConfig2().child("scene").child("button");
+	Exit = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, "Exit", { (int)w / 2 - 50,(int)h / 2 + 40,104,44 }, this);
+	Exit->parameters = app->LoadConfig2().child("scene").child("button");
 	//settings buttons
-	musicVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "Music volume", { (int)w / 2 - 50,(int)h / 2 - 60,100,20 }, this);
-	fxVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "Fx Volume", { (int)w / 2 - 50,(int)h / 2 - 30,100,20 }, this);
-	fullscreenmode = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, "Fullscreen mode", { (int)w / 2 - 50,(int)h / 2,100,20 }, this);
-	Vsync = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 8, "Vsync", { (int)w / 2 - 50,(int)h / 2 + 30,100,20 }, this);
+
+	/*musicVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "Music volume", { (int)w / 2 - 50,(int)h / 2 - 80,104,44 }, this);
+	musicVolume->parameters = app->LoadConfig2().child("scene").child("button");*/
+
+	musicVolumeSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 5, "Music volume", { (int)w / 2 - 50,(int)h / 2 - 80,30,27 }, this, { (int)w / 2 - 50,(int)h / 2 - 80,100,44 });
+	musicVolumeSlider->parameters = app->LoadConfig2().child("scene").child("slider");
+
+	/*fxVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "Fx Volume", { (int)w / 2 - 50,(int)h / 2 - 40,104,44 }, this);
+	fxVolume->parameters = app->LoadConfig2().child("scene").child("button");*/
+
+	fxVolumeSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 6, "Fx Volume", { (int)w / 2 - 50,(int)h / 2 - 40,30,27 }, this, { (int)w / 2 - 50,(int)h / 2 - 40,100,44 });
+	fxVolumeSlider->parameters = app->LoadConfig2().child("scene").child("slider");
+
+	fullscreen = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, "Fullscreen", { (int)w / 2 - 50,(int)h / 2,104,44 }, this);
+	fullscreen->parameters = app->LoadConfig2().child("scene").child("button");
+
+	fullscreenCheck = (GuiCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 10, "", { (int)w / 2 - 50 +104,(int)h / 2,104,36 }, this);
+	fullscreenCheck->parameters = app->LoadConfig2().child("scene").child("checkbox");
+
+	vsync = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 9, "Vsync", { (int)w / 2 - 50,(int)h / 2 + 40,104,44 }, this);
+	vsync->parameters = app->LoadConfig2().child("scene").child("button");
+
+	VsyncCheck = (GuiCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 8, "", { (int)w / 2 - 50 +104,(int)h / 2 + 40,40,36 }, this);
+	VsyncCheck->parameters = app->LoadConfig2().child("scene").child("checkbox");
+	
+
+	//activate gui
+	app->guiManager->Enable();
+
 
 	app->SaveGameRequest();
 
@@ -176,6 +206,38 @@ bool Scene::Update(float dt)
 	if (app->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
 		app->render->camera.x -= ceil(CAMERASPEED * dt);
 		stopcamera = false;
+	}
+	if (app->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
+
+		/*Uint32 flags = SDL_WINDOW_SHOWN;
+		bool fullscreen = true;
+		if (fullscreen == true) flags |= SDL_WINDOW_FULLSCREEN;
+		SDL_DestroyWindow(app->win->window);
+		app->win->window = SDL_CreateWindow(app->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1920, 1080, flags);
+		app->win->screenSurface = SDL_GetWindowSurface(app->win->window);
+		SDL_RenderClear(app->render->renderer);
+
+		Uint32 flags2 = SDL_RENDERER_ACCELERATED;
+		flags2 |= SDL_RENDERER_PRESENTVSYNC;
+		app->render->renderer = SDL_CreateRenderer(app->win->window, -1, flags2);*/
+		
+	}
+
+	if (app->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN) {
+		
+		/*Uint32 flags = SDL_WINDOW_SHOWN;
+		bool fullscreen = true;
+		if (fullscreen == true) flags |= SDL_WINDOW_FULLSCREEN;
+		SDL_DestroyWindow(app->win->window);
+		app->win->window = SDL_CreateWindow(app->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1920, 1080, flags);
+		app->win->screenSurface = SDL_GetWindowSurface(app->win->window);
+		SDL_RenderClear(app->render->renderer);
+
+		Uint32 flags2 = SDL_RENDERER_ACCELERATED;
+		flags2 |= SDL_RENDERER_PRESENTVSYNC;
+		app->render->renderer = SDL_CreateRenderer(app->win->window, -1, flags2);*/
+		
+		
 	}
 
 
@@ -257,7 +319,7 @@ bool Scene::Update(float dt)
 
 		while (control != nullptr)
 		{
-			for (int i = 5; i < 9; ++i) {
+			for (int i = 5; i < 11; ++i) {
 				if (control->data->id == i) {
 					control->data->enabled = true;
 				}
@@ -271,7 +333,7 @@ bool Scene::Update(float dt)
 
 		while (control != nullptr)
 		{
-			for (int i = 5; i < 9; ++i) {
+			for (int i = 5; i < 11; ++i) {
 				if (control->data->id == i) {
 					control->data->enabled = false;
 				}
@@ -355,6 +417,16 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 		break;
 	case 9:
 		LOG("Button 9 click");
+		break;
+	case 10:
+		LOG("Button fullscreen click");	
+		app->win->fullscreen = !app->win->fullscreen;
+		if (app->win->fullscreen) {
+			SDL_SetWindowFullscreen(app->win->window, SDL_WINDOW_FULLSCREEN);
+		}
+		else {
+			SDL_SetWindowFullscreen(app->win->window, 0);
+		}
 		break;
 	}
 

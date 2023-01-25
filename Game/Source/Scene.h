@@ -6,6 +6,8 @@
 #include "ItemCoin.h"
 #include "ItemHeart.h"
 #include "GuiButton.h"
+#include "GUICheckBox.h"
+#include "GUISlider.h"
 
 struct SDL_Texture;
 
@@ -52,10 +54,14 @@ private:
 	GuiButton* backToTitle;
 	GuiButton* Exit;
 	//settings
+	GuiSlider* musicVolumeSlider;
 	GuiButton* musicVolume;
 	GuiButton* fxVolume;
-	GuiButton* fullscreenmode;
-	GuiButton* Vsync;
+	GuiSlider* fxVolumeSlider;
+	GuiButton* fullscreen;
+	GuiCheckBox* fullscreenCheck;
+	GuiButton* vsync;
+	GuiCheckBox* VsyncCheck;
 	//checkpoints
 	bool checkpoint;
 

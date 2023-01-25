@@ -3,6 +3,8 @@
 #include "Textures.h"
 
 #include "GuiButton.h"
+#include "GUICheckBox.h"
+#include "GUISlider.h"
 #include "Audio.h"
 
 GuiManager::GuiManager(bool startEnabled) :Module(startEnabled)
@@ -16,6 +18,15 @@ bool GuiManager::Start()
 {
 	menu = false;
 	settings = false;
+
+	ListItem<GuiControl*>* control = guiControlsList.start;
+
+	while (control != nullptr)
+	{
+		control->data->Start();
+		control = control->next;
+	}
+
 	return true;
 }
 
@@ -31,28 +42,31 @@ GuiControl* GuiManager::CreateGuiControl(GuiControlType type, int id, const char
 	case GuiControlType::BUTTON:
 		guiControl = new GuiButton(id, bounds, text);
 		break;
-		/*
-		case GuiControlType::TOGGLE:
-			break;
-		case GuiControlType::CHECKBOX:
-			break;
-		case GuiControlType::SLIDER:
-			break;
-		case GuiControlType::SLIDERBAR:
-			break;
-		case GuiControlType::COMBOBOX:
-			break;
-		case GuiControlType::DROPDOWNBOX:
-			break;
-		case GuiControlType::INPUTBOX:
-			break;
-		case GuiControlType::VALUEBOX:
-			break;
-		case GuiControlType::SPINNER:
-			break;
-		default:
-			break;
-			*/
+		
+	case GuiControlType::TOGGLE:
+		break;
+		
+	case GuiControlType::CHECKBOX:
+		guiControl = new GuiCheckBox(id, bounds, text);
+		break;
+	case GuiControlType::SLIDER:
+		guiControl = new GuiSlider(id, bounds, text, sliderBounds);
+		break;
+	case GuiControlType::SLIDERBAR:
+		break;
+	case GuiControlType::COMBOBOX:
+		break;
+	case GuiControlType::DROPDOWNBOX:
+		break;
+	case GuiControlType::INPUTBOX:
+		break;
+	case GuiControlType::VALUEBOX:
+		break;
+	case GuiControlType::SPINNER:
+		break;
+	default:
+		break;
+			
 	}
 
 	//Set the observer
@@ -111,12 +125,11 @@ bool GuiManager::CleanUp()
 
 	while (control != nullptr)
 	{
+		app->tex->UnLoad(control->data->texture);
 		RELEASE(control);
 	}
 
 	return true;
-
-	return false;
 }
 
 void GuiManager::activateMenu() {

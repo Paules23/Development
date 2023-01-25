@@ -49,6 +49,11 @@ public:
 		texture = NULL;
 	}
 
+	virtual bool Start()
+	{
+		return true;
+	}
+
 	virtual bool Update(float dt)
 	{
 		return true;
@@ -88,6 +93,8 @@ public:
 
 	SDL_Texture* texture;   // Texture atlas reference
 	SDL_Rect section;       // Texture atlas base section
+
+	pugi::xml_node parameters;
 
 	//Font font;              // Text font
 

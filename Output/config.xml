@@ -30,6 +30,9 @@
 	  <itemCoin x="256" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
 	  <itemCoin x="280" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
 	  <itemHeart x="300" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/heart.ogg"/>
+	  <button texturepath= "Assets/Textures/slider and button.png" clickaudiopath = "Assets/Audio/Fx/click.ogg" focusaudiopath= "Assets/Audio/Fx/focus.ogg"/>
+	  <checkbox texturepath= "Assets/Textures/checkbox.png" clickaudiopath = "Assets/Audio/Fx/click.ogg" focusaudiopath= "Assets/Audio/Fx/focus.ogg"/>
+	  <slider texturepath= "Assets/Textures/slider and button.png" clickaudiopath = "Assets/Audio/Fx/click.ogg" focusaudiopath= "Assets/Audio/Fx/focus.ogg"/>
   </scene>
 
 	<scene2>
@@ -45,9 +48,12 @@
 		<flyingenemy posx="1000" posy="100" texturepath="Assets/Textures/flyingenemy.png" audiopath ="Assets/Audio/Fx/eDeath.ogg"/>
 		<flyingenemy posx="1728" posy="100" texturepath="Assets/Textures/flyingenemy.png" audiopath ="Assets/Audio/Fx/eDeath.ogg"/>
 		<flyingenemy posx="3488" posy="224" texturepath="Assets/Textures/flyingenemy.png" audiopath ="Assets/Audio/Fx/eDeath.ogg"/>
+		
 	</scene2>
 
   <sceneIntro texturepath="Assets/Textures/introscene.jpg"/>
+
+  <sceneDeath texturepath="Assets/Textures/lose.jpg"/>
 
   <HUD texturepath="Assets/Textures/coins-hearts-etc.png"/>
 	

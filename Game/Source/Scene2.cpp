@@ -90,7 +90,7 @@ bool Scene2::Start()
 	player->parameters = app->LoadConfig2().child("scene").child("player");
 	app->entityManager->Enable();
 
-	app->audio->PlayMusic("Assets/Audio/Music/song.ogg");
+	app->audio->PlayMusic("Assets/Audio/Music/song2.ogg");
 	mouseTileTex = app->tex->Load("Assets/Textures/path_square.png");
 	originTex = app->tex->Load("Assets/Textures/x_square.png");
 

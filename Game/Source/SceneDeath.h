@@ -32,18 +32,6 @@ private:
 	SDL_Texture* bgTexture = nullptr;
 	const char* texturepath;
 	int entersound;
-
-	//intro buttons
-	GuiButton* play;
-	GuiButton* Continue;
-	GuiButton* settings;
-	GuiButton* credits;
-	GuiButton* Exit;
-	//settings
-	GuiButton* musicVolume;
-	GuiButton* fxVolume;
-	GuiButton* fullscreenmode;
-	GuiButton* Vsync;
 };
 
 #endif
