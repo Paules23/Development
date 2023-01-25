@@ -90,11 +90,6 @@ bool HUD::Update(float dt)
 	CurrentCoinAnim->Update();
 	CurrentHeartAnim->Update();
 
-
-	/*sprintf_s(radiusText, 4, "%d", App->scene_intro->actualPlayer->data->getRadius());
-	App->fonts->BlitText(20, 220, 0, "actual player shooting radius: ");
-	App->fonts->BlitText(265, 220, 0, radiusText);*/
-
 	return ret;
 }
 

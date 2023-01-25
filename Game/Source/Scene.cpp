@@ -32,26 +32,7 @@ Scene::~Scene()
 // Called before render is available
 bool Scene::Awake(pugi::xml_node& config)
 {
-	//LOG("Loading Scene");
-	//bool ret = true;
-
-	//// iterate all objects in the scene
-	//// Check https://pugixml.org/docs/quickstart.html#access
-	//for (pugi::xml_node itemNode = config.child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
-	//{
-	//	Item* item = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
-	//	item->parameters = itemNode;
-	//}
-
-	////L02: DONE 3: Instantiate the player using the entity manager
-	//player = (Player*)app->entityManager->CreateEntity(EntityType::PLAYER);
-	//player->parameters = config.child("player");
-
-	//app->entityManager->Enable();
-	//app->map->Enable();
 	level1 = true;
-	
-
 	return true;
 }
 
@@ -100,7 +81,7 @@ bool Scene::Start()
 	level1 = true;
 	exit = false;
 	checkpoint = true;
-
+	returnToIntro = false;
 	
 
 	//menu buttons
@@ -116,16 +97,16 @@ bool Scene::Start()
 	Exit->parameters = app->LoadConfig2().child("scene").child("button");
 	//settings buttons
 
-	/*musicVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 5, "Music volume", { (int)w / 2 - 50,(int)h / 2 - 80,104,44 }, this);
-	musicVolume->parameters = app->LoadConfig2().child("scene").child("button");*/
+	musicVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 11, "Music volume", { (int)w / 2 - 50,(int)h / 2 - 80,104,44 }, this);
+	musicVolume->parameters = app->LoadConfig2().child("scene").child("button");
 
-	musicVolumeSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 5, "Music volume", { (int)w / 2 - 50,(int)h / 2 - 80,30,27 }, this, { (int)w / 2 - 50,(int)h / 2 - 80,100,44 });
+	musicVolumeSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 5, "", { (int)w / 2 + 50,(int)h / 2 - 70,30,27 }, this, { (int)w / 2 + 50,(int)h / 2 - 70,100,44 });
 	musicVolumeSlider->parameters = app->LoadConfig2().child("scene").child("slider");
 
-	/*fxVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 6, "Fx Volume", { (int)w / 2 - 50,(int)h / 2 - 40,104,44 }, this);
-	fxVolume->parameters = app->LoadConfig2().child("scene").child("button");*/
+	fxVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 12, "Fx Volume", { (int)w / 2 - 50,(int)h / 2 - 40,104,44 }, this);
+	fxVolume->parameters = app->LoadConfig2().child("scene").child("button");
 
-	fxVolumeSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 6, "Fx Volume", { (int)w / 2 - 50,(int)h / 2 - 40,30,27 }, this, { (int)w / 2 - 50,(int)h / 2 - 40,100,44 });
+	fxVolumeSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 6, "", { (int)w / 2 + 50,(int)h / 2 - 30,30,27 }, this, { (int)w / 2 + 50,(int)h / 2 - 30,100,44 });
 	fxVolumeSlider->parameters = app->LoadConfig2().child("scene").child("slider");
 
 	fullscreen = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, "Fullscreen", { (int)w / 2 - 50,(int)h / 2,104,44 }, this);
@@ -164,6 +145,19 @@ bool Scene::Update(float dt)
 		player->isdead = true;
 		app->hud->playtime = 0;
 	}
+
+	if (returnToIntro) {
+		app->hud->Disable();
+		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->intro, 20);
+		app->scene->Disable();
+		app->map->Disable();
+		app->guiManager->Disable();
+		app->render->camera.x = 0;
+		app->audio->PlayMusic("");
+		app->physics->pause = false;
+		returnToIntro = false;
+		app->SaveGameRequest();
+	}
 	if (exit) {
 		app->guiManager->menu = false;
 		app->physics->Pause();
@@ -175,7 +169,10 @@ bool Scene::Update(float dt)
 		app->hud->Disable();
 		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scenedeath, 20);
 		app->scene->Disable();
+		app->map->Disable();
+		app->guiManager->Disable();
 		app->render->camera.x = 0;
+		app->audio->PlayMusic("");
 	}
 
 	if (player->GetWinState() == true) {
@@ -183,6 +180,7 @@ bool Scene::Update(float dt)
 		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scene2, 20);
 		app->map2->Enable();
 		app->scene->Disable();
+		app->guiManager->Disable();
 		app->render->camera.x = 0;
 		level1 = false;
 		app->scene2->level2 = true;
@@ -208,39 +206,18 @@ bool Scene::Update(float dt)
 		stopcamera = false;
 	}
 	if (app->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN) {
-
-		/*Uint32 flags = SDL_WINDOW_SHOWN;
-		bool fullscreen = true;
-		if (fullscreen == true) flags |= SDL_WINDOW_FULLSCREEN;
-		SDL_DestroyWindow(app->win->window);
-		app->win->window = SDL_CreateWindow(app->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1920, 1080, flags);
-		app->win->screenSurface = SDL_GetWindowSurface(app->win->window);
-		SDL_RenderClear(app->render->renderer);
-
-		Uint32 flags2 = SDL_RENDERER_ACCELERATED;
-		flags2 |= SDL_RENDERER_PRESENTVSYNC;
-		app->render->renderer = SDL_CreateRenderer(app->win->window, -1, flags2);*/
-		
+		int xd = SDL_GL_SetSwapInterval(0);
+		if (xd == -1) {
+			app->physics->Pause();
+		}
 	}
-
 	if (app->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN) {
-		
-		/*Uint32 flags = SDL_WINDOW_SHOWN;
-		bool fullscreen = true;
-		if (fullscreen == true) flags |= SDL_WINDOW_FULLSCREEN;
-		SDL_DestroyWindow(app->win->window);
-		app->win->window = SDL_CreateWindow(app->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1920, 1080, flags);
-		app->win->screenSurface = SDL_GetWindowSurface(app->win->window);
-		SDL_RenderClear(app->render->renderer);
-
-		Uint32 flags2 = SDL_RENDERER_ACCELERATED;
-		flags2 |= SDL_RENDERER_PRESENTVSYNC;
-		app->render->renderer = SDL_CreateRenderer(app->win->window, -1, flags2);*/
-		
-		
+		int xd = SDL_GL_SetSwapInterval(1);
+		if (xd == -1) {
+			app->physics->Pause();
+		}
 	}
-
-
+	
 	//camera limits
 	app->render->camera.y = 0;
 	if (app->render->camera.x > 0) {
@@ -268,7 +245,6 @@ bool Scene::Update(float dt)
 			app->render->camera.x = -player->position.x + 300;
 		}
 	}
-	
 	
 	//godmode
 	ListItem<PhysBody*>* colliderItem;
@@ -319,7 +295,7 @@ bool Scene::Update(float dt)
 
 		while (control != nullptr)
 		{
-			for (int i = 5; i < 11; ++i) {
+			for (int i = 5; i < 13; ++i) {
 				if (control->data->id == i) {
 					control->data->enabled = true;
 				}
@@ -333,7 +309,7 @@ bool Scene::Update(float dt)
 
 		while (control != nullptr)
 		{
-			for (int i = 5; i < 11; ++i) {
+			for (int i = 5; i < 13; ++i) {
 				if (control->data->id == i) {
 					control->data->enabled = false;
 				}
@@ -395,8 +371,7 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 		LOG("Button 2 click");
 		break;
 	case 3:
-		app->fade->FadeToBlack1(this, (Module*)app->intro, 20);
-		app->entityManager->Disable();
+		returnToIntro = true;
 		LOG("Button 3 click");
 		break;
 	case 4:
@@ -414,6 +389,14 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 		break;
 	case 8:
 		LOG("Button 8 click");
+		app->render->Vsync = !app->render->Vsync;
+		SDL_GL_SetSwapInterval(app->render->Vsync);
+		if (app->render->Vsync == true) {
+			
+		}
+		else {
+			SDL_GL_SetSwapInterval(app->render->Vsync);
+		}
 		break;
 	case 9:
 		LOG("Button 9 click");

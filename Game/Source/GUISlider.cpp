@@ -145,3 +145,8 @@ bool GuiSlider::Draw(Render* render)
 
 	return false;
 }
+bool GuiSlider::CleanUp()
+{
+	app->tex->UnLoad(texture);
+	return true;
+}

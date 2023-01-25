@@ -19,6 +19,8 @@ public:
 	bool Update(float dt);
 	bool Draw(Render* render);
 
+	bool CleanUp();
+
 	int mouseX, mouseY;
 	unsigned int click;
 

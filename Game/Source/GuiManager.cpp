@@ -6,6 +6,7 @@
 #include "GUICheckBox.h"
 #include "GUISlider.h"
 #include "Audio.h"
+#include "Physics.h"
 
 GuiManager::GuiManager(bool startEnabled) :Module(startEnabled)
 {
@@ -121,15 +122,28 @@ bool GuiManager::Draw() {
 
 bool GuiManager::CleanUp()
 {
-	ListItem<GuiControl*>* control = guiControlsList.start;
+	bool ret = true;
+	ListItem<GuiControl*>* item;
+	item = guiControlsList.end;
 
-	while (control != nullptr)
+	while (item != NULL && ret == true)
 	{
-		app->tex->UnLoad(control->data->texture);
-		RELEASE(control);
+		ret = item->data->CleanUp();
+		DestroyGuiControl(item->data);
+		item = item->prev;
 	}
+	guiControlsList.Clear();
 
 	return true;
+}
+void GuiManager::DestroyGuiControl(GuiControl* guiControl)
+{
+	ListItem<GuiControl*>* item;
+
+	for (item = guiControlsList.start; item != NULL; item = item->next)
+	{
+		if (item->data == guiControl) guiControlsList.Del(item);
+	}
 }
 
 void GuiManager::activateMenu() {

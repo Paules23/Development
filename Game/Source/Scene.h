@@ -64,6 +64,7 @@ private:
 	GuiCheckBox* VsyncCheck;
 	//checkpoints
 	bool checkpoint;
+	bool returnToIntro;
 
 
 

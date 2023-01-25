@@ -4,6 +4,8 @@
 #include "Module.h"
 #include "Animation.h"
 #include "GuiButton.h"
+#include "GUISlider.h"
+#include "GUICheckBox.h"
 
 struct SDL_Texture;
 
@@ -34,16 +36,25 @@ private:
 	int entersound;
 
 	//intro buttons
-	//GuiButton* play;
-	//GuiButton* Continue;
-	//GuiButton* settings;
-	//GuiButton* credits;
-	//GuiButton* Exit;
-	////settings
-	//GuiButton* musicVolume;
-	//GuiButton* fxVolume;
-	//GuiButton* fullscreenmode;
-	//GuiButton* Vsync;
+	//menu buttons
+	GuiButton* play;
+	GuiButton* settings;
+	GuiButton* Continue;
+	GuiButton* Exit;
+	//settings
+	GuiSlider* musicVolumeSlider;
+	GuiButton* musicVolume;
+	GuiButton* fxVolume;
+	GuiSlider* fxVolumeSlider;
+	GuiButton* fullscreen;
+	GuiCheckBox* fullscreenCheck;
+	GuiButton* vsync;
+	GuiCheckBox* VsyncCheck;
+	GuiButton* goBack;
+
+	bool Play;
+	bool exit;
+	bool resume;
 };
 
 #endif

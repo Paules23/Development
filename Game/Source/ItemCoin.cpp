@@ -62,6 +62,9 @@ bool ItemCoin::Start() {
 
 bool ItemCoin::Update()
 {
+	if (app->physics->getPause() == true) {
+		return true;
+	}
 	if (!activated) {
 		return true;
 	}
@@ -73,16 +76,24 @@ bool ItemCoin::Update()
 	currentItemAnimation = &spinning;
 
 	currentItemAnimation->Update();
+	return true;
+
+}
+
+bool ItemCoin::PostUpdate() {
+	if (currentItemAnimation == NULL)
+		return true;
+	if (!activated) {
+		return true;
+	}
 	// draw textures and animations
 	position.x = METERS_TO_PIXELS(ibody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(ibody->body->GetTransform().p.y) - 16;
 
 	SDL_Rect rect = currentItemAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y, &rect);
-	
-	
-	return true;
 
+	return true;
 }
 
 bool ItemCoin::CleanUp()

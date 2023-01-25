@@ -116,3 +116,9 @@ bool GuiCheckBox::Draw(Render* render)
 
 	return false;
 }
+
+bool GuiCheckBox::CleanUp()
+{
+	app->tex->UnLoad(texture);
+	return true;
+}

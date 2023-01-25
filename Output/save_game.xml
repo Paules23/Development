@@ -13,9 +13,9 @@
 	</entitymanager>
 	<map />
 	<map2 />
-	<guiManager />
 	<fade />
 	<:anonymous />
+	<guiManager />
 	<:anonymous />
 	<:anonymous />
 	<:anonymous />

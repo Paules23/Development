@@ -41,9 +41,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new Scene(false);
 	scene2 = new Scene2(false);
 	entityManager = new EntityManager(false);
-	map = new Map(true);
+	map = new Map(false);
 	map2 = new Map2(false);
-	guiManager = new GuiManager(true);
+	guiManager = new GuiManager(false);
 	fade = new FadeToBlack(true);
 	intro = new SceneIntro(true);
 	scenedeath = new SceneDeath(false);
@@ -64,9 +64,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(entityManager);
 	AddModule(map);
 	AddModule(map2);
-	AddModule(guiManager);
 	AddModule(fade);
 	AddModule(intro);
+	AddModule(guiManager);
 	AddModule(scenewin);
 	AddModule(scenedeath);
 	AddModule(hud);
@@ -220,7 +220,9 @@ pugi::xml_node App::LoadConfig2() {
 // ---------------------------------------------
 void App::PrepareUpdate()
 {
+	LOG("starting somsing");
 	frameTime.Start();
+	LOG("xdxd");
 }
 
 // ---------------------------------------------

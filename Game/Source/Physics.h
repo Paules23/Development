@@ -94,16 +94,16 @@ public:
 	bool getGodMode();
 	bool getPause();
 	
-	// b2ContactListener ---
+	// b2ContactListener ---app
 	void BeginContact(b2Contact* contact);
 
 	b2World* world;
+	bool pause;
 	
 	
 private:
 	bool debug;
 	bool godmode;
-	bool pause;
 
 	b2MouseJoint* mouse_joint;
 	b2Body* ground;

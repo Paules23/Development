@@ -55,6 +55,7 @@ public:
 	SDL_Rect viewport;
 	SDL_Color background;
 	TTF_Font* font;
+	bool Vsync;
 };
 
 #endif // __RENDER_H__

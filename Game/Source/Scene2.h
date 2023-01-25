@@ -7,6 +7,9 @@
 #include "ItemHeart.h"
 #include "GroundEnemy.h"
 #include "FlyingEnemy.h"
+#include "GuiButton.h"
+#include "GUICheckBox.h"
+#include "GUISlider.h"
 
 struct SDL_Texture;
 
@@ -42,6 +45,9 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
+	// Define multiple Gui Event methods
+	bool OnGuiMouseClickEvent(GuiControl* control);
+
 public:
 
 	//L02: DONE 3: Declare a Player attribute 
@@ -57,6 +63,24 @@ private:
 	SDL_Texture* originTex = nullptr;
 	iPoint origin;
 	bool checkpoint1, checkpoint2, checkpoint3;
+
+	//BUTTONS
+	//menu buttons
+	GuiButton* resume;
+	GuiButton* settings;
+	GuiButton* backToTitle;
+	GuiButton* Exit;
+	//settings
+	GuiSlider* musicVolumeSlider;
+	GuiButton* musicVolume;
+	GuiButton* fxVolume;
+	GuiSlider* fxVolumeSlider;
+	GuiButton* fullscreen;
+	GuiCheckBox* fullscreenCheck;
+	GuiButton* vsync;
+	GuiCheckBox* VsyncCheck;
+	bool returnToIntro;
+	bool exit;
 
 };
 

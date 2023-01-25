@@ -58,6 +58,10 @@ bool Render::Awake(pugi::xml_node& config)
 	//load a font into memory
 	font = TTF_OpenFont("Assets/Fonts/arial/upheavtt.ttf", 25);
 
+	Vsync = false;
+
+	//SDL_RenderSetVSync();
+
 	return ret;
 }
 
@@ -67,6 +71,7 @@ bool Render::Start()
 	LOG("render start");
 	// back background
 	SDL_RenderGetViewport(renderer, &viewport);
+
 	return true;
 }
 
