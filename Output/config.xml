@@ -24,13 +24,13 @@
 
   <!-- L02: DONE: Add an element for the entity manager and add the player parameters -->
   <scene>
-	  <player x1="70" y1="520" x2="70" y2="400" texturepath ="Assets/Textures/player1.png" 
+	  <player x1="70" y1="520" x2="70" y2="400" texturepath ="Assets/Textures/player1.png" creditstexturepath = "Assets/Textures/credits.jpg"
 	   audioJump ="Assets/Audio/Fx/Jump-1.ogg" audioDie ="Assets/Audio/Fx/die.ogg" audioWin ="Assets/Audio/Fx/win.ogg" audioOuch ="Assets/Audio/Fx/ouch.ogg"/>
 
 	  <itemCoin x="256" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
 	  <itemCoin x="280" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
 	  <itemHeart x="300" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/heart.ogg"/>
-	  <itemGem x="400" y="515" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/GemPickup.ogg"/>
+	  <itemGem x="1216" y="416" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/GemPickup.ogg"/>
 	  <button texturepath= "Assets/Textures/slider and button.png" clickaudiopath = "Assets/Audio/Fx/click.ogg" focusaudiopath= "Assets/Audio/Fx/focus.ogg"/>
 	  <checkbox texturepath= "Assets/Textures/checkbox.png" clickaudiopath = "Assets/Audio/Fx/click.ogg" focusaudiopath= "Assets/Audio/Fx/focus.ogg"/>
 	  <slider texturepath= "Assets/Textures/slider and button.png" clickaudiopath = "Assets/Audio/Fx/click.ogg" focusaudiopath= "Assets/Audio/Fx/focus.ogg"/>

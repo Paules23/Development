@@ -55,7 +55,8 @@ public:
 	bool playerhitRight;
 	bool playerhitLeft;
 
-	bool heartHUDAnim, coinHUDAnim;
+	//hud anims and item pickups
+	bool heartHUDAnim, coinHUDAnim, easterEgg;
 
 private:
 
@@ -77,7 +78,9 @@ private:
 	Animation* currentPlayerAnimation;
 	Animation movement, jump, die, iddle, movementLeft;
 	SDL_Texture* texture;
+	SDL_Texture* credits;
 	const char* texturePath;
+	const char* creditstexturepath;
 	const char* audioDie; 
 	const char* audioJump; 
 	const char* audioWin;

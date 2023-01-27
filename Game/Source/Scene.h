@@ -47,7 +47,6 @@ public:
 
 private:
 	bool exit;
-	SDL_Texture* img;
 	
 	//menu buttons
 	GuiButton* resume;
