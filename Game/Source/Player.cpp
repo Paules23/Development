@@ -338,10 +338,16 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 	switch (physB->ctype)
 	{
 	case ColliderType::ITEMCOIN:
+		if (app->physics->getGodMode()) {
+			break;
+		}
 		++coinCount;
 		coinHUDAnim = true;
 		break;
 	case ColliderType::ITEMHEART:
+		if (app->physics->getGodMode()) {
+			break;
+		}
 		if (hp != 3) {
 			++hp;
 		}

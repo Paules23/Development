@@ -94,6 +94,9 @@ Entity* EntityManager::CreateEntity(EntityType type)
 	case EntityType::ITEMCOIN:
 		entity = new ItemCoin();
 		break;
+	case EntityType::ITEMGEM:
+		entity = new ItemGem();
+		break;
 	case EntityType::ITEMHEART:
 		entity = new ItemHeart();
 		break;

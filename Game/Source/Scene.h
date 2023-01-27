@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "ItemCoin.h"
 #include "ItemHeart.h"
+#include "ItemGem.h"
 #include "GuiButton.h"
 #include "GUICheckBox.h"
 #include "GUISlider.h"

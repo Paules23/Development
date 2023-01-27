@@ -134,7 +134,7 @@ bool GuiManager::CleanUp()
 	}
 	guiControlsList.Clear();
 
-	return true;
+	return ret;
 }
 void GuiManager::DestroyGuiControl(GuiControl* guiControl)
 {
