@@ -91,6 +91,7 @@ bool Scene::Start()
 	exit = false;
 	checkpoint = true;
 	returnToIntro = false;
+	Checkpoint = app->tex->Load("Assets/Textures/flag.png");
 	
 
 	//menu buttons
@@ -333,6 +334,9 @@ bool Scene::Update(float dt)
 	}
 
 	app->guiManager->Draw();
+	if (checkpoint == false) {
+		app->render->DrawTexture(Checkpoint,1013,480);
+	}
 
 	//checkpoints
 	if (player->position.x >= 1013 && player->position.x < 1020 && checkpoint == true  ) {
@@ -429,6 +433,7 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 bool Scene::CleanUp()
 {
 	LOG("Freeing scene");
+	app->tex->UnLoad(Checkpoint);
 
 	return true;
 }

@@ -47,7 +47,8 @@ public:
 
 private:
 	bool exit;
-	
+	SDL_Texture* Checkpoint = nullptr;
+
 	//menu buttons
 	GuiButton* resume;
 	GuiButton* settings;

@@ -83,6 +83,7 @@ bool Scene2::Start()
 	app->audio->PlayMusic("Assets/Audio/Music/song2.ogg");
 	mouseTileTex = app->tex->Load("Assets/Textures/path_square.png");
 	originTex = app->tex->Load("Assets/Textures/x_square.png");
+	Checkpoint = app->tex->Load("Assets/Textures/flag.png");
 
 	// L03: DONE: Load map
 	bool retLoad = app->map2->Load();
@@ -411,15 +412,24 @@ bool Scene2::Update(float dt)
 		app->SaveGameRequest();
 		checkpoint1 = false;
 	}
+	if(checkpoint1 == false){
+		app->render->DrawTexture(Checkpoint,1225,352);
+	}
 
 	if (player->position.x >= 1909 && player->position.x < 1915 && player->position.y == 448 && checkpoint2 == true) {
 		app->SaveGameRequest();
 		checkpoint2 = false;
 	}
+	if (checkpoint2 == false) {
+		app->render->DrawTexture(Checkpoint, 1909, 448);
+	}
 
 	if (player->position.x >= 2945 && player->position.x < 2950 && player->position.y == 384 && checkpoint3 == true) {
 		app->SaveGameRequest();
 		checkpoint3 = false;
+	}
+	if (checkpoint3 == false) {
+		app->render->DrawTexture(Checkpoint, 2950, 384);
 	}
 	
 	return true;
@@ -509,6 +519,7 @@ bool Scene2::CleanUp()
 	app->tex->UnLoad(img);
 	app->tex->UnLoad(mouseTileTex);
 	app->tex->UnLoad(originTex);
+	app->tex->UnLoad(Checkpoint);
 	
 	return true;
 }
