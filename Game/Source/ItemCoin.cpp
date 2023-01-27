@@ -95,6 +95,7 @@ bool ItemCoin::PostUpdate() {
 
 bool ItemCoin::CleanUp()
 {
+	app->tex->UnLoad(texture);
 	return true;
 }
 

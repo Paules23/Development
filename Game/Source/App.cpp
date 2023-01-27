@@ -252,18 +252,19 @@ void App::FinishUpdate()
 
 	// L14: DONE 2: Use SDL_Delay to make sure you get your capped framerate
 	// L14: DONE 3: Measure accurately the amount of time SDL_Delay() actually waits compared to what was expected
+	if (FRcap) {
+		float delay = float(maxFrameDuration) - dt;
 
-	float delay = float(maxFrameDuration) - dt;
-
-	PerfTimer delayTimer = PerfTimer();
-	delayTimer.Start();
-	if (maxFrameDuration > 0 && delay > 0) {
-		SDL_Delay(delay);
-		//LOG("We waited for %f milliseconds and the real delay is % f", delay, delayTimer.ReadMs());
-		dt = maxFrameDuration;
-	}
-	else {
-		//LOG("No wait");
+		PerfTimer delayTimer = PerfTimer();
+		delayTimer.Start();
+		if (maxFrameDuration > 0 && delay > 0) {
+			SDL_Delay(delay);
+			//LOG("We waited for %f milliseconds and the real delay is % f", delay, delayTimer.ReadMs());
+			dt = maxFrameDuration;
+		}
+		else {
+			//LOG("No wait");
+		}
 	}
 
 	// Shows the time measurements in the window title
@@ -290,6 +291,7 @@ bool App::PreUpdate()
 		}
 		
 	}
+	/*delete item;*/
 
 	return ret;
 }
@@ -348,6 +350,7 @@ bool App::CleanUp()
 		ret = item->data->CleanUp();
 		item = item->prev;
 	}
+	delete item;
 
 	return ret;
 }

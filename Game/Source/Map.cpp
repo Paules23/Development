@@ -145,6 +145,7 @@ bool Map::CleanUp()
 		item = item->next;
 	}
 	mapData.tilesets.Clear();
+    delete item;
 
     // L05: DONE 2: clean up all layer data
     // Remove all layers
@@ -157,6 +158,7 @@ bool Map::CleanUp()
         layerItem = layerItem->next;
     }
     mapData.maplayers.Clear();
+    delete layerItem;
 
     ListItem<PhysBody*>* collisions;
     collisions = mapColliders.start;
@@ -168,6 +170,7 @@ bool Map::CleanUp()
         collisions = collisions->next;
     }
     mapColliders.Clear();
+    delete collisions;
 
     ListItem<PhysBody*>* items;
     items = Items.start;
@@ -179,6 +182,7 @@ bool Map::CleanUp()
         items = items->next;
     }
     Items.Clear();
+    delete items;
   
 
     return true;

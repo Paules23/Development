@@ -147,7 +147,7 @@ bool EntityManager::PreUpdate()
 		if (pEntity->active == false) continue;
 		ret = item->data->PreUpdate();
 	}
-
+	delete item;
 
 	return ret;
 }

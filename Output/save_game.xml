@@ -10,7 +10,7 @@
 	<scene />
 	<scene2 />
 	<entitymanager>
-		<player x2="2949" y2="384" remainingJumps="2" />
+		<player x1="70" y1="520" remainingJumps="0" />
 	</entitymanager>
 	<map />
 	<map2 />
@@ -20,6 +20,6 @@
 	<:anonymous />
 	<:anonymous />
 	<renderer>
-		<camera x="-2645" y="0" />
+		<camera x="0" y="0" />
 	</renderer>
 </save_state>

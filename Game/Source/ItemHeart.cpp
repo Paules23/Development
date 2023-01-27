@@ -94,6 +94,7 @@ bool ItemHeart::PostUpdate() {
 
 bool ItemHeart::CleanUp()
 {
+	app->tex->UnLoad(texture);
 	return true;
 }
 
