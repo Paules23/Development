@@ -335,9 +335,6 @@ bool Scene::Update(float dt)
 		app->map->Draw();
 	}
 
-	app->guiManager->Draw();
-	
-
 	//checkpoints
 	if (checkpoint == true  ) {
 		if (player->position.x >= 1013 && player->position.x < 1020) {
@@ -370,6 +367,7 @@ bool Scene::PostUpdate()
 			app->guiManager->menu = true;
 		}
 	}
+	app->guiManager->Draw();
 
 	return ret;
 }

@@ -7,11 +7,11 @@
 	<:anonymous />
 	<pathfinding />
 	<guiManager />
+	<entitymanager>
+		<player x2="70" y2="400" remainingJumps="0" />
+	</entitymanager>
 	<scene />
 	<scene2 />
-	<entitymanager>
-		<player x1="70" y1="520" remainingJumps="0" />
-	</entitymanager>
 	<map />
 	<map2 />
 	<fade />

@@ -60,9 +60,9 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(physics);
 	AddModule(pathfinding);
 	AddModule(guiManager);
+	AddModule(entityManager);
 	AddModule(scene);
 	AddModule(scene2);
-	AddModule(entityManager);
 	AddModule(map);
 	AddModule(map2);
 	AddModule(fade);
