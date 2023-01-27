@@ -83,6 +83,10 @@
 	  <itemCoin x="1824" y="576" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
 	  <itemCoin x="1824" y="608" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
 	  <itemCoin x="1824" y="640" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+	  <itemCoin x="1088" y="480" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+	  <itemCoin x="1120" y="480" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+	  <itemCoin x="1184" y="480" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+	  <itemCoin x="1216" y="480" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
 	  <itemGem x="1216" y="416" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/GemPickup.ogg"/>
 	  <button texturepath= "Assets/Textures/slider and button.png" clickaudiopath = "Assets/Audio/Fx/click.ogg" focusaudiopath= "Assets/Audio/Fx/focus.ogg"/>
 	  <checkbox texturepath= "Assets/Textures/checkbox.png" clickaudiopath = "Assets/Audio/Fx/click.ogg" focusaudiopath= "Assets/Audio/Fx/focus.ogg"/>
@@ -100,7 +104,63 @@
 		<flyingenemy posx="1000" posy="100" texturepath="Assets/Textures/flyingenemy.png" audiopath ="Assets/Audio/Fx/eDeath.ogg"/>
 		<flyingenemy posx="1728" posy="100" texturepath="Assets/Textures/flyingenemy.png" audiopath ="Assets/Audio/Fx/eDeath.ogg"/>
 		<flyingenemy posx="3488" posy="224" texturepath="Assets/Textures/flyingenemy.png" audiopath ="Assets/Audio/Fx/eDeath.ogg"/>
-		
+		<itemCoin x="64" y="352" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="64" y="384" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="352" y="352" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="448" y="352" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="384" y="352" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="416" y="352" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="488" y="352" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="512" y="352" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="544" y="352" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemHeart x="480" y="608" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/heart.ogg"/>
+		<itemCoin x="1120" y="416" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="1152" y="352" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="1248" y="320" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="1408" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="1444" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="1472" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="1824" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="1856" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="1888" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="1920" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="1852" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="1984" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="2016" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="2080" y="384" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="2114" y="352" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="2240" y="384" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="2304" y="192" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="2336" y="192" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="2368" y="192" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="2400" y="192" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="2432" y="192" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="2464" y="192" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="2592" y="288" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="2624" y="288" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="2656" y="288" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="2688" y="288" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="2720" y="288" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemHeart x="1920" y="96" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/heart.ogg"/>
+		<itemCoin x="3136" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3168" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3200" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3232" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3264" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3296" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3328" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3424" y="382" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3456" y="382" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3488" y="382" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3520" y="382" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3648" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3680" y="448" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3808" y="352" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3808" y="320" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3808" y="288" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3808" y="256" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemCoin x="3808" y="224" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
+		<itemHeart x="2912" y="192" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/heart.ogg"/>
 	</scene2>
 
   <sceneIntro texturepath="Assets/Textures/introscene.jpg"/>
