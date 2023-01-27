@@ -9,7 +9,7 @@
 	<scene />
 	<scene2 />
 	<entitymanager>
-		<player x2="70" y2="400" remainingJumps="0" />
+		<player x1="70" y1="520" remainingJumps="0" />
 	</entitymanager>
 	<map />
 	<map2 />

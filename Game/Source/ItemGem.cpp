@@ -1,4 +1,4 @@
-#include "ItemCoin.h"
+#include "ItemGem.h"
 #include "App.h"
 #include "Textures.h"
 #include "Audio.h"
@@ -9,30 +9,31 @@
 #include "Point.h"
 #include "Physics.h"
 
-ItemCoin::ItemCoin() : Entity(EntityType::ITEMCOIN)
+ItemGem::ItemGem() : Entity(EntityType::ITEMCOIN)
 {
 	name.Create("Coin");
 
-	spinning.PushBack({ 32, 32, 32, 32 });
-	spinning.PushBack({ 64, 32, 32, 32 });
-	spinning.PushBack({ 96, 32, 32, 32 });
-	spinning.PushBack({ 128, 32, 32, 35 });
-	spinning.PushBack({ 160, 32, 32, 32 });
-	spinning.PushBack({ 192, 32, 32, 32 });
-	spinning.speed = 0.1f;
+	shine.PushBack({ 256, 480, 32, 32 });
+	shine.PushBack({ 288, 480, 32, 32 });
+	shine.PushBack({ 320, 480, 32, 32 });
+	shine.PushBack({ 352, 480, 32, 32 });
+	shine.PushBack({ 384, 480, 32, 32 });
+	shine.PushBack({ 416, 480, 32, 32 });
+
+	shine.speed = 0.1f;
 
 }
 
-ItemCoin::~ItemCoin() {}
+ItemGem::~ItemGem() {}
 
-bool ItemCoin::Awake() {
+bool ItemGem::Awake() {
 
-	
+
 
 	return true;
 }
 
-bool ItemCoin::Start() {
+bool ItemGem::Start() {
 
 
 	position.x = parameters.attribute("x").as_int();
@@ -46,21 +47,19 @@ bool ItemCoin::Start() {
 	//initilize textures
 	texture = app->tex->Load(texturePath);
 	pickUpFx = app->audio->LoadFx(audioPath);
-	
+
 	// L07 DONE 4: Add a physics to an item - initialize the physics body
 
-	ibody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16,16,16,STATIC);
+	ibody = app->physics->CreateRectangleSensor(position.x + 16, position.y + 16, 16, 16, STATIC);
 
 	ibody->listener = this;
 
-	ibody->ctype = ColliderType::ITEMCOIN;
-
-	
+	ibody->ctype = ColliderType::ITEMGEM;
 
 	return true;
 }
 
-bool ItemCoin::Update()
+bool ItemGem::Update()
 {
 	if (app->physics->getPause() == true) {
 		return true;
@@ -73,14 +72,14 @@ bool ItemCoin::Update()
 		ibody->body->SetActive(false);
 		activated = false;
 	}
-	currentItemAnimation = &spinning;
+	currentItemAnimation = &shine;
 
 	currentItemAnimation->Update();
 	return true;
 
 }
 
-bool ItemCoin::PostUpdate() {
+bool ItemGem::PostUpdate() {
 	if (currentItemAnimation == NULL)
 		return true;
 	if (!activated) {
@@ -96,12 +95,12 @@ bool ItemCoin::PostUpdate() {
 	return true;
 }
 
-bool ItemCoin::CleanUp()
+bool ItemGem::CleanUp()
 {
 	return true;
 }
 
-void ItemCoin::OnCollision(PhysBody* physA, PhysBody* physB) {
+void ItemGem::OnCollision(PhysBody* physA, PhysBody* physB) {
 
 	// L07 DONE 7: Detect the type of collision
 	iPoint physbpos;

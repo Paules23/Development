@@ -111,7 +111,9 @@ void ItemHeart::OnCollision(PhysBody* physA, PhysBody* physB) {
 		break;
 	case ColliderType::PLAYER:
 		LOG("Coin picked up");
-		pickedUp = true;
+		if (!app->physics->getGodMode()) {
+			pickedUp = true;
+		}
 		break;
 	}
 }

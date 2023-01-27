@@ -50,9 +50,15 @@ bool Scene::Start()
 		item->parameters = itemNode;
 	}
 
-	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("itemHeart"); itemNode; itemNode = itemNode.next_sibling("itemHEart"))
+	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("itemHeart"); itemNode; itemNode = itemNode.next_sibling("itemHeart"))
 	{
 		ItemHeart* item = (ItemHeart*)app->entityManager->CreateEntity(EntityType::ITEMHEART);
+		item->parameters = itemNode;
+	}
+
+	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("itemGem"); itemNode; itemNode = itemNode.next_sibling("itemGem"))
+	{
+		ItemGem* item = (ItemGem*)app->entityManager->CreateEntity(EntityType::ITEMGEM);
 		item->parameters = itemNode;
 	}
 
@@ -87,26 +93,26 @@ bool Scene::Start()
 	//menu buttons
 	uint w, h;
 	app->win->GetWindowSize(w, h);
-	resume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "Resume", { (int)w / 2 - 50,(int)h / 2 - 80,104,44 }, this);
+	resume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 1, "Resume", { (int)w / 2 - 50,(int)h / 2 - 100,104,44 }, this);
 	resume->parameters = app->LoadConfig2().child("scene").child("button");
-	settings = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, "Settings", { (int)w / 2 - 50,(int)h / 2 -40,104,44 }, this);
+	settings = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 2, "Settings", { (int)w / 2 - 50,(int)h / 2 -50,104,44 }, this);
 	settings->parameters = app->LoadConfig2().child("scene").child("button");
 	backToTitle = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 3, "Back to title", { (int)w / 2 - 50,(int)h / 2,104,44 }, this);
 	backToTitle->parameters = app->LoadConfig2().child("scene").child("button");
-	Exit = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, "Exit", { (int)w / 2 - 50,(int)h / 2 + 40,104,44 }, this);
+	Exit = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 4, "Exit", { (int)w / 2 - 50,(int)h / 2 + 50,104,44 }, this);
 	Exit->parameters = app->LoadConfig2().child("scene").child("button");
 	//settings buttons
 
-	musicVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 11, "Music volume", { (int)w / 2 - 50,(int)h / 2 - 80,104,44 }, this);
+	musicVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 11, "Music volume", { (int)w / 2 - 50,(int)h / 2 - 100,104,44 }, this);
 	musicVolume->parameters = app->LoadConfig2().child("scene").child("button");
 
-	musicVolumeSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 5, "", { (int)w / 2 + 50,(int)h / 2 - 70,30,27 }, this, { (int)w / 2 + 50,(int)h / 2 - 70,100,44 });
+	musicVolumeSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 5, "", { (int)w / 2 + 50,(int)h / 2 - 90,30,27 }, this, { (int)w / 2 + 50,(int)h / 2 - 90,100,44 });
 	musicVolumeSlider->parameters = app->LoadConfig2().child("scene").child("slider");
 
-	fxVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 12, "Fx Volume", { (int)w / 2 - 50,(int)h / 2 - 40,104,44 }, this);
+	fxVolume = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 12, "Fx Volume", { (int)w / 2 - 50,(int)h / 2 - 50,104,44 }, this);
 	fxVolume->parameters = app->LoadConfig2().child("scene").child("button");
 
-	fxVolumeSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 6, "", { (int)w / 2 + 50,(int)h / 2 - 30,30,27 }, this, { (int)w / 2 + 50,(int)h / 2 - 30,100,44 });
+	fxVolumeSlider = (GuiSlider*)app->guiManager->CreateGuiControl(GuiControlType::SLIDER, 6, "", { (int)w / 2 + 50,(int)h / 2 - 40,30,27 }, this, { (int)w / 2 + 50,(int)h / 2 - 40,100,44 });
 	fxVolumeSlider->parameters = app->LoadConfig2().child("scene").child("slider");
 
 	fullscreen = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, "Fullscreen", { (int)w / 2 - 50,(int)h / 2,104,44 }, this);
@@ -115,10 +121,10 @@ bool Scene::Start()
 	fullscreenCheck = (GuiCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 10, "", { (int)w / 2 - 50 +104,(int)h / 2,104,36 }, this);
 	fullscreenCheck->parameters = app->LoadConfig2().child("scene").child("checkbox");
 
-	vsync = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 9, "Vsync", { (int)w / 2 - 50,(int)h / 2 + 40,104,44 }, this);
+	vsync = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 9, "Vsync", { (int)w / 2 - 50,(int)h / 2 + 50,104,44 }, this);
 	vsync->parameters = app->LoadConfig2().child("scene").child("button");
 
-	VsyncCheck = (GuiCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 8, "", { (int)w / 2 - 50 +104,(int)h / 2 + 40,40,36 }, this);
+	VsyncCheck = (GuiCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 8, "", { (int)w / 2 - 50 +104,(int)h / 2 + 50,40,36 }, this);
 	VsyncCheck->parameters = app->LoadConfig2().child("scene").child("checkbox");
 	
 
