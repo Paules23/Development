@@ -91,7 +91,9 @@ bool Scene::Start()
 	exit = false;
 	checkpoint = true;
 	returnToIntro = false;
-	Checkpoint = app->tex->Load("Assets/Textures/flag.png");
+	CheckpointTaken = app->tex->Load("Assets/Textures/flag.png");
+	Checkpoint = app->tex->Load("Assets/Textures/flag_red.png");
+	checkpointFxId = app->audio->LoadFx("Assets/Audio/Fx/checkpoint.ogg");
 	
 
 	//menu buttons
@@ -334,14 +336,20 @@ bool Scene::Update(float dt)
 	}
 
 	app->guiManager->Draw();
-	if (checkpoint == false) {
-		app->render->DrawTexture(Checkpoint,1013,480);
-	}
+	
 
 	//checkpoints
-	if (player->position.x >= 1013 && player->position.x < 1020 && checkpoint == true  ) {
-		app->SaveGameRequest();
-		checkpoint = false;
+	if (checkpoint == true  ) {
+		if (player->position.x >= 1013 && player->position.x < 1020) {
+			app->SaveGameRequest();
+			checkpoint = false;
+			app->audio->PlayFx(checkpointFxId);
+		}
+		app->render->DrawTexture(Checkpoint, 1013, 480);
+	}
+
+	if (checkpoint == false) {
+		app->render->DrawTexture(CheckpointTaken, 1013, 480);
 	}
 	
 	return true;
@@ -434,6 +442,7 @@ bool Scene::CleanUp()
 {
 	LOG("Freeing scene");
 	app->tex->UnLoad(Checkpoint);
+	app->tex->UnLoad(CheckpointTaken);
 
 	return true;
 }

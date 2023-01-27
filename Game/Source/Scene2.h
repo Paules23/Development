@@ -58,11 +58,15 @@ public:
 	bool level2;
 
 private:
+	//tex for pathfinding
 	SDL_Texture* img;
 	SDL_Texture* mouseTileTex = nullptr;
 	SDL_Texture* originTex = nullptr;
-	SDL_Texture* Checkpoint = nullptr;
 	iPoint origin;
+	//checkpoints
+	SDL_Texture* Checkpoint = nullptr;
+	SDL_Texture* CheckpointTaken = nullptr;
+	int checkpointFxId;
 	bool checkpoint1, checkpoint2, checkpoint3;
 
 	//BUTTONS

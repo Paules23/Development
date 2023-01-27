@@ -83,7 +83,6 @@ bool Scene2::Start()
 	app->audio->PlayMusic("Assets/Audio/Music/song2.ogg");
 	mouseTileTex = app->tex->Load("Assets/Textures/path_square.png");
 	originTex = app->tex->Load("Assets/Textures/x_square.png");
-	Checkpoint = app->tex->Load("Assets/Textures/flag.png");
 
 	// L03: DONE: Load map
 	bool retLoad = app->map2->Load();
@@ -100,9 +99,13 @@ bool Scene2::Start()
 	stopcamera = true;
 	level2 = true;
 	app->render->camera.x = 0;
+	//checkpoints
 	checkpoint1 = true;
 	checkpoint2 = true;
 	checkpoint3 = true;
+	CheckpointTaken = app->tex->Load("Assets/Textures/flag.png");
+	Checkpoint = app->tex->Load("Assets/Textures/flag_red.png");
+	checkpointFxId = app->audio->LoadFx("Assets/Audio/Fx/checkpoint.ogg");
 
 	//menu buttons
 	uint w, h;
@@ -408,30 +411,44 @@ bool Scene2::Update(float dt)
 	}
 
 	//checkpoints
-	if (player->position.x >= 1225 && player->position.x < 1300 && player->position.y == 352 && checkpoint1 == true) {
-		app->SaveGameRequest();
-		checkpoint1 = false;
-	}
-	if(checkpoint1 == false){
-		app->render->DrawTexture(Checkpoint,1225,352);
+	if (checkpoint1 == true) {
+		if (player->position.x >= 1225 && player->position.x < 1300 && player->position.y == 352) {
+			app->SaveGameRequest();
+			checkpoint1 = false;
+			app->audio->PlayFx(checkpointFxId);
+		}
+		app->render->DrawTexture(Checkpoint, 1225, 320);
 	}
 
-	if (player->position.x >= 1909 && player->position.x < 1915 && player->position.y == 448 && checkpoint2 == true) {
-		app->SaveGameRequest();
-		checkpoint2 = false;
+	if (checkpoint1 == false) {
+		app->render->DrawTexture(CheckpointTaken, 1225, 320);
 	}
+
+	if (checkpoint2 == true) {
+		if (player->position.x >= 1909 && player->position.x < 1915 && player->position.y == 448) {
+			app->SaveGameRequest();
+			checkpoint2 = false;
+			app->audio->PlayFx(checkpointFxId);
+		}
+		app->render->DrawTexture(Checkpoint, 1915, 416);
+	}
+
 	if (checkpoint2 == false) {
-		app->render->DrawTexture(Checkpoint, 1909, 448);
+		app->render->DrawTexture(CheckpointTaken, 1915, 416);
 	}
 
-	if (player->position.x >= 2945 && player->position.x < 2950 && player->position.y == 384 && checkpoint3 == true) {
-		app->SaveGameRequest();
-		checkpoint3 = false;
+	if (checkpoint3 == true) {
+		if (player->position.x >= 2945 && player->position.x < 2950 && player->position.y == 384) {
+			app->SaveGameRequest();
+			checkpoint3 = false;
+			app->audio->PlayFx(checkpointFxId);
+		}
+		app->render->DrawTexture(Checkpoint, 2950, 352);
 	}
+
 	if (checkpoint3 == false) {
-		app->render->DrawTexture(Checkpoint, 2950, 384);
-	}
-	
+		app->render->DrawTexture(CheckpointTaken, 2950, 352);
+	}	
 	return true;
 }
 
