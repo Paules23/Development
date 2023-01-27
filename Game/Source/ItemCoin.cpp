@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
+#include "Map.h"
 
 ItemCoin::ItemCoin() : Entity(EntityType::ITEMCOIN)
 {
@@ -19,27 +20,21 @@ ItemCoin::ItemCoin() : Entity(EntityType::ITEMCOIN)
 	spinning.PushBack({ 128, 32, 32, 35 });
 	spinning.PushBack({ 160, 32, 32, 32 });
 	spinning.PushBack({ 192, 32, 32, 32 });
-	spinning.speed = 0.1f;
+	spinning.speed = 0.18f;
 
 }
 
 ItemCoin::~ItemCoin() {}
 
 bool ItemCoin::Awake() {
-
-	
-
-	return true;
-}
-
-bool ItemCoin::Start() {
-
-
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 	audioPath = parameters.attribute("audiopath").as_string();
+	return true;
+}
 
+bool ItemCoin::Start() {
 	isPicked = false;
 	activated = true;
 
@@ -54,6 +49,8 @@ bool ItemCoin::Start() {
 	ibody->listener = this;
 
 	ibody->ctype = ColliderType::ITEMCOIN;
+
+	app->map->Items.Add(ibody);
 
 	
 

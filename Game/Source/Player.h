@@ -48,8 +48,7 @@ public:
 	PhysBody* GetBody();
 
 public:
-	uint hp;
-	uint coinCount;
+
 	iPoint position;
 	bool isdead;
 	bool playerhitRight;

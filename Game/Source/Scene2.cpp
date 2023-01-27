@@ -38,15 +38,28 @@ bool Scene2::Awake(pugi::xml_node& config)
 // Called before the first frame
 bool Scene2::Start()
 {
-
 	LOG("Loading Scene2");
-	// iterate all objects in the scene
-	// Check https://pugixml.org/docs/quickstart.html#access
-	/*for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("item"); itemNode; itemNode = itemNode.next_sibling("item"))
+	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene2").child("itemCoin"); itemNode; itemNode = itemNode.next_sibling("itemCoin"))
 	{
-		Item* item = (Item*)app->entityManager->CreateEntity(EntityType::ITEM);
+		ItemCoin* item = (ItemCoin*)app->entityManager->CreateEntity(EntityType::ITEMCOIN);
 		item->parameters = itemNode;
-	}*/
+		item->Awake();
+
+	}
+
+	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene2").child("itemHeart"); itemNode; itemNode = itemNode.next_sibling("itemHeart"))
+	{
+		ItemHeart* item = (ItemHeart*)app->entityManager->CreateEntity(EntityType::ITEMHEART);
+		item->parameters = itemNode;
+		item->Awake();
+	}
+
+	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene2").child("itemGem"); itemNode; itemNode = itemNode.next_sibling("itemGem"))
+	{
+		ItemGem* item = (ItemGem*)app->entityManager->CreateEntity(EntityType::ITEMGEM);
+		item->parameters = itemNode;
+		item->Awake();
+	}
 
 	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene2").child("groundenemy"); itemNode; itemNode = itemNode.next_sibling("groundenemy"))
 	{

@@ -26,6 +26,8 @@ public:
 
 public:
 	float playtime = 0.0f;
+	uint hp;
+	uint coinCount;
 private:
 	SDL_Texture* coinTex = nullptr;
 	SDL_Texture* heartTex = nullptr;

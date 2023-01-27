@@ -48,18 +48,21 @@ bool Scene::Start()
 	{
 		ItemCoin* item = (ItemCoin*)app->entityManager->CreateEntity(EntityType::ITEMCOIN);
 		item->parameters = itemNode;
+		item->Awake();
 	}
 
 	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("itemHeart"); itemNode; itemNode = itemNode.next_sibling("itemHeart"))
 	{
 		ItemHeart* item = (ItemHeart*)app->entityManager->CreateEntity(EntityType::ITEMHEART);
 		item->parameters = itemNode;
+		item->Awake();
 	}
 
 	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("itemGem"); itemNode; itemNode = itemNode.next_sibling("itemGem"))
 	{
 		ItemGem* item = (ItemGem*)app->entityManager->CreateEntity(EntityType::ITEMGEM);
 		item->parameters = itemNode;
+		item->Awake();
 	}
 
 	//L02: DONE 3: Instantiate the player using the entity manager

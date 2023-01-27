@@ -61,6 +61,7 @@ public:
 	MapData mapData;
 	List<PhysBody*> mapColliders;
 	List<PhysBody*> enemies;
+	List<PhysBody*> Items;
 
 private:
 	SString map2FileName;

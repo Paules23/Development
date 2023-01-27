@@ -168,6 +168,17 @@ bool Map::CleanUp()
         collisions = collisions->next;
     }
     mapColliders.Clear();
+
+    ListItem<PhysBody*>* items;
+    items = Items.start;
+
+    while (items != NULL)
+    {
+        items->data->body->GetWorld()->DestroyBody(items->data->body);
+        RELEASE(items->data);
+        items = items->next;
+    }
+    Items.Clear();
   
 
     return true;

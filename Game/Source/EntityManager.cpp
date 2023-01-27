@@ -32,6 +32,9 @@ bool EntityManager::Awake(pugi::xml_node& config)
 
 	for (item = entities.start; item != NULL && ret == true; item = item->next)
 	{
+		if (item->data->name == "Heart" || item->data->name == "Coin" || item->data->name == "Gem") {
+			continue;
+		}
 		pEntity = item->data;
 
 		if (pEntity->active == false) continue;

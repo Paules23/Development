@@ -158,6 +158,7 @@ public:
 	// L04: DONE 1: Declare a variable data of the struct MapData
 	MapData mapData;
 	List<PhysBody*> mapColliders;
+	List<PhysBody*> Items;
 
 private:
 

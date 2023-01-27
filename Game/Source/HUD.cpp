@@ -52,6 +52,9 @@ bool HUD::Start()
 	heartTex = app->tex->Load(texturepath);
 
 	PlayTime.Start();
+	
+	hp = 3;
+	
 
 	return ret;
 }
@@ -105,9 +108,9 @@ bool HUD::PostUpdate()
 	rect = CurrentHeartAnim->GetCurrentFrame();
 	app->render->DrawTexture(heartTex, 160, 70, &rect, 0);
 
-	sprintf_s(totalHearts, 4, "%d", app->scene->player->hp);
+	sprintf_s(totalHearts, 4, "%d", hp);
 	sprintf_s(totalPlaytime, 11, "%.0f ", playtime);
-	sprintf_s(totalCoins, 4, "%d", app->scene->player->coinCount);
+	sprintf_s(totalCoins, 4, "%d", coinCount);
 
 
 	app->render->DrawText(totalCoins,70,70,32,32, { 255,255,255 });

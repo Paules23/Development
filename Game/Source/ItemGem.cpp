@@ -8,10 +8,11 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
+#include "Map.h"
 
 ItemGem::ItemGem() : Entity(EntityType::ITEMCOIN)
 {
-	name.Create("Coin");
+	name.Create("Gem");
 
 	shine.PushBack({ 480, 480, 32, 32 });
 	shine.PushBack({ 512, 480, 32, 32 });
@@ -34,20 +35,14 @@ ItemGem::ItemGem() : Entity(EntityType::ITEMCOIN)
 ItemGem::~ItemGem() {}
 
 bool ItemGem::Awake() {
-
-
-
-	return true;
-}
-
-bool ItemGem::Start() {
-
-
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 	audioPath = parameters.attribute("audiopath").as_string();
+	return true;
+}
 
+bool ItemGem::Start() {
 	isPicked = false;
 	activated = true;
 
@@ -62,6 +57,8 @@ bool ItemGem::Start() {
 	ibody->listener = this;
 
 	ibody->ctype = ColliderType::ITEMGEM;
+
+	app->map->Items.Add(ibody);
 
 	return true;
 }

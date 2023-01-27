@@ -9,6 +9,7 @@
 #include "Point.h"
 #include "Physics.h"
 #include "Scene2.h"
+#include "HUD.h"
 #include "FlyingEnemy.h"
 #include "GroundEnemy.h"
 
@@ -103,7 +104,6 @@ bool Player::Start() {
 	playerfallen = false;
 	playerhitLeft = false;
 	playerhitRight = false;
-	hp = 3;
 	hitImpulse = false;
 
 	//hud stuff
@@ -148,21 +148,21 @@ bool Player::Update()
 		return true;
 	}
 	//win and death conditions
-	if (hp == 0) {
+	if (app->hud->hp == 0) {
 		app->audio->PlayFx(dieFxId);
-		hp = 3;
+		app->hud->hp = 3;
 		isdead = true;
 	}
 	
 	if (playerfallen == true) {
-		if (hp != 1) {
+		if (app->hud->hp != 1) {
 			app->audio->PlayFx(ouchFxId);
 		}
 		app->LoadGameRequest();
 		b2Vec2 pos(position.x, position.y);
 		pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
 		app->render->camera.x = 0;
-		--hp;
+		--app->hud->hp;
 		playerfallen = false;
 	}
 	if (win == true) {
@@ -268,26 +268,26 @@ bool Player::Update()
 
 	if (playerhitLeft) {
 		hitImpulse = false;
- 		if (hp != 1) {
+ 		if (app->hud->hp != 1) {
 			app->audio->PlayFx(ouchFxId);
 		}
 		b2Vec2 xd(0, pbody->body->GetLinearVelocity().y);
 		pbody->body->SetLinearVelocity(xd);
 		float impulse = pbody->body->GetMass() * PLAYERHITIMPULSE;
 		pbody->body->ApplyLinearImpulse(b2Vec2(impulse, -4), pbody->body->GetWorldCenter(), false);
-		--hp;
+		--app->hud->hp;
 		playerhitLeft = false;
 	}
 	if (playerhitRight) {
 		hitImpulse = false;
-		if (hp != 1) {
+		if (app->hud->hp != 1) {
 			app->audio->PlayFx(ouchFxId);
 		}
 		b2Vec2 xd(0, pbody->body->GetLinearVelocity().y);
 		pbody->body->SetLinearVelocity(xd);
 		float impulse = pbody->body->GetMass() * -PLAYERHITIMPULSE;
 		pbody->body->ApplyLinearImpulse(b2Vec2(impulse, -4), pbody->body->GetWorldCenter(), false);
-		--hp;
+		--app->hud->hp;
 		playerhitRight = false;
 	}
 	//debug options
@@ -357,15 +357,15 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 		if (app->physics->getGodMode()) {
 			break;
 		}
-		++coinCount;
+		++app->hud->coinCount;
 		coinHUDAnim = true;
 		break;
 	case ColliderType::ITEMHEART:
 		if (app->physics->getGodMode()) {
 			break;
 		}
-		if (hp != 3) {
-			++hp;
+		if (app->hud->hp != 3) {
+			++app->hud->hp;
 		}
 		heartHUDAnim = true;
 		break;

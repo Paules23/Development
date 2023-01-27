@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "Point.h"
 #include "Physics.h"
+#include "Map.h"
 
 ItemHeart::ItemHeart() : Entity(EntityType::ITEMHEART)
 {
@@ -26,17 +27,14 @@ ItemHeart::ItemHeart() : Entity(EntityType::ITEMHEART)
 ItemHeart::~ItemHeart() {}
 
 bool ItemHeart::Awake() {
-	return true;
-}
-
-bool ItemHeart::Start() {
-
-
 	position.x = parameters.attribute("x").as_int();
 	position.y = parameters.attribute("y").as_int();
 	texturePath = parameters.attribute("texturepath").as_string();
 	audioPath = parameters.attribute("audiopath").as_string();
+	return true;
+}
 
+bool ItemHeart::Start() {
 	isPicked = false;
 	activated = true;
 
@@ -51,6 +49,8 @@ bool ItemHeart::Start() {
 	ibody->listener = this;
 
 	ibody->ctype = ColliderType::ITEMHEART;
+
+	app->map->Items.Add(ibody);
 
 	return true;
 }
