@@ -59,6 +59,7 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	//L07 DONE 2: Add Physics module
 	AddModule(physics);
 	AddModule(pathfinding);
+	AddModule(guiManager);
 	AddModule(scene);
 	AddModule(scene2);
 	AddModule(entityManager);
@@ -66,7 +67,6 @@ App::App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(map2);
 	AddModule(fade);
 	AddModule(intro);
-	AddModule(guiManager);
 	AddModule(scenewin);
 	AddModule(scenedeath);
 	AddModule(hud);

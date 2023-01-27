@@ -137,7 +137,7 @@ bool GuiSlider::Draw(Render* render)
 		section = { 18,140,119,21 };
 		render->DrawTexture(texture, sliderbounds.x, sliderbounds.y, &section,0);
 		//section of the slider
-		section = { 147,133,30,27 };
+		section = { 197,133,30,27 };
 		render->DrawTexture(texture, bounds.x, sliderbounds.y, &section,0);
 		break;
 	}
