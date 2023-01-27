@@ -47,7 +47,8 @@ public:
 
 private:
 	bool exit;
-	
+
+
 	//menu buttons
 	GuiButton* resume;
 	GuiButton* settings;
@@ -65,6 +66,9 @@ private:
 	//checkpoints
 	bool checkpoint;
 	bool returnToIntro;
+	int checkpointFxId;
+	SDL_Texture* Checkpoint = nullptr;
+	SDL_Texture* CheckpointTaken = nullptr;
 
 
 

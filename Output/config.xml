@@ -24,7 +24,7 @@
 
   <!-- L02: DONE: Add an element for the entity manager and add the player parameters -->
   <scene>
-	  <player x1="70" y1="520" x2="70" y2="400" texturepath ="Assets/Textures/player1.png" creditstexturepath = "Assets/Textures/credits.jpg"
+	  <player x1="70" y1="520" x2="70" y2="400" texturepath ="Assets/Textures/player1.png" creditstexturepath = "Assets/Textures/credits.jpg" flagtexturepath = "Assets/Textures/flag.png"
 	   audioJump ="Assets/Audio/Fx/Jump-1.ogg" audioDie ="Assets/Audio/Fx/die.ogg" audioWin ="Assets/Audio/Fx/win.ogg" audioOuch ="Assets/Audio/Fx/ouch.ogg"/>
 	  <itemCoin x="64" y="320" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
 	  <itemCoin x="192" y="224" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>

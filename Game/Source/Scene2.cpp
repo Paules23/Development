@@ -99,9 +99,13 @@ bool Scene2::Start()
 	stopcamera = true;
 	level2 = true;
 	app->render->camera.x = 0;
+	//checkpoints
 	checkpoint1 = true;
 	checkpoint2 = true;
 	checkpoint3 = true;
+	CheckpointTaken = app->tex->Load("Assets/Textures/flag.png");
+	Checkpoint = app->tex->Load("Assets/Textures/flag_red.png");
+	checkpointFxId = app->audio->LoadFx("Assets/Audio/Fx/checkpoint.ogg");
 
 	//menu buttons
 	uint w, h;
@@ -407,21 +411,44 @@ bool Scene2::Update(float dt)
 	}
 
 	//checkpoints
-	if (player->position.x >= 1225 && player->position.x < 1300 && player->position.y == 352 && checkpoint1 == true) {
-		app->SaveGameRequest();
-		checkpoint1 = false;
+	if (checkpoint1 == true) {
+		if (player->position.x >= 1225 && player->position.x < 1300 && player->position.y == 352) {
+			app->SaveGameRequest();
+			checkpoint1 = false;
+			app->audio->PlayFx(checkpointFxId);
+		}
+		app->render->DrawTexture(Checkpoint, 1225, 320);
 	}
 
-	if (player->position.x >= 1909 && player->position.x < 1915 && player->position.y == 448 && checkpoint2 == true) {
-		app->SaveGameRequest();
-		checkpoint2 = false;
+	if (checkpoint1 == false) {
+		app->render->DrawTexture(CheckpointTaken, 1225, 320);
 	}
 
-	if (player->position.x >= 2945 && player->position.x < 2950 && player->position.y == 384 && checkpoint3 == true) {
-		app->SaveGameRequest();
-		checkpoint3 = false;
+	if (checkpoint2 == true) {
+		if (player->position.x >= 1909 && player->position.x < 1915 && player->position.y == 448) {
+			app->SaveGameRequest();
+			checkpoint2 = false;
+			app->audio->PlayFx(checkpointFxId);
+		}
+		app->render->DrawTexture(Checkpoint, 1915, 416);
 	}
-	
+
+	if (checkpoint2 == false) {
+		app->render->DrawTexture(CheckpointTaken, 1915, 416);
+	}
+
+	if (checkpoint3 == true) {
+		if (player->position.x >= 2945 && player->position.x < 2950 && player->position.y == 384) {
+			app->SaveGameRequest();
+			checkpoint3 = false;
+			app->audio->PlayFx(checkpointFxId);
+		}
+		app->render->DrawTexture(Checkpoint, 2950, 352);
+	}
+
+	if (checkpoint3 == false) {
+		app->render->DrawTexture(CheckpointTaken, 2950, 352);
+	}	
 	return true;
 }
 
@@ -509,6 +536,7 @@ bool Scene2::CleanUp()
 	app->tex->UnLoad(img);
 	app->tex->UnLoad(mouseTileTex);
 	app->tex->UnLoad(originTex);
+	app->tex->UnLoad(Checkpoint);
 	
 	return true;
 }
