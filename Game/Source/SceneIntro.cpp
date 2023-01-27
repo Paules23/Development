@@ -257,7 +257,6 @@ bool SceneIntro::OnGuiMouseClickEvent(GuiControl* control)
 		LOG("Button fullscreen click");
 		app->win->fullscreen = !app->win->fullscreen;
 		if (app->win->fullscreen) {
-			SDL_SetWindowSize(app->win->window,1920,1080);
 			SDL_SetWindowFullscreen(app->win->window, SDL_WINDOW_FULLSCREEN);
 		}
 		else {

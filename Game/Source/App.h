@@ -118,6 +118,8 @@ public:
 	Animation* animation;
 	HUD* hud;
 
+	bool FRcap = true;
+
 	
 private:
 

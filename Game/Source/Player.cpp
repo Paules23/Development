@@ -310,7 +310,7 @@ bool Player::Update()
 		app->physics->GodMode();
 	}
 	if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
-		win = true;
+		app->FRcap = !app->FRcap;
 	}
 	if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {
 		isdead = true;

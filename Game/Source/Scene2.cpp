@@ -319,7 +319,6 @@ bool Scene2::Update(float dt)
 	if (level2) {
 		app->map2->Draw();
 	}
-	app->guiManager->Draw();
 	if (app->physics->getPause()) {
 		return true;
 	}
@@ -466,6 +465,7 @@ bool Scene2::PostUpdate()
 			app->guiManager->menu = true;
 		}
 	}
+	app->guiManager->Draw();
 	//debug of the path basically shows a fking red line xdd
 	if (app->physics->getDebug())
 	{

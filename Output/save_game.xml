@@ -7,11 +7,11 @@
 	<:anonymous />
 	<pathfinding />
 	<guiManager />
+	<entitymanager>
+		<player x1="1015" y1="512" remainingJumps="2" />
+	</entitymanager>
 	<scene />
 	<scene2 />
-	<entitymanager>
-		<player x2="2949" y2="384" remainingJumps="2" />
-	</entitymanager>
 	<map />
 	<map2 />
 	<fade />
@@ -20,6 +20,6 @@
 	<:anonymous />
 	<:anonymous />
 	<renderer>
-		<camera x="-2645" y="0" />
+		<camera x="-954" y="0" />
 	</renderer>
 </save_state>

@@ -101,6 +101,7 @@ bool ItemGem::PostUpdate() {
 
 bool ItemGem::CleanUp()
 {
+	app->tex->UnLoad(texture);
 	return true;
 }
 
