@@ -14,20 +14,21 @@ ItemGem::ItemGem() : Entity(EntityType::ITEMCOIN)
 {
 	name.Create("Gem");
 
-	shine.PushBack({ 480, 480, 32, 32 });
-	shine.PushBack({ 512, 480, 32, 32 });
-	shine.PushBack({ 544, 480, 32, 32 });
-	shine.PushBack({ 576, 480, 32, 32 });
-	shine.PushBack({ 608, 480, 32, 32 });
-	shine.PushBack({ 640, 480, 32, 32 });
-	shine.PushBack({ 480, 480, 32, 32 });
-	shine.PushBack({ 480, 480, 32, 32 });
-	shine.PushBack({ 480, 480, 32, 32 });
-	shine.PushBack({ 480, 480, 32, 32 });
-	shine.PushBack({ 480, 480, 32, 32 });
-	shine.PushBack({ 480, 480, 32, 32 });
-	shine.PushBack({ 480, 480, 32, 32 });
-
+	shine.PushBack({ 0, 64, 32, 32 });
+	shine.PushBack({ 32, 64, 32, 32 });
+	shine.PushBack({ 64, 64, 32, 32 });
+	shine.PushBack({ 96, 64, 32, 32 });
+	shine.PushBack({ 128, 64, 32, 32 });
+	shine.PushBack({ 160, 64, 32, 32 });
+	shine.PushBack({ 0, 64, 32, 32 });
+	shine.PushBack({ 0, 64, 32, 32 });
+	shine.PushBack({ 0, 64, 32, 32 });
+	shine.PushBack({ 0, 64, 32, 32 });
+	shine.PushBack({ 0, 64, 32, 32 });
+	shine.PushBack({ 0, 64, 32, 32 });
+	shine.PushBack({ 0, 64, 32, 32 });
+	shine.PushBack({ 0, 64, 32, 32 });
+	shine.PushBack({ 0, 64, 32, 32 });
 	shine.speed = 0.125;
 
 }
@@ -102,6 +103,9 @@ bool ItemGem::PostUpdate() {
 bool ItemGem::CleanUp()
 {
 	app->tex->UnLoad(texture);
+	audioPath = nullptr;
+	texturePath = nullptr;
+	currentItemAnimation = nullptr;
 	return true;
 }
 

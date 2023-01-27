@@ -104,6 +104,7 @@
 		<flyingenemy posx="1000" posy="100" texturepath="Assets/Textures/flyingenemy.png" audiopath ="Assets/Audio/Fx/eDeath.ogg"/>
 		<flyingenemy posx="1728" posy="100" texturepath="Assets/Textures/flyingenemy.png" audiopath ="Assets/Audio/Fx/eDeath.ogg"/>
 		<flyingenemy posx="3488" posy="224" texturepath="Assets/Textures/flyingenemy.png" audiopath ="Assets/Audio/Fx/eDeath.ogg"/>
+		
 		<itemCoin x="64" y="352" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
 		<itemCoin x="64" y="384" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>
 		<itemCoin x="352" y="352" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/collectcoin1.ogg"/>

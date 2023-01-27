@@ -16,24 +16,24 @@
 
 HUD::HUD(bool startEnabled) : Module(startEnabled)
 {
-	heartAnim.PushBack({ 960, 224, 32, 32 });
-	heartAnim.PushBack({ 928, 224, 32, 32 });
-	heartAnim.PushBack({ 992, 224, 32, 32 });
-	heartAnim.PushBack({ 992, 224, 32, 35 });
-	heartAnim.PushBack({ 928, 224, 32, 32 });
-	heartAnim.PushBack({ 960, 224, 32, 32 });
+	heartAnim.PushBack({ 0, 0, 32, 32 });
+	heartAnim.PushBack({ 32, 0, 32, 32 });
+	heartAnim.PushBack({ 64, 0, 32, 32 });
+	heartAnim.PushBack({ 64, 0, 32, 35 });
+	heartAnim.PushBack({ 32, 0, 32, 32 });
+	heartAnim.PushBack({ 0, 0, 32, 32 });
 	heartAnim.speed = 0.1f;
 
+	coinAnim.PushBack({ 0, 32, 32, 32 });
 	coinAnim.PushBack({ 32, 32, 32, 32 });
 	coinAnim.PushBack({ 64, 32, 32, 32 });
 	coinAnim.PushBack({ 96, 32, 32, 32 });
 	coinAnim.PushBack({ 128, 32, 32, 35 });
 	coinAnim.PushBack({ 160, 32, 32, 32 });
-	coinAnim.PushBack({ 192, 32, 32, 32 });
 	coinAnim.speed = 1.0f;
 
-	staticHeart.PushBack({ 960, 224, 32, 32 });
-	staticCoin.PushBack({ 32, 32, 32, 32 });
+	staticHeart.PushBack({ 0, 0, 32, 32 });
+	staticCoin.PushBack({ 0, 32, 32, 32 });
 }
 
 HUD::~HUD()

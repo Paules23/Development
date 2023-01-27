@@ -14,12 +14,11 @@ ItemHeart::ItemHeart() : Entity(EntityType::ITEMHEART)
 {
 	name.Create("Heart");
 
-	heart.PushBack({ 960, 224, 32, 32 });
-	heart.PushBack({ 928, 224, 32, 32 });
-	heart.PushBack({ 992, 224, 32, 32 });
-	heart.PushBack({ 992, 224, 32, 35 });
-	heart.PushBack({ 928, 224, 32, 32 });
-	heart.PushBack({ 960, 224, 32, 32 });
+	heart.PushBack({ 0, 0, 32, 32 });
+	heart.PushBack({ 32, 0, 32, 32 });
+	heart.PushBack({ 64, 0, 32, 32 });
+	heart.PushBack({ 32, 0, 32, 32 });
+	heart.PushBack({ 0, 0, 32, 32 });
 	heart.speed = 0.08f;
 
 }
@@ -95,6 +94,9 @@ bool ItemHeart::PostUpdate() {
 bool ItemHeart::CleanUp()
 {
 	app->tex->UnLoad(texture);
+	audioPath = nullptr;
+	texturePath = nullptr;
+	currentItemAnimation = nullptr;
 	return true;
 }
 

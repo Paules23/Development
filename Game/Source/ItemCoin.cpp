@@ -14,12 +14,12 @@ ItemCoin::ItemCoin() : Entity(EntityType::ITEMCOIN)
 {
 	name.Create("Coin");
 
+	spinning.PushBack({ 0, 32, 32, 32 });
 	spinning.PushBack({ 32, 32, 32, 32 });
 	spinning.PushBack({ 64, 32, 32, 32 });
 	spinning.PushBack({ 96, 32, 32, 32 });
 	spinning.PushBack({ 128, 32, 32, 35 });
 	spinning.PushBack({ 160, 32, 32, 32 });
-	spinning.PushBack({ 192, 32, 32, 32 });
 	spinning.speed = 0.18f;
 
 }
@@ -83,6 +83,7 @@ bool ItemCoin::PostUpdate() {
 	if (!activated) {
 		return true;
 	}
+
 	// draw textures and animations
 	position.x = METERS_TO_PIXELS(ibody->body->GetTransform().p.x) - 16;
 	position.y = METERS_TO_PIXELS(ibody->body->GetTransform().p.y) - 16;
@@ -96,6 +97,9 @@ bool ItemCoin::PostUpdate() {
 bool ItemCoin::CleanUp()
 {
 	app->tex->UnLoad(texture);
+	audioPath = nullptr;
+	texturePath = nullptr;
+	currentItemAnimation = nullptr;
 	return true;
 }
 

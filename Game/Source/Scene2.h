@@ -27,6 +27,8 @@ public:
 
 	List<GroundEnemy*> groundEnemies;
 	List<FlyingEnemy*> flyingEnemies;
+
+	List<Entity*> itemsEnemies;
 	// Called before render is available
 	bool Awake(pugi::xml_node& config);
 

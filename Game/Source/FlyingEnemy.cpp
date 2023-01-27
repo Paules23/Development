@@ -135,26 +135,26 @@ bool FlyingEnemy::Update()
 			ebody->body->SetLinearVelocity(vel);
 		}
 		else {
-			b2Vec2 vel = ebody->body->GetLinearVelocity();
-			float desiredVelx = 0;
-			float desiredVely = 0;
-			switch (moveStateX)
-			{
-			case MS_LEFT:  desiredVelx = -4; break;
-			case MS_STOP:  desiredVelx = 0; break;
-			case MS_RIGHT: desiredVelx = 4; break;
-			}
-			float velChangex = desiredVelx - vel.x;
-			float impulsex = ebody->body->GetMass() * velChangex; //disregard time factor
-			switch (moveStateY)
-			{
-			case MS_DOWN: desiredVely = 4; break;
-			case MS_STOP: desiredVely = 0; break;
-			case MS_UP: desiredVely = -4; break;
-			}
-			float velChangey = desiredVely - vel.y;
-			float impulsey = ebody->body->GetMass() * velChangey;
-			ebody->body->ApplyLinearImpulse(b2Vec2(impulsex, impulsey), ebody->body->GetWorldCenter(), true);
+			//b2Vec2 vel = ebody->body->GetLinearVelocity();
+			//float desiredVelx = 0;
+			//float desiredVely = 0;
+			//switch (moveStateX)
+			//{
+			//case MS_LEFT:  desiredVelx = -4; break;
+			//case MS_STOP:  desiredVelx = 0; break;
+			//case MS_RIGHT: desiredVelx = 4; break;
+			//}
+			//float velChangex = desiredVelx - vel.x;
+			//float impulsex = ebody->body->GetMass() * velChangex; //disregard time factor
+			//switch (moveStateY)
+			//{
+			//case MS_DOWN: desiredVely = 4; break;
+			//case MS_STOP: desiredVely = 0; break;
+			//case MS_UP: desiredVely = -4; break;
+			//}
+			//float velChangey = desiredVely - vel.y;
+			//float impulsey = ebody->body->GetMass() * velChangey;
+			//ebody->body->ApplyLinearImpulse(b2Vec2(impulsex, impulsey), ebody->body->GetWorldCenter(), true);
 		}
 	}
 

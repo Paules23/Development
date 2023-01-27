@@ -44,7 +44,7 @@ bool Scene2::Start()
 		ItemCoin* item = (ItemCoin*)app->entityManager->CreateEntity(EntityType::ITEMCOIN);
 		item->parameters = itemNode;
 		item->Awake();
-
+		itemsEnemies.Add(item);
 	}
 
 	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene2").child("itemHeart"); itemNode; itemNode = itemNode.next_sibling("itemHeart"))
@@ -52,6 +52,7 @@ bool Scene2::Start()
 		ItemHeart* item = (ItemHeart*)app->entityManager->CreateEntity(EntityType::ITEMHEART);
 		item->parameters = itemNode;
 		item->Awake();
+		itemsEnemies.Add(item);
 	}
 
 	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene2").child("itemGem"); itemNode; itemNode = itemNode.next_sibling("itemGem"))
@@ -59,6 +60,7 @@ bool Scene2::Start()
 		ItemGem* item = (ItemGem*)app->entityManager->CreateEntity(EntityType::ITEMGEM);
 		item->parameters = itemNode;
 		item->Awake();
+		itemsEnemies.Add(item);
 	}
 
 	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene2").child("groundenemy"); itemNode; itemNode = itemNode.next_sibling("groundenemy"))
@@ -66,6 +68,7 @@ bool Scene2::Start()
 		GroundEnemy* groundEnemy = (GroundEnemy*)app->entityManager->CreateEntity(EntityType::GROUND_ENEMY);
 		groundEnemy->parameters = itemNode;
 		groundEnemies.Add(groundEnemy);
+		itemsEnemies.Add(groundEnemy);
 	}
 
 	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene2").child("flyingenemy"); itemNode; itemNode = itemNode.next_sibling("flyingenemy"))
@@ -73,6 +76,7 @@ bool Scene2::Start()
 		FlyingEnemy* flyingEnemy = (FlyingEnemy*)app->entityManager->CreateEntity(EntityType::FLYING_ENEMY);
 		flyingEnemy->parameters = itemNode;
 		flyingEnemies.Add(flyingEnemy);
+		itemsEnemies.Add(flyingEnemy);
 	}
 
 	//L02: DONE 3: Instantiate the player using the entity manager
@@ -354,7 +358,7 @@ bool Scene2::Update(float dt)
 
 				if (app->physics->getDebug()) app->render->DrawTexture(mouseTileTex, pos.x, pos.y);
 			}
-			// L12: Debug pathfinding didn't change the names cause xd
+			// L12: Debug pathfinding 
 			iPoint originScreen = app->map2->MapToWorld(destination.x, destination.y);
 			if (app->physics->getDebug()) app->render->DrawTexture(originTex, originScreen.x, originScreen.y);
 			groundEnemyItem = groundEnemyItem->next;
@@ -531,12 +535,24 @@ bool Scene2::CleanUp()
 {
 	LOG("Freeing scene");
 	app->render->camera.x = 0;
+
 	groundEnemies.Clear();
 	flyingEnemies.Clear();
 	app->tex->UnLoad(img);
 	app->tex->UnLoad(mouseTileTex);
 	app->tex->UnLoad(originTex);
 	app->tex->UnLoad(Checkpoint);
+
+	ListItem<Entity*>* item;
+	item = itemsEnemies.start;
+
+	while (item != NULL)
+	{
+		app->entityManager->DestroyEntity(item->data);
+		RELEASE(item->data);
+		item = item->next;
+	}
+	itemsEnemies.Clear();
 	
 	return true;
 }

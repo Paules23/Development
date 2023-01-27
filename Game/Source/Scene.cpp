@@ -49,6 +49,7 @@ bool Scene::Start()
 		ItemCoin* item = (ItemCoin*)app->entityManager->CreateEntity(EntityType::ITEMCOIN);
 		item->parameters = itemNode;
 		item->Awake();
+		items.Add(item);
 	}
 
 	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("itemHeart"); itemNode; itemNode = itemNode.next_sibling("itemHeart"))
@@ -56,6 +57,7 @@ bool Scene::Start()
 		ItemHeart* item = (ItemHeart*)app->entityManager->CreateEntity(EntityType::ITEMHEART);
 		item->parameters = itemNode;
 		item->Awake();
+		items.Add(item);
 	}
 
 	for (pugi::xml_node itemNode = app->LoadConfig2().child("scene").child("itemGem"); itemNode; itemNode = itemNode.next_sibling("itemGem"))
@@ -63,6 +65,7 @@ bool Scene::Start()
 		ItemGem* item = (ItemGem*)app->entityManager->CreateEntity(EntityType::ITEMGEM);
 		item->parameters = itemNode;
 		item->Awake();
+		items.Add(item);
 	}
 
 	//L02: DONE 3: Instantiate the player using the entity manager
@@ -185,6 +188,8 @@ bool Scene::Update(float dt)
 		app->guiManager->Disable();
 		app->render->camera.x = 0;
 		app->audio->PlayMusic("");
+		app->hud->hp = 0;
+		app->hud->coinCount = 0;
 	}
 
 	if (player->GetWinState() == true) {
@@ -441,6 +446,15 @@ bool Scene::CleanUp()
 	LOG("Freeing scene");
 	app->tex->UnLoad(Checkpoint);
 	app->tex->UnLoad(CheckpointTaken);
+	ListItem<Entity*>* item;
+	item = items.start;
 
+	while (item != NULL)
+	{
+		app->entityManager->DestroyEntity(item->data);
+		RELEASE(item->data);
+		item = item->next;
+	}
+	items.Clear();
 	return true;
 }

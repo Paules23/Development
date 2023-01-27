@@ -70,8 +70,7 @@ private:
 	SDL_Texture* Checkpoint = nullptr;
 	SDL_Texture* CheckpointTaken = nullptr;
 
-
-
+	List<Entity*> items;
 };
 
 #endif // __SCENE_H__
