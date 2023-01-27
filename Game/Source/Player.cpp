@@ -85,6 +85,7 @@ bool Player::Start() {
 		position.y = parameters.attribute("y2").as_int();
 	}
 	texturePath = parameters.attribute("texturepath").as_string();
+	creditstexturepath = parameters.attribute("creditstexturepath").as_string();
 	audioDie = parameters.attribute("audioDie").as_string();
 	audioWin = parameters.attribute("audioWin").as_string();
 	audioJump = parameters.attribute("audioJump").as_string();
@@ -109,8 +110,12 @@ bool Player::Start() {
 	coinHUDAnim = false;
 	heartHUDAnim = false;
 
+	//gem
+	easterEgg = false;
+
 	//initilize textures
 	texture = app->tex->Load(texturePath);
+	credits = app->tex->Load(creditstexturepath);
 
 	// L07 DONE 5: Add physics to the player - initialize physics body
 	pbody = app->physics->CreateCircle(position.x+16, position.y+16, 15, bodyType::DYNAMIC);
@@ -132,6 +137,12 @@ bool Player::PreUpdate()
 
 bool Player::Update()
 {
+	if (app->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) {
+		if (easterEgg == true) {
+			app->physics->Pause();
+			easterEgg = false;
+		}
+	}
 	if (app->physics->getPause()) {
 		moveState = MS_STOP;
 		return true;
@@ -317,6 +328,11 @@ bool Player::PostUpdate() {
 	SDL_Rect rect = currentPlayerAnimation->GetCurrentFrame();
 	app->render->DrawTexture(texture, position.x, position.y, &rect);
 
+	if (easterEgg) {
+		app->physics->pause = true;
+		app->render->DrawTexture(credits,954,0);
+	}
+
 	return true;
 }
 
@@ -352,6 +368,12 @@ void Player::OnCollision(PhysBody* physA, PhysBody* physB) {
 			++hp;
 		}
 		heartHUDAnim = true;
+		break;
+	case ColliderType::ITEMGEM:
+		if (app->physics->getGodMode()) {
+			break;
+		}
+		easterEgg = true;
 		break;
 	case ColliderType::PLATFORM:
 		LOG("Collision PLATFORM");

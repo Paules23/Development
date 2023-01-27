@@ -13,14 +13,21 @@ ItemGem::ItemGem() : Entity(EntityType::ITEMCOIN)
 {
 	name.Create("Coin");
 
-	shine.PushBack({ 256, 480, 32, 32 });
-	shine.PushBack({ 288, 480, 32, 32 });
-	shine.PushBack({ 320, 480, 32, 32 });
-	shine.PushBack({ 352, 480, 32, 32 });
-	shine.PushBack({ 384, 480, 32, 32 });
-	shine.PushBack({ 416, 480, 32, 32 });
+	shine.PushBack({ 480, 480, 32, 32 });
+	shine.PushBack({ 512, 480, 32, 32 });
+	shine.PushBack({ 544, 480, 32, 32 });
+	shine.PushBack({ 576, 480, 32, 32 });
+	shine.PushBack({ 608, 480, 32, 32 });
+	shine.PushBack({ 640, 480, 32, 32 });
+	shine.PushBack({ 480, 480, 32, 32 });
+	shine.PushBack({ 480, 480, 32, 32 });
+	shine.PushBack({ 480, 480, 32, 32 });
+	shine.PushBack({ 480, 480, 32, 32 });
+	shine.PushBack({ 480, 480, 32, 32 });
+	shine.PushBack({ 480, 480, 32, 32 });
+	shine.PushBack({ 480, 480, 32, 32 });
 
-	shine.speed = 0.1f;
+	shine.speed = 0.125;
 
 }
 
