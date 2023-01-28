@@ -543,6 +543,10 @@ bool Scene2::CleanUp()
 	app->tex->UnLoad(mouseTileTex);
 	app->tex->UnLoad(originTex);
 	app->tex->UnLoad(Checkpoint);
+	img = nullptr;
+	mouseTileTex = nullptr;
+	originTex = nullptr;
+	Checkpoint = nullptr;
 
 	ListItem<Entity*>* item;
 	item = itemsEnemies.start;

@@ -74,6 +74,7 @@ bool EntityManager::CleanUp()
 	{
 		ret = item->data->CleanUp();
 		DestroyEntity(item->data);
+		
 		item = item->prev;
 	}
 	entities.Clear();

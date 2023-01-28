@@ -11,6 +11,7 @@
 #include "Scene2.h"
 #include "HUD.h"
 #include "GuiManager.h"
+#include "EntityManager.h"
 #include "FlyingEnemy.h"
 #include "GroundEnemy.h"
 
@@ -341,6 +342,7 @@ bool Player::CleanUp()
 	pbody->body->GetWorld()->DestroyBody(pbody->body);          
 	pbody = NULL;
 	app->tex->UnLoad(texture);
+	app->entityManager->DestroyEntity(this);
 	return true;
 }
 

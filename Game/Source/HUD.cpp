@@ -69,26 +69,28 @@ bool HUD::Update(float dt)
 	bool ret = true;
 	CurrentCoinAnim = &staticCoin;
 	CurrentHeartAnim = &staticHeart;
-	if (app->scene->player == nullptr || app->scene2->player == nullptr) {
-		return ret;
-	}
-	if (app->scene->player->coinHUDAnim) {
-		coinAnimCounter = 6;
-		app->scene->player->coinHUDAnim = false;
-	}
-	if (app->scene->player->heartHUDAnim) {
-		heartAnimCounter = 65;
-		app->scene->player->heartHUDAnim = false;
+	if (app->scene->player != nullptr) {
+		if (app->scene->player->coinHUDAnim) {
+			coinAnimCounter = 6;
+			app->scene->player->coinHUDAnim = false;
+		}
+		if (app->scene->player->heartHUDAnim) {
+			heartAnimCounter = 65;
+			app->scene->player->heartHUDAnim = false;
+		}
 	}
 
-	if (app->scene2->player->coinHUDAnim) {
-		coinAnimCounter = 6;
-		app->scene2->player->coinHUDAnim = false;
+	if (app->scene2->player != nullptr) {
+		if (app->scene2->player->coinHUDAnim) {
+			coinAnimCounter = 6;
+			app->scene2->player->coinHUDAnim = false;
+		}
+		if (app->scene2->player->heartHUDAnim) {
+			heartAnimCounter = 65;
+			app->scene2->player->heartHUDAnim = false;
+		}
 	}
-	if (app->scene2->player->heartHUDAnim) {
-		heartAnimCounter = 65;
-		app->scene2->player->heartHUDAnim = false;
-	}
+	
 
 	if (coinAnimCounter > 0 && coinAnimCounter < 7) {
 		CurrentCoinAnim = &coinAnim;
@@ -113,9 +115,6 @@ bool HUD::Update(float dt)
 // Update: draw background
 bool HUD::PostUpdate()
 {
-	if (app->scene->player == nullptr) {
-		return true;
-	}
 	playtime = PlayTime.ReadSec();
 	SDL_Rect rect = CurrentCoinAnim->GetCurrentFrame();
 	app->render->DrawTexture(coinTex, 100, 70,&rect, 0);
