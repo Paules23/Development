@@ -10,6 +10,7 @@
 #include "Physics.h"
 #include "Scene2.h"
 #include "HUD.h"
+#include "GuiManager.h"
 #include "FlyingEnemy.h"
 #include "GroundEnemy.h"
 
@@ -305,7 +306,6 @@ bool Player::Update()
 			win = true;
 		}
 	}
-
 	if (app->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN) {
 		app->physics->GodMode();
 	}

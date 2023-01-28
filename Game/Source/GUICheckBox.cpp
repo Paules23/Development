@@ -3,6 +3,7 @@
 #include "App.h"
 #include "Audio.h"
 #include "Textures.h"
+#include "GuiManager.h"
 #include "Log.h"
 
 GuiCheckBox::GuiCheckBox(uint32 id, SDL_Rect bounds, const char* text) : GuiControl(GuiControlType::CHECKBOX, id)
@@ -85,7 +86,10 @@ bool GuiCheckBox::Draw(Render* render)
 	switch (state)
 	{
 	case GuiControlState::DISABLED:
-		render->DrawRectangle(bounds, 200, 200, 200, 255, true, false);
+		if (app->guiManager->menuDebug) {
+			app->render->DrawRectangle({ bounds.x,bounds.y,bounds.w,bounds.h }, 0, 0, 0, 255, false);
+		}
+		section = { 140,10,40,44 };
 		break;
 	case GuiControlState::NORMAL:
 		if (checked) {
@@ -93,6 +97,9 @@ bool GuiCheckBox::Draw(Render* render)
 		}
 		else {
 			section = { 140,74,40,44 };
+		}
+		if (app->guiManager->menuDebug) {
+			app->render->DrawRectangle({ bounds.x,bounds.y+4,bounds.w,bounds.h }, 0, 0, 255, 255, false);
 		}
 		break;
 	case GuiControlState::FOCUSED:
@@ -102,6 +109,9 @@ bool GuiCheckBox::Draw(Render* render)
 		else {
 			section = { 12,10,40,44 };
 		}
+		if (app->guiManager->menuDebug) {
+			app->render->DrawRectangle({ bounds.x,bounds.y+4,bounds.w,bounds.h }, 0, 255, 0, 255, false);
+		}
 		break;
 	case GuiControlState::PRESSED:
 		if (checked) {
@@ -109,6 +119,9 @@ bool GuiCheckBox::Draw(Render* render)
 		}
 		else {
 			section = { 76,10,40,44 };
+		}
+		if (app->guiManager->menuDebug) {
+			app->render->DrawRectangle({ bounds.x,bounds.y+4,bounds.w,bounds.h }, 255, 0, 0, 255, false);
 		}
 		break;
 	}

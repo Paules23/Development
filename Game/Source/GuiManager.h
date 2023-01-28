@@ -46,6 +46,7 @@ public:
 
 	bool menu;
 	bool settings;
+	bool menuDebug;
 
 };
 

@@ -61,6 +61,11 @@ bool HUD::Start()
 
 bool HUD::Update(float dt)
 {
+
+	if (app->input->GetKey(SDL_SCANCODE_F8) == KEY_DOWN) {
+		app->guiManager->menuDebug = !app->guiManager->menuDebug;
+	}
+
 	bool ret = true;
 	CurrentCoinAnim = &staticCoin;
 	CurrentHeartAnim = &staticHeart;

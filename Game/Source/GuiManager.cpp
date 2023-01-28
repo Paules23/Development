@@ -19,6 +19,7 @@ bool GuiManager::Start()
 {
 	menu = false;
 	settings = false;
+	menuDebug = false;
 
 	ListItem<GuiControl*>* control = guiControlsList.start;
 
