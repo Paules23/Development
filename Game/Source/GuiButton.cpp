@@ -90,7 +90,7 @@ bool GuiButton::Draw(Render* render)
 	switch (state)
 	{
 	case GuiControlState::DISABLED:
-		section = { 124,10,104,44 };
+		section = { 124,74,104,44 };
 		if (app->guiManager->menuDebug) {
 			app->render->DrawRectangle({ bounds.x,bounds.y,bounds.w,bounds.h }, 0, 0, 0, 255, false);
 		}

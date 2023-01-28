@@ -29,7 +29,10 @@ bool GuiCheckBox::Start() {
 	clickaudioFxId = app->audio->LoadFx(clickAudioPath);
 	focusaudioFxId = app->audio->LoadFx(focusAudioPath);
 	texture = app->tex->Load(texturePath);
-	if (this->id == 8) {
+	if (this->id == 8 && app->FRcap == true) {
+		checked = true;
+	}
+	if (this->id == 9 && app->FRcap == true) {
 		checked = true;
 	}
 	else {

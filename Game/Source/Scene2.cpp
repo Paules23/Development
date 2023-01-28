@@ -218,6 +218,7 @@ bool Scene2::Update(float dt)
 	}
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
 		app->map2->Disable();
+		app->guiManager->Disable();
 		app->fade->FadeToBlack1((Module*)app->entityManager, (Module*)app->scene, 20);
 		app->map->Enable();
 		app->render->camera.x = 0;

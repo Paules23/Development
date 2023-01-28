@@ -67,7 +67,7 @@ bool FlyingEnemy::Start() {
 	ebody->ctype = ColliderType::FLYING_ENEMY;
 	app->map2->enemies.Add(ebody);
 
-	typeOfMovement = false;
+	typeOfMovement = true;
 
 
 	/*dieFxId = app->audio->LoadFx("Assets/Audio/Fx/die.ogg");

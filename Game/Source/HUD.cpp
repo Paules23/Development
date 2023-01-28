@@ -54,7 +54,7 @@ bool HUD::Start()
 	PlayTime.Start();
 	
 	hp = 3;
-	
+	coinCount = 0;
 
 	return ret;
 }
@@ -69,7 +69,7 @@ bool HUD::Update(float dt)
 	bool ret = true;
 	CurrentCoinAnim = &staticCoin;
 	CurrentHeartAnim = &staticHeart;
-	if (app->scene->player == nullptr) {
+	if (app->scene->player == nullptr || app->scene2->player == nullptr) {
 		return ret;
 	}
 	if (app->scene->player->coinHUDAnim) {
@@ -79,6 +79,15 @@ bool HUD::Update(float dt)
 	if (app->scene->player->heartHUDAnim) {
 		heartAnimCounter = 65;
 		app->scene->player->heartHUDAnim = false;
+	}
+
+	if (app->scene2->player->coinHUDAnim) {
+		coinAnimCounter = 6;
+		app->scene2->player->coinHUDAnim = false;
+	}
+	if (app->scene2->player->heartHUDAnim) {
+		heartAnimCounter = 65;
+		app->scene2->player->heartHUDAnim = false;
 	}
 
 	if (coinAnimCounter > 0 && coinAnimCounter < 7) {
