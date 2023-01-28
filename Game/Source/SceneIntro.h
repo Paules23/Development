@@ -32,7 +32,9 @@ public:
 public:
 private:
 	SDL_Texture* bgTexture = nullptr;
+	SDL_Texture* creditsTex = nullptr;
 	const char* texturepath;
+	const char* creditstexturepath;
 	int entersound;
 
 	//intro buttons
@@ -40,6 +42,7 @@ private:
 	GuiButton* play;
 	GuiButton* settings;
 	GuiButton* Continue;
+	GuiButton* Credits;
 	GuiButton* Exit;
 	//settings
 	GuiSlider* musicVolumeSlider;
@@ -55,6 +58,7 @@ private:
 	bool Play;
 	bool exit;
 	bool resume;
+	bool credits;
 };
 
 #endif

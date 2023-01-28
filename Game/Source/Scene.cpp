@@ -413,14 +413,7 @@ bool Scene::OnGuiMouseClickEvent(GuiControl* control)
 		break;
 	case 8:
 		LOG("Button 8 click");
-		app->render->Vsync = !app->render->Vsync;
-		SDL_GL_SetSwapInterval(app->render->Vsync);
-		if (app->render->Vsync == true) {
-			
-		}
-		else {
-			SDL_GL_SetSwapInterval(app->render->Vsync);
-		}
+		app->FRcap = !app->FRcap;
 		break;
 	case 9:
 		LOG("Button 9 click");

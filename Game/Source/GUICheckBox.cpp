@@ -29,7 +29,12 @@ bool GuiCheckBox::Start() {
 	clickaudioFxId = app->audio->LoadFx(clickAudioPath);
 	focusaudioFxId = app->audio->LoadFx(focusAudioPath);
 	texture = app->tex->Load(texturePath);
-	checked = false;
+	if (this->id == 8) {
+		checked = true;
+	}
+	else {
+		checked = false;
+	}
 
 	return true;
 }

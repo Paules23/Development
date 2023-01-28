@@ -164,7 +164,7 @@
 		<itemHeart x="2912" y="192" texturepath="Assets/Textures/coins-hearts-etc.png" audiopath = "Assets/Audio/Fx/heart.ogg"/>
 	</scene2>
 
-  <sceneIntro texturepath="Assets/Textures/introscene.jpg"/>
+  <sceneIntro texturepath="Assets/Textures/introscene.jpg" creditstexturepath = "Assets/Textures/credits.jpg"/>
 
   <sceneDeath texturepath="Assets/Textures/lose.jpg"/>
 
