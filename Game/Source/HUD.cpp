@@ -69,7 +69,7 @@ bool HUD::Update(float dt)
 	bool ret = true;
 	CurrentCoinAnim = &staticCoin;
 	CurrentHeartAnim = &staticHeart;
-	if (app->scene->player != nullptr) {
+	if (app->scene->level1 && app->scene->player != NULL) {
 		if (app->scene->player->coinHUDAnim) {
 			coinAnimCounter = 6;
 			app->scene->player->coinHUDAnim = false;
@@ -80,7 +80,7 @@ bool HUD::Update(float dt)
 		}
 	}
 
-	if (app->scene2->player != nullptr) {
+	if (app->scene2->level2 && app->scene2->player != NULL) {
 		if (app->scene2->player->coinHUDAnim) {
 			coinAnimCounter = 6;
 			app->scene2->player->coinHUDAnim = false;
