@@ -139,7 +139,7 @@ bool Scene2::Start()
 	fullscreen = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 7, "Fullscreen", { (int)w / 2 - 50,(int)h / 2,104,44 }, this);
 	fullscreen->parameters = app->LoadConfig2().child("scene").child("button");
 
-	fullscreenCheck = (GuiCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 10, "", { (int)w / 2 - 50 + 104,(int)h / 2,104,36 }, this);
+	fullscreenCheck = (GuiCheckBox*)app->guiManager->CreateGuiControl(GuiControlType::CHECKBOX, 10, "", { (int)w / 2 - 50 + 104,(int)h / 2,40,36 }, this);
 	fullscreenCheck->parameters = app->LoadConfig2().child("scene").child("checkbox");
 
 	vsync = (GuiButton*)app->guiManager->CreateGuiControl(GuiControlType::BUTTON, 9, "Vsync", { (int)w / 2 - 50,(int)h / 2 + 40,104,44 }, this);

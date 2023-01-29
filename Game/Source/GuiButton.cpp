@@ -30,7 +30,7 @@ bool GuiButton::Start() {
 	focusaudioFxId = app->audio->LoadFx(focusAudioPath);
 	texture = app->tex->Load(texturePath);
 
-	if (this->id == 9 || this->id == 7 || this->id == 12 || this->id == 13 || this->id == 8 || this->id == 10) {
+	if (this->id == 9 || this->id == 7 || this->id == 12 || this->id == 13 || this->id == 8 || this->id == 10 || this->id == 11) {
 		canClick = false;
 	}
 
