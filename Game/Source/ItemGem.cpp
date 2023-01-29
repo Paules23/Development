@@ -61,6 +61,8 @@ bool ItemGem::Start() {
 
 	app->map->Items.Add(ibody);
 
+	currentItemAnimation = &shine;
+
 	return true;
 }
 

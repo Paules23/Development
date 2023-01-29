@@ -52,7 +52,7 @@ bool ItemCoin::Start() {
 
 	app->map->Items.Add(ibody);
 
-	
+	currentItemAnimation = &spinning;
 
 	return true;
 }

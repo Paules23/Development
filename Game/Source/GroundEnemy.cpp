@@ -62,6 +62,8 @@ GroundEnemy::GroundEnemy() : Entity(EntityType::GROUND_ENEMY)
 	hit_left.PushBack({ 384,0,48,48 });
 
 	hit_right.PushBack({ 720,48,48,48 });
+
+	currentEnemyAnimation = &iddle;
 	
 	
 }

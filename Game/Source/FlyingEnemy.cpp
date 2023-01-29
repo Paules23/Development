@@ -75,6 +75,7 @@ bool FlyingEnemy::Start() {
 	winFxId = app->audio->LoadFx("Assets/Audio/Fx/win.ogg");*/
 
 	deadFxId = app->audio->LoadFx(audioPath);
+	currentEnemyAnimation = &iddle;
 
 	return true;
 }

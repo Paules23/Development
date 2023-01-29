@@ -51,6 +51,8 @@ bool ItemHeart::Start() {
 
 	app->map->Items.Add(ibody);
 
+	currentItemAnimation = &heart;
+
 	return true;
 }
 
