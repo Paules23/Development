@@ -8,7 +8,7 @@
 	<pathfinding />
 	<guiManager />
 	<entitymanager>
-		<player x2="70" y2="400" remainingJumps="0" />
+		<player x1="1013" y1="512" remainingJumps="2" />
 	</entitymanager>
 	<scene />
 	<scene2 />
@@ -20,6 +20,6 @@
 	<:anonymous />
 	<:anonymous />
 	<renderer>
-		<camera x="0" y="0" />
+		<camera x="-954" y="0" />
 	</renderer>
 </save_state>
