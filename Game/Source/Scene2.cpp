@@ -216,6 +216,8 @@ bool Scene2::Update(float dt)
 			app->render->camera.x = 0;
 		}
 	}
+
+	
 	if (app->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) {
 		app->map2->Disable();
 		app->guiManager->Disable();
@@ -257,6 +259,10 @@ bool Scene2::Update(float dt)
 	}
 	if (player->position.x >= 3340 && stopcamera == true) {
 		app->render->camera.x = -3040;
+	}
+
+	if (app->render->camera.x < 300 && stopcamera == true) {
+		app->render->camera.x = 0;
 	}
 
 	if (player->position.x >= 300 && player->position.x < 3340 && stopcamera == true) {

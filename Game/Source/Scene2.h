@@ -58,6 +58,7 @@ public:
 
 	bool stopcamera;
 	bool level2;
+	bool checkpoint1, checkpoint2, checkpoint3;
 
 private:
 	//tex for pathfinding
@@ -69,7 +70,6 @@ private:
 	SDL_Texture* Checkpoint = nullptr;
 	SDL_Texture* CheckpointTaken = nullptr;
 	int checkpointFxId;
-	bool checkpoint1, checkpoint2, checkpoint3;
 
 	//BUTTONS
 	//menu buttons

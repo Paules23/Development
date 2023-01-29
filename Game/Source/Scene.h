@@ -44,6 +44,7 @@ public:
 	Player* player;
 	bool stopcamera;
 	bool level1;
+	bool checkpoint;
 
 private:
 	bool exit;
@@ -64,7 +65,6 @@ private:
 	GuiButton* vsync;
 	GuiCheckBox* VsyncCheck;
 	//checkpoints
-	bool checkpoint;
 	bool returnToIntro;
 	int checkpointFxId;
 	SDL_Texture* Checkpoint = nullptr;

@@ -163,7 +163,6 @@ bool Player::Update()
 		app->LoadGameRequest();
 		b2Vec2 pos(position.x, position.y);
 		pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
-		app->render->camera.x = 0;
 		--app->hud->hp;
 		playerfallen = false;
 	}
@@ -313,10 +312,50 @@ bool Player::Update()
 	if (app->input->GetKey(SDL_SCANCODE_F11) == KEY_DOWN) {
 		app->FRcap = !app->FRcap;
 	}
-	if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {
-		isdead = true;
-	}
 	
+	if (app->input->GetKey(SDL_SCANCODE_F7) == KEY_DOWN) {
+		if (app->scene->level1) {
+			if (app->scene->checkpoint) {
+				b2Vec2 pos(1030, 544);
+				pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
+				app->render->camera.x = -954;
+				app->scene->checkpoint = false;
+			}
+			else {
+				b2Vec2 pos(70, 520);
+				pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
+				app->scene->checkpoint = true;
+				app->render->camera.x = 0;
+			}
+		}
+		else {
+			if (app->scene2->checkpoint1 && app->scene2->checkpoint2 && app->scene2->checkpoint3) {
+				b2Vec2 pos(1227, 352);
+				pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
+				app->scene2->checkpoint1 = false;
+			}
+			else if (!app->scene2->checkpoint1 && app->scene2->checkpoint2 && app->scene2->checkpoint3) {
+				b2Vec2 pos(1911, 448);
+				pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
+				app->scene2->checkpoint2 = false;
+			}
+			else if (!app->scene2->checkpoint1 && !app->scene2->checkpoint2 && app->scene2->checkpoint3){
+				b2Vec2 pos(2947, 384);
+				pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
+				app->scene2->checkpoint3 = false;
+			}else if (!app->scene2->checkpoint1 && !app->scene2->checkpoint2 && !app->scene2->checkpoint3) {
+				b2Vec2 pos(70, 480);
+				pbody->body->SetTransform(PIXEL_TO_METERS(pos), 0);
+				app->scene2->checkpoint1 = true;
+				app->scene2->checkpoint2 = true;
+				app->scene2->checkpoint3 = true;
+				app->render->camera.x = -2;
+			}
+		}
+
+		
+	}
+
 	// draw textures and animations
 	currentPlayerAnimation->Update();
 	return true;

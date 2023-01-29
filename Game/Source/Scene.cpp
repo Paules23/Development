@@ -214,6 +214,9 @@ bool Scene::Update(float dt)
 			app->render->camera.x = 0;
 		}
 	}
+
+
+
 	if (app->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
 		app->render->camera.x += ceil(CAMERASPEED * dt);
 		stopcamera = false;
