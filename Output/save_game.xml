@@ -8,7 +8,7 @@
 	<pathfinding />
 	<guiManager />
 	<entitymanager>
-		<player x1="70" y1="520" remainingJumps="0" />
+		<player x1="386" y1="544" remainingJumps="2" />
 	</entitymanager>
 	<scene />
 	<scene2 />

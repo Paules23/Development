@@ -128,6 +128,7 @@ bool Player::Start() {
 	// L07 DONE 7: Assign collider type
 	pbody->ctype = ColliderType::PLAYER;
 
+	currentPlayerAnimation = &iddle;
 
 	return true;
 }
